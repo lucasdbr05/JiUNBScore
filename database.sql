@@ -1,124 +1,137 @@
-
-
 CREATE TABLE tb_Competidor 
-( 
- nome INT,  
- id_matricula INT PRIMARY KEY,  
- id_atletica INT
-); 
+(
+    nome INT,  
+    id_matricula INT PRIMARY KEY,  
+    id_atletica INT
+);
+
 
 CREATE TABLE tb_Usuario 
-( 
- id_email INT PRIMARY KEY,  
- nickname INT,  
- senha INT
-); 
+(
+    id_email INT PRIMARY KEY,  
+    nickname INT,  
+    senha INT
+);
+
 
 CREATE TABLE tb_Atletica 
-( 
- id_cod INT PRIMARY KEY,  
- nome INT
-); 
+(
+    id_cod INT PRIMARY KEY,  
+    nome INT
+);
+
 
 CREATE TABLE tb_Esportes 
-( 
- id_codigo INT PRIMARY KEY,  
- nome INT
-); 
+(
+    id_codigo INT PRIMARY KEY,  
+    nome INT
+);
+
 
 CREATE TABLE tb_Edicao 
-( 
- id_edicao INT PRIMARY KEY,  
- data_fim INT,  
- data_comeco INT
-); 
+(
+    id_edicao INT PRIMARY KEY,  
+    data_fim INT,  
+    data_comeco INT
+);
+
 
 CREATE TABLE tb_Partidas 
-( 
- placar_time_1 INT,  
- placar_time_2 INT,  
- id_partida INT PRIMARY KEY,  
- id_edicao INT,  
- id_local INT,  
- id_fase INT,  
- id_time_1 INT,  
- id_time_2 INT
-); 
+(
+    placar_time_1 INT,  
+    placar_time_2 INT,  
+    id_partida INT PRIMARY KEY,  
+    id_edicao INT,  
+    id_local INT,  
+    id_fase INT,  
+    id_time_1 INT,  
+    id_time_2 INT
+);
+
 
 CREATE TABLE tb_Local 
-( 
- ra INT,  
- cep INT,  
- id_local INT PRIMARY KEY,  
- quadra INT,  
- rua INT,  
- lote INT
-); 
+(
+    ra INT,  
+    cep INT,  
+    id_local INT PRIMARY KEY,  
+    quadra INT,  
+    rua INT,  
+    lote INT
+);
+
 
 CREATE TABLE tb_Estatisticas 
-( 
- id_estatistica INT PRIMARY KEY,  
- qtd_acoes INT,  
- id_partida INT,  
- id_competidor INT
-); 
+(
+    id_estatistica INT PRIMARY KEY,  
+    qtd_acoes INT,  
+    id_partida INT,  
+    id_competidor INT
+);
+
 
 CREATE TABLE tb_Fase 
-( 
- grupo INT,  
- nome INT,  
- id_fase INT PRIMARY KEY,  
- id_edicao INT
-); 
+(
+    grupo INT,  
+    nome INT,  
+    id_fase INT PRIMARY KEY,  
+    id_edicao INT
+);
+
 
 CREATE TABLE tb_Escalacao 
-( 
- is_titular INT,  
- id_partida INT
-); 
+(
+    is_titular INT,  
+    id_partida INT
+);
+
 
 CREATE TABLE tb_Relacionados 
-( 
- funcao INT,  
- numero INT,  
- id_competidor INT
-); 
+(
+    funcao INT,  
+    numero INT,  
+    id_competidor INT
+);
+
 
 CREATE TABLE tb_Acao 
-( 
- pontuacao INT,  
- id_acao INT PRIMARY KEY,  
- id_estatistica INT,  
- id_esporte INT
-); 
+(
+    pontuacao INT,  
+    id_acao INT PRIMARY KEY,  
+    id_estatistica INT,  
+    id_esporte INT
+);
+
 
 CREATE TABLE tb_EsportesAtletica 
-( 
- id_esporte INT,  
- id_atletica INT,  
- PRIMARY KEY (id_esporte, id_atletica)
-); 
+(
+    id_esporte INT,  
+    id_atletica INT,  
+    PRIMARY KEY (id_esporte, id_atletica)
+);
+
 
 CREATE TABLE tb_EsporteEdicao 
-( 
- id_esporte INT,  
- id_edicao INT,  
- PRIMARY KEY (id_esporte, id_edicao)
-); 
+(
+    id_esporte INT,  
+    id_edicao INT,  
+    PRIMARY KEY (id_esporte, id_edicao)
+);
+
 
 CREATE TABLE tb_RelacionadosEdicao 
-( 
- id_relacionado INT,  
- id_edicao INT,  
- PRIMARY KEY (id_relacionado, id_edicao)
-); 
+(
+    id_relacionado INT,  
+    id_edicao INT,  
+    PRIMARY KEY (id_relacionado, id_edicao)
+);
+
 
 CREATE TABLE tb_RelacionadosEscalacao 
-( 
- id_relacionado INT,  
- id_escalacao INT,  
- PRIMARY KEY (id_relacionado, id_escalacao)
-); 
+(
+    id_relacionado INT,  
+    id_escalacao INT,  
+    PRIMARY KEY (id_relacionado, id_escalacao)
+);
 
 ALTER TABLE tb_Competidor ADD FOREIGN KEY(id_atletica) REFERENCES tb_Atletica (id_atletica);
 ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao (id_edicao);
