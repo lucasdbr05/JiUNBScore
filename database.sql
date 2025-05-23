@@ -1,38 +1,39 @@
 
-CREATE TABLE tb_competidor 
+
+CREATE TABLE tb_Competidor 
 ( 
  nome INT,  
  id_matricula INT PRIMARY KEY,  
  id_atletica INT
 ); 
 
-CREATE TABLE tb_usuario 
+CREATE TABLE tb_Usuario 
 ( 
  id_email INT PRIMARY KEY,  
  nickname INT,  
  senha INT
 ); 
 
-CREATE TABLE tb_atletica 
+CREATE TABLE tb_Atletica 
 ( 
  id_cod INT PRIMARY KEY,  
  nome INT
 ); 
 
-CREATE TABLE tb_esportes 
+CREATE TABLE tb_Esportes 
 ( 
  id_codigo INT PRIMARY KEY,  
  nome INT
 ); 
 
-CREATE TABLE tb_edicao 
+CREATE TABLE tb_Edicao 
 ( 
  id_edicao INT PRIMARY KEY,  
  data_fim INT,  
  data_comeco INT
 ); 
 
-CREATE TABLE tb_partidas 
+CREATE TABLE tb_Partidas 
 ( 
  placar_time_1 INT,  
  placar_time_2 INT,  
@@ -44,7 +45,7 @@ CREATE TABLE tb_partidas
  id_time_2 INT
 ); 
 
-CREATE TABLE tb_local 
+CREATE TABLE tb_Local 
 ( 
  ra INT,  
  cep INT,  
@@ -54,7 +55,7 @@ CREATE TABLE tb_local
  lote INT
 ); 
 
-CREATE TABLE tb_estatisticas 
+CREATE TABLE tb_Estatisticas 
 ( 
  id_estatistica INT PRIMARY KEY,  
  qtd_acoes INT,  
@@ -62,7 +63,7 @@ CREATE TABLE tb_estatisticas
  id_competidor INT
 ); 
 
-CREATE TABLE tb_fase 
+CREATE TABLE tb_Fase 
 ( 
  grupo INT,  
  nome INT,  
@@ -70,20 +71,20 @@ CREATE TABLE tb_fase
  id_edicao INT
 ); 
 
-CREATE TABLE tb_escalacao 
+CREATE TABLE tb_Escalacao 
 ( 
  is_titular INT,  
  id_partida INT
 ); 
 
-CREATE TABLE tb_relacionados 
+CREATE TABLE tb_Relacionados 
 ( 
  funcao INT,  
  numero INT,  
  id_competidor INT
 ); 
 
-CREATE TABLE tb_acao 
+CREATE TABLE tb_Acao 
 ( 
  pontuacao INT,  
  id_acao INT PRIMARY KEY,  
@@ -91,53 +92,53 @@ CREATE TABLE tb_acao
  id_esporte INT
 ); 
 
-CREATE TABLE tb_esportes_atletica 
+CREATE TABLE tb_EsportesAtletica 
 ( 
  id_esporte INT,  
  id_atletica INT,  
  PRIMARY KEY (id_esporte, id_atletica)
 ); 
 
-CREATE TABLE tb_esporte_edicao 
+CREATE TABLE tb_EsporteEdicao 
 ( 
  id_esporte INT,  
  id_edicao INT,  
  PRIMARY KEY (id_esporte, id_edicao)
 ); 
 
-CREATE TABLE tb_relacionados_edicao 
+CREATE TABLE tb_RelacionadosEdicao 
 ( 
  id_relacionado INT,  
  id_edicao INT,  
  PRIMARY KEY (id_relacionado, id_edicao)
 ); 
 
-CREATE TABLE tb_relacionados_escalacao 
+CREATE TABLE tb_RelacionadosEscalacao 
 ( 
  id_relacionado INT,  
  id_escalacao INT,  
  PRIMARY KEY (id_relacionado, id_escalacao)
 ); 
 
-ALTER TABLE tb_competidor ADD FOREIGN KEY(id_atletica) REFERENCES tb_atletica (id_atletica);
-ALTER TABLE tb_partidas ADD FOREIGN KEY(id_edicao) REFERENCES tb_edicao (id_edicao);
-ALTER TABLE tb_partidas ADD FOREIGN KEY(id_local) REFERENCES tb_local (id_local);
-ALTER TABLE tb_partidas ADD FOREIGN KEY(id_fase) REFERENCES tb_fase (id_fase);
-ALTER TABLE tb_partidas ADD FOREIGN KEY(id_time_1) REFERENCES tb_atletica (id_atletica);
-ALTER TABLE tb_partidas ADD FOREIGN KEY(id_time_2) REFERENCES tb_atletica (id_atletica);
-ALTER TABLE tb_estatisticas ADD FOREIGN KEY(id_partida) REFERENCES tb_partidas (id_partida);
-ALTER TABLE tb_estatisticas ADD FOREIGN KEY(id_competidor) REFERENCES tb_competidor (id_matricula);
-ALTER TABLE tb_fase ADD FOREIGN KEY(id_edicao) REFERENCES tb_edicao (id_edicao);
-ALTER TABLE tb_escalacao ADD FOREIGN KEY(id_partida) REFERENCES tb_partidas (id_partida);
-ALTER TABLE tb_relacionados ADD FOREIGN KEY(id_competidor) REFERENCES tb_competidor (id_matricula);
-ALTER TABLE tb_acao ADD FOREIGN KEY(id_estatistica) REFERENCES tb_estatisticas (id_estatistica);
-ALTER TABLE tb_acao ADD FOREIGN KEY(id_esporte) REFERENCES tb_esportes (id_codigo);
-ALTER TABLE tb_esportes_atletica ADD FOREIGN KEY(id_esporte) REFERENCES tb_esportes (id_codigo);
-ALTER TABLE tb_esportes_atletica ADD FOREIGN KEY(id_atletica) REFERENCES tb_atletica (id_atletica);
-ALTER TABLE tb_esporte_edicao ADD FOREIGN KEY(id_esporte) REFERENCES tb_esportes (id_codigo);
-ALTER TABLE tb_esporte_edicao ADD FOREIGN KEY(id_edicao) REFERENCES tb_edicao (id_edicao);
-ALTER TABLE tb_relacionados_edicao ADD FOREIGN KEY(id_relacionado) REFERENCES tb_relacionados (id_competidor);
-ALTER TABLE tb_relacionados_edicao ADD FOREIGN KEY(id_edicao) REFERENCES tb_edicao (id_edicao);
-ALTER TABLE tb_relacionados_escalacao ADD FOREIGN KEY(id_relacionado) REFERENCES tb_relacionados (id_competidor);
-ALTER TABLE tb_relacionados_escalacao ADD FOREIGN KEY(id_escalacao) REFERENCES tb_escalacao (id_partida);
+ALTER TABLE tb_Competidor ADD FOREIGN KEY(id_atletica) REFERENCES tb_Atletica (id_atletica);
+ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao (id_edicao);
+ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_local) REFERENCES tb_Local (id_local);
+ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_fase) REFERENCES tb_Fase (id_fase);
+ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_time_1) REFERENCES tb_Atletica (id_atletica);
+ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_time_2) REFERENCES tb_Atletica (id_atletica);
+ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_partida) REFERENCES tb_Partidas (id_partida);
+ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_competidor) REFERENCES tb_Competidor (id_matricula);
+ALTER TABLE tb_Fase ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao (id_edicao);
+ALTER TABLE tb_Escalacao ADD FOREIGN KEY(id_partida) REFERENCES tb_Partidas (id_partida);
+ALTER TABLE tb_Relacionados ADD FOREIGN KEY(id_competidor) REFERENCES tb_Competidor (id_matricula);
+ALTER TABLE tb_Acao ADD FOREIGN KEY(id_estatistica) REFERENCES tb_Estatisticas (id_estatistica);
+ALTER TABLE tb_Acao ADD FOREIGN KEY(id_esporte) REFERENCES tb_Esportes (id_codigo);
+ALTER TABLE tb_EsportesAtletica ADD FOREIGN KEY(id_esporte) REFERENCES tb_Esportes (id_codigo);
+ALTER TABLE tb_EsportesAtletica ADD FOREIGN KEY(id_atletica) REFERENCES tb_Atletica (id_atletica);
+ALTER TABLE tb_EsporteEdicao ADD FOREIGN KEY(id_esporte) REFERENCES tb_Esportes (id_codigo);
+ALTER TABLE tb_EsporteEdicao ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao (id_edicao);
+ALTER TABLE tb_RelacionadosEdicao ADD FOREIGN KEY(id_relacionado) REFERENCES tb_Relacionados (id_competidor);
+ALTER TABLE tb_RelacionadosEdicao ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao (id_edicao);
+ALTER TABLE tb_RelacionadosEscalacao ADD FOREIGN KEY(id_relacionado) REFERENCES tb_Relacionados (id_competidor);
+ALTER TABLE tb_RelacionadosEscalacao ADD FOREIGN KEY(id_escalacao) REFERENCES tb_Escalacao (id_partida);
 
