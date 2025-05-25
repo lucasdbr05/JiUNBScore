@@ -40,7 +40,7 @@ CREATE TABLE tb_Partidas
 (
     placar_time_1 INT,  
     placar_time_2 INT,  
-    id_partida INT PRIMARY KEY,  
+    id_partida INT PRIMARY KEY,  -- Using auto increment to gen this id
     id_edicao INT,  
     id_local INT,  
     id_fase INT,  
@@ -51,18 +51,17 @@ CREATE TABLE tb_Partidas
 
 CREATE TABLE tb_Local 
 (
-    ra INT,  
-    cep INT,  
-    id_local INT PRIMARY KEY,  
-    quadra INT,  
-    rua INT,  
-    lote INT
+    ra VARCHAR(20) NOT NULL,  
+    cep VARCHAR(9) PRIMARY KEY,   -- Considering the usage of the hyphen to separate the first five digits  
+    quadra VARCHAR(20),  
+    rua    VARCHAR(20),  
+    lote VARCHAR(20)
 );
 
 
 CREATE TABLE tb_Estatisticas 
 (
-    id_estatistica INT PRIMARY KEY,  
+    id_estatistica INT PRIMARY KEY, -- Using auto increment as id_partida 
     qtd_acoes INT,  
     id_partida INT,  
     id_competidor INT
@@ -72,7 +71,7 @@ CREATE TABLE tb_Estatisticas
 CREATE TABLE tb_Fase 
 (
     grupo INT,  
-    nome INT,  
+    nome VARCHAR(20) NOT NULL,  
     id_fase INT PRIMARY KEY,  
     id_edicao INT
 );
@@ -80,14 +79,14 @@ CREATE TABLE tb_Fase
 
 CREATE TABLE tb_Escalacao 
 (
-    is_titular INT,  
-    id_partida INT
+    is_titular BIT NOT NULL,  
+    id_partida INT,
 );
 
 
 CREATE TABLE tb_Relacionados 
 (
-    funcao INT,  
+    funcao VARCHAR(20) NOT NULL,  
     numero INT,  
     id_competidor INT
 );
@@ -95,6 +94,7 @@ CREATE TABLE tb_Relacionados
 
 CREATE TABLE tb_Acao 
 (
+    nome VARCHAR(20) NOT NULL, -- Sugestion to add the name of the action like, goal, shots, shot on goal and stuff like that
     pontuacao INT,  
     id_acao INT PRIMARY KEY,  
     id_estatistica INT,  
