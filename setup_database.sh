@@ -1,0 +1,1 @@
+psql -U postgres -h localhost -d jiunbscores -f ./database.sql
