@@ -17,7 +17,8 @@ CREATE TABLE tb_Usuario
 CREATE TABLE tb_Atletica 
 (
     id_cod INT PRIMARY KEY AUTOINCREMENT,
-    nome VARCHAR(100)
+    nome VARCHAR(100),
+    logo BLOB,
 );
 
 
