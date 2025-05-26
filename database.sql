@@ -1,38 +1,38 @@
 CREATE TABLE tb_Competidor 
 (
-    nome INT,  
-    id_matricula INT PRIMARY KEY,  
+    matricula VARCHAR(20) PRIMARY KEY NOT NULL UNIQUE,  
+    nome VARCHAR(100),  
     id_atletica INT
 );
 
 
 CREATE TABLE tb_Usuario 
 (
-    id_email INT PRIMARY KEY,  
-    nickname INT,  
-    senha INT
+    nickname VARCHAR(50)  PRIMARY KEY NOT NULL UNIQUE,  
+    id_email VARCHAR(100),  
+    senha VARCHAR(100)
 );
 
 
 CREATE TABLE tb_Atletica 
 (
-    id_cod INT PRIMARY KEY,  
-    nome INT
+    id_cod INT PRIMARY KEY AUTOINCREMENT,
+    nome VARCHAR(100)
 );
 
 
 CREATE TABLE tb_Esportes 
 (
-    id_codigo INT PRIMARY KEY,  
-    nome INT
+    id_codigo INT PRIMARY KEY AUTOINCREMENT,  
+    nome VARCHAR(100)
 );
 
 
 CREATE TABLE tb_Edicao 
 (
-    id_edicao INT PRIMARY KEY,  
-    data_fim INT,  
-    data_comeco INT
+    id_edicao INT PRIMARY KEY AUTOINCREMENT,  
+    data_fim DATE NOT NULL,  
+    data_comeco DATE NOT NULL
 );
 
 
@@ -154,4 +154,3 @@ ALTER TABLE tb_RelacionadosEdicao ADD FOREIGN KEY(id_relacionado) REFERENCES tb_
 ALTER TABLE tb_RelacionadosEdicao ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao (id_edicao);
 ALTER TABLE tb_RelacionadosEscalacao ADD FOREIGN KEY(id_relacionado) REFERENCES tb_Relacionados (id_competidor);
 ALTER TABLE tb_RelacionadosEscalacao ADD FOREIGN KEY(id_escalacao) REFERENCES tb_Escalacao (id_partida);
-
