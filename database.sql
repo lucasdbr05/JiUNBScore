@@ -1,23 +1,23 @@
 CREATE TABLE tb_Competidor 
 (
     matricula VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL,
-    nome VARCHAR(100),
-    id_atletica INT
+    nome VARCHAR(100) NOT NULL,
+    id_atletica INT NOT NULL
 );
 
 
-CREATE TABLE tb_Usuario 
+CREATE TABLE tb_Usuario
 (
     id_nickname VARCHAR(50) PRIMARY KEY UNIQUE NOT NULL,
-    email VARCHAR(100),
-    senha VARCHAR(100)
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(100) NOT NULL
 );
 
 
 CREATE TABLE tb_Atletica 
 (
     id_atletica SERIAL PRIMARY KEY,
-    nome VARCHAR(100),
+    nome VARCHAR(100) NOT NULL,
     logo BYTEA
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE tb_Atletica
 CREATE TABLE tb_Esportes 
 (
     id_codigo SERIAL PRIMARY KEY,
-    nome VARCHAR(100)
+    nome VARCHAR(100) NOT NULL
 );
 
 
@@ -64,8 +64,8 @@ CREATE TABLE tb_Local
 CREATE TABLE tb_Estatisticas 
 (
     id_estatistica SERIAL PRIMARY KEY,
-    qtd_acoes INT,
-    id_partida INT,
+    qtd_acoes INT NOT NULL,
+    id_partida INT NOT NULL,
     id_competidor VARCHAR(20)
 );
 
@@ -83,7 +83,7 @@ CREATE TABLE tb_Escalacao
 (
     id_escalacao SERIAL PRIMARY KEY,
     is_titular BOOLEAN NOT NULL,
-    id_partida INT
+    id_partida INT NOT NULL
 );
 
 
@@ -91,8 +91,8 @@ CREATE TABLE tb_Relacionados
 (
     id_relacionado SERIAL PRIMARY KEY,
     funcao VARCHAR(20) NOT NULL,
-    numero INT,
-    id_competidor VARCHAR(20)
+    numero INT NOT NULL,
+    id_competidor VARCHAR(20) NOT NULL
 );
 
 
@@ -100,9 +100,9 @@ CREATE TABLE tb_Acao
 (
     id_acao SERIAL PRIMARY KEY,
     nome VARCHAR(20) NOT NULL,
-    pontuacao INT,
-    id_estatistica INT,
-    id_esporte INT
+    pontuacao INT NOT NULL,
+    id_estatistica INT NOT NULL,
+    id_esporte INT NOT NULL
 );
 
 
