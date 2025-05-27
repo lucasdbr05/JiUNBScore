@@ -8,7 +8,7 @@ CREATE TABLE tb_Competidor
 
 CREATE TABLE tb_Usuario
 (
-    id_nickname VARCHAR(50) PRIMARY KEY UNIQUE NOT NULL,
+    nickname VARCHAR(50) PRIMARY KEY UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     senha VARCHAR(100) NOT NULL
 );
@@ -139,7 +139,7 @@ CREATE TABLE tb_RelacionadosEscalacao
 
 
 ALTER TABLE tb_Competidor ADD FOREIGN KEY(id_atletica) REFERENCES tb_Atletica(id_atletica);
-ALTER TABLE tb_Usuario ADD FOREIGN KEY(id_nickname) REFERENCES tb_Usuario(id_nickname);
+ALTER TABLE tb_Usuario ADD FOREIGN KEY(nickname) REFERENCES tb_Usuario(nickname);
 ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao(id_edicao);
 ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_local) REFERENCES tb_Local(id_local);
 ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_fase) REFERENCES tb_Fase(id_fase);
