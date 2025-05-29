@@ -67,6 +67,7 @@ CREATE TABLE tb_Estatisticas
     id_estatistica SERIAL PRIMARY KEY,
     qtd_acoes INT NOT NULL,
     id_partida INT NOT NULL,
+    id_acao INT NOT NULL,
     id_competidor VARCHAR(20)
 );
 
@@ -102,7 +103,6 @@ CREATE TABLE tb_Acao
     id_acao SERIAL PRIMARY KEY,
     nome VARCHAR(20) NOT NULL,
     pontuacao INT NOT NULL,
-    id_estatistica INT NOT NULL,
     id_esporte INT NOT NULL
 );
 
@@ -151,7 +151,7 @@ ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_competidor) REFERENCES tb_Competi
 ALTER TABLE tb_Fase ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao(id_edicao) ON DELETE CASCADE;
 ALTER TABLE tb_Escalacao ADD FOREIGN KEY(id_partida) REFERENCES tb_Partidas(id_partida) ON DELETE CASCADE;
 ALTER TABLE tb_Relacionados ADD FOREIGN KEY(id_competidor) REFERENCES tb_Competidor(matricula) ON DELETE CASCADE;
-ALTER TABLE tb_Acao ADD FOREIGN KEY(id_estatistica) REFERENCES tb_Estatisticas(id_estatistica) ON DELETE CASCADE;
+ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_acao) REFERENCES tb_Acao(id_acao) ON DELETE CASCADE;
 ALTER TABLE tb_Acao ADD FOREIGN KEY(id_esporte) REFERENCES tb_Esportes(id_codigo) ON DELETE CASCADE;
 ALTER TABLE tb_EsportesAtletica ADD FOREIGN KEY(id_esporte) REFERENCES tb_Esportes(id_codigo) ON DELETE CASCADE;
 ALTER TABLE tb_EsportesAtletica ADD FOREIGN KEY(id_atletica) REFERENCES tb_Atletica(id_atletica) ON DELETE CASCADE;
