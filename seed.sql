@@ -7,8 +7,8 @@ VALUES ('Aplicada'),
 
 INSERT INTO tb_Competidor (matricula, nome, id_atletica) 
 VALUES ('231003406', 'Lucas Flu', 1),
-       ('231003613', 'Caue', 1),
-       ('231003513', 'Emershow', 1);
+       ('231019003', 'Cauê', 1),
+       ('231003531', 'Emershow', 1);
 
 INSERT INTO tb_Esportes (nome)
 VALUES ('Futsal'),
@@ -34,5 +34,5 @@ VALUES ('Gol', 100, 1),
 
 INSERT INTO tb_Estatisticas (qtd_acoes, id_partida, id_acao, id_competidor)
 VALUES (2, 1, 2,'231003406'),
-       (1, 1, 2,'231003613'),
-       (3, 1, 1,'231003513');
+       (1, 1, 2,'231019003'),
+       (3, 1, 1,'231003531');
