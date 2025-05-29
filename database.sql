@@ -76,8 +76,7 @@ CREATE TABLE tb_Fase
 (
     id_fase SERIAL PRIMARY KEY,
     grupo INT,
-    nome VARCHAR(20) NOT NULL,
-    id_edicao INT
+    nome VARCHAR(20) NOT NULL
 );
 
 
@@ -148,7 +147,6 @@ ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_time_1) REFERENCES tb_Atletica(id_atl
 ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_time_2) REFERENCES tb_Atletica(id_atletica) ON DELETE SET NULL;
 ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_partida) REFERENCES tb_Partidas(id_partida) ON DELETE CASCADE;
 ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_competidor) REFERENCES tb_Competidor(matricula) ON DELETE CASCADE;
-ALTER TABLE tb_Fase ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao(id_edicao) ON DELETE CASCADE;
 ALTER TABLE tb_Escalacao ADD FOREIGN KEY(id_partida) REFERENCES tb_Partidas(id_partida) ON DELETE CASCADE;
 ALTER TABLE tb_Relacionados ADD FOREIGN KEY(id_competidor) REFERENCES tb_Competidor(matricula) ON DELETE CASCADE;
 ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_acao) REFERENCES tb_Acao(id_acao) ON DELETE CASCADE;
