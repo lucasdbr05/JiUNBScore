@@ -2,8 +2,8 @@ INSERT INTO tb_Usuario (nickname, senha, email)
 VALUES ('admin', 'admin', 'admin@gmail.com');
 
 INSERT INTO tb_Atletica (nome)
-VALUES ('Aplicada'),
-       ('Selecic');
+VALUES ('Selecic'),
+       ('Aplicada');
 
 INSERT INTO tb_Competidor (matricula, nome, id_atletica) 
 VALUES ('231003406', 'Lucas Flu', 1),
