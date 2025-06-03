@@ -80,14 +80,6 @@ CREATE TABLE tb_Fase
 );
 
 
-CREATE TABLE tb_Escalacao 
-(
-    id_escalacao SERIAL PRIMARY KEY,
-    is_titular BOOLEAN NOT NULL,
-    id_partida INT NOT NULL
-);
-
-
 CREATE TABLE tb_Relacionados 
 (
     id_relacionado SERIAL PRIMARY KEY,
@@ -130,14 +122,6 @@ CREATE TABLE tb_RelacionadosEdicao
 );
 
 
-CREATE TABLE tb_RelacionadosEscalacao 
-(
-    id_relacionado INT,
-    id_escalacao INT,
-    PRIMARY KEY (id_relacionado, id_escalacao)
-);
-
-
 ALTER TABLE tb_Usuario ADD FOREIGN KEY(nickname) REFERENCES tb_Usuario(nickname);
 ALTER TABLE tb_Competidor ADD FOREIGN KEY(id_atletica) REFERENCES tb_Atletica(id_atletica) ON DELETE CASCADE;
 ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao(id_edicao) ON DELETE CASCADE;
@@ -147,7 +131,6 @@ ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_time_1) REFERENCES tb_Atletica(id_atl
 ALTER TABLE tb_Partidas ADD FOREIGN KEY(id_time_2) REFERENCES tb_Atletica(id_atletica) ON DELETE SET NULL;
 ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_partida) REFERENCES tb_Partidas(id_partida) ON DELETE CASCADE;
 ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_competidor) REFERENCES tb_Competidor(matricula) ON DELETE CASCADE;
-ALTER TABLE tb_Escalacao ADD FOREIGN KEY(id_partida) REFERENCES tb_Partidas(id_partida) ON DELETE CASCADE;
 ALTER TABLE tb_Relacionados ADD FOREIGN KEY(id_competidor) REFERENCES tb_Competidor(matricula) ON DELETE CASCADE;
 ALTER TABLE tb_Estatisticas ADD FOREIGN KEY(id_acao) REFERENCES tb_Acao(id_acao) ON DELETE CASCADE;
 ALTER TABLE tb_Acao ADD FOREIGN KEY(id_esporte) REFERENCES tb_Esportes(id_codigo) ON DELETE CASCADE;
@@ -157,5 +140,3 @@ ALTER TABLE tb_EsporteEdicao ADD FOREIGN KEY(id_esporte) REFERENCES tb_Esportes(
 ALTER TABLE tb_EsporteEdicao ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao(id_edicao) ON DELETE CASCADE;
 ALTER TABLE tb_RelacionadosEdicao ADD FOREIGN KEY(id_relacionado) REFERENCES tb_Relacionados(id_relacionado) ON DELETE CASCADE;
 ALTER TABLE tb_RelacionadosEdicao ADD FOREIGN KEY(id_edicao) REFERENCES tb_Edicao(id_edicao) ON DELETE CASCADE;
-ALTER TABLE tb_RelacionadosEscalacao ADD FOREIGN KEY(id_relacionado) REFERENCES tb_Relacionados(id_relacionado) ON DELETE CASCADE;
-ALTER TABLE tb_RelacionadosEscalacao ADD FOREIGN KEY(id_escalacao) REFERENCES tb_Escalacao(id_escalacao) ON DELETE CASCADE;
