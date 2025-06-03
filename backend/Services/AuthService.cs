@@ -25,7 +25,7 @@ public class AuthService
     public string Login(LoginViewModel data)
     {
         var user = _context.Users
-            .FromSql($"SELECT * FROM Usuario WHERE nickname = '{data.Name}'")
+            .FromSqlRaw($"SELECT * FROM Usuario WHERE nickname = @p0", data.Name)
             .FirstOrDefault();
 
         if (user == null || user.Password != data.Password)

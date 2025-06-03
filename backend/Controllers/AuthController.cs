@@ -16,10 +16,13 @@ public class AuthController : ControllerBase
         this.AuthService = AuthService;
     }
 
-    [HttpPost]
+    [HttpPost("login")]
     public IActionResult Login(LoginViewModel data) {
         var token = AuthService.Login(data);
-        Console.WriteLine(token);
+
+        if (token == null)
+            return BadRequest("Usuário não existe ou senha inválida");
+     
         return Ok(token);
     }
 }

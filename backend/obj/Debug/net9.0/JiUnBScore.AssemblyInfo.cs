@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JiUnBScore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c426431662adb13476e154eaf7acbbd2b455d6b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45abff8f86de2712cf1b3bf0cf4a78fe93927503")]
 [assembly: System.Reflection.AssemblyProductAttribute("JiUnBScore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JiUnBScore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
