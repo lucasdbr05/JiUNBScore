@@ -22,7 +22,7 @@ public class AuthService
         _config = config;
     }
 
-    public string Login(LoginViewModel data)
+    public string? Login(LoginViewModel data)
     {
         var user = _context.Users
             .FromSqlRaw($"SELECT * FROM Usuario WHERE nickname = @p0", data.Name)
