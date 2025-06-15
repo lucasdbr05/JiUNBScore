@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Entities;
 
-[Table("Usuario")]
+[Table("usuario")]
 public class User
 {
     public User(string nickname, string password, string email)

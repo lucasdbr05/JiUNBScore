@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Entities;
 
-[Table("Edicao")]
+[Table("edicao")]
 public class Edicao
 {
     public Edicao(int id, DateTime data_fim, DateTime data_comeco)
