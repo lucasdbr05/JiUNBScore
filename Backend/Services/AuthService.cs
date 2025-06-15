@@ -1,6 +1,7 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +29,7 @@ public class AuthService
             .FromSqlRaw($"SELECT * FROM Usuario WHERE nickname = @p0", data.Name)
             .FirstOrDefault();
 
-        if (user == null || user.Password != data.Password)
+        if (user == null || user.Password != hashSenha(data.Password))
             return null;
 
         return GenerateJwtToken(user.Nickname);
@@ -51,5 +52,20 @@ public class AuthService
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
+    }
+
+    private string? hashSenha(string password)
+    {
+
+        byte[] hashGen = SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
+
+        var sb = new StringBuilder();
+
+        foreach (var b in hashGen)
+        {
+            sb.Append(b.ToString("x2"));
+        }
+
+        return sb.ToString();
     }
 }
