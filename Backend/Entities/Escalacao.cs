@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Entities;
 
-[Table("Escalacao")]
+[Table("escalacao")]
 public class Escalacao
 {
     public Escalacao(

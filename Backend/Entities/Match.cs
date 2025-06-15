@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Entities;
 
-[Table("Partidas")]
+[Table("partidas")]
 public class Match
 {
     public Match(

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Entities;
 
-[Table("Local")]
+[Table("local")]
 public class Local
 {
     public Local(int id, string ra, string cep, string quadra, string rua, string lote)

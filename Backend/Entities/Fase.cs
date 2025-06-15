@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Entities;
 
-[Table("Fase")]
+[Table("fase")]
 public class Fase
 {
     public Fase(int id, int grupo, string nome)

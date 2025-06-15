@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Entities;
 
-[Table("Acao")]
+[Table("acao")]
 public class Action
 {
     public Action(int id, string nome, int points, int id_esporte)
