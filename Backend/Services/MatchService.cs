@@ -63,4 +63,34 @@ public class MatchService
 
         return null;
     }
+
+    public List<Tuple<int, string, string, Byte[], Byte[], int, int>> LastResults(int id_atletica)
+    {
+
+        var listMatches = _context.Matches.FromSqlRaw(
+            $"SELECT * FROM Partidas WHERE id_time_1 = @p0 or id_time_2 = @p0 ORDER BY data_p DESC",
+            id_atletica
+            ).ToList();
+
+        List<Tuple<int, string, string, Byte[], Byte[], int, int>> results = new List<Tuple<int, string, string, byte[], byte[], int, int>>();
+        foreach (var match in listMatches)
+        {
+
+            if (results.Count == 5) break;
+
+            results.Add(
+                Tuple.Create(
+                    match.Id,
+                    match.Time_1.Nome,
+                    match.Time_2.Nome,
+                    match.Time_1.Logo,
+                    match.Time_2.Logo,
+                    match.Placar_time_1,
+                    match.Placar_time_2
+                )
+            );
+        }
+
+        return results;
+    }
 }

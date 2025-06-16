@@ -31,18 +31,18 @@ public class Estatisticas
     [Column("id_partida")]
     public int Id_partida { get; set; }
 
-    [ForeignKey("Id_partida")]
+    [ForeignKey("id_partida")]
     public Match? Match { get; set; }
 
     [Column("id_acao")]
     public int Id_acao { get; set; }
 
-    [ForeignKey("Id_acao")]
+    [ForeignKey("id_acao")]
     public Action? Action { get; set; }
 
     [Column("id_competidor")]
     public string Id_competidor { get; set; }
 
-    [ForeignKey("Id_competidor")]
+    [ForeignKey("id_competidor")]
     public Competidor? Competidor { get; set; }
 }

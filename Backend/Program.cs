@@ -45,7 +45,8 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<MatchService>();
-
+builder.Services.AddTransient<CompetidorService>();
+builder.Services.AddTransient<EstatisticaService>();
 
 var app = builder.Build();
 
