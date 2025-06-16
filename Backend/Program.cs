@@ -44,7 +44,7 @@ builder.Services.AddAuthentication("Bearer")
 builder.Services.AddAuthorization();
 
 builder.Services.AddTransient<AuthService>();
-
+builder.Services.AddTransient<MatchService>();
 
 
 var app = builder.Build();
