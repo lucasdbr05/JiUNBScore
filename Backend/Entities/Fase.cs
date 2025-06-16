@@ -6,20 +6,24 @@ namespace Backend.Entities;
 [Table("fase")]
 public class Fase
 {
-    public Fase(int id, int grupo, string nome)
+    public Fase(int id, int ordem, string nomeEtapa, string nomeGrupo)
     {
         Id = id;
-        Grupo = grupo;
-        Nome = nome;
+        Ordem = ordem;
+        NomeEtapa= nomeEtapa;
+        NomeGrupo = nomeGrupo;
     }
 
     [Key]
     [Column("id")]
     public int Id { get; set; }
 
-    [Column("grupo")]
-    public int Grupo { get; set; }
+    [Column("ordem")]
+    public int Ordem { get; set; }
 
-    [Column("nome")]
-    public string Nome { get; set; }
-}
+    [Column("nome_grupo")]
+    public int NomeGrupo { get; set; }
+
+    [Column("nome_etapa")]
+    public string NomeEtapa { get; set; }
+}   
