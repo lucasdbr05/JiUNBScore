@@ -46,7 +46,8 @@ CREATE TABLE Partidas
     id_fase INT NOT NULL,
     id_local INT,
     id_time_1 INT,
-    id_time_2 INT
+    id_time_2 INT,
+    date DATE NOT NULL
     CHECK(id_time_1 != id_time_2)
 );
 
@@ -75,8 +76,9 @@ CREATE TABLE Estatisticas
 CREATE TABLE Fase 
 (
     id SERIAL PRIMARY KEY,
-    grupo INT,
-    nome VARCHAR(20) NOT NULL
+    ordem INT,
+    nome_grupo VARCHAR(50) NOT NULL,
+    nome_etapa VARCHAR(50) NOT NULL
 );
 
 
