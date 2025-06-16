@@ -7,17 +7,16 @@ namespace Backend.Entities;
 public class Match
 {
     public Match(
-        int id,
         int placar_time_1,
         int placar_time_2,
         int id_edicao,
         int id_fase,
         int id_local,
         int id_time_1,
-        int id_time_2
+        int id_time_2,
+        DateTime data
     )
     {
-        Id = id;
         Placar_time_1 = placar_time_1;
         Placar_time_2 = placar_time_2;
         Id_edicao = id_edicao;
@@ -25,6 +24,7 @@ public class Match
         Id_local = id_local;
         Id_time_1 = id_time_1;
         Id_time_2 = id_time_2;
+        Data = data;
     }
 
     [Key]
@@ -51,6 +51,9 @@ public class Match
 
     [Column("id_time_2")]
     public int Id_time_2 { get; set; }
+    
+    [Column("data_p")]
+    public DateTime Data { get; set; }
 
     [ForeignKey("Id_edicao")]
     public Edicao? Edicao { get; set; }
