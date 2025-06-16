@@ -75,8 +75,9 @@ CREATE TABLE Estatisticas
 CREATE TABLE Fase 
 (
     id SERIAL PRIMARY KEY,
-    grupo INT,
-    nome VARCHAR(20) NOT NULL
+    ordem INT,
+    nome_grupo VARCHAR(50) NOT NULL,
+    nome_etapa VARCHAR(50) NOT NULL
 );
 
 

@@ -19,8 +19,8 @@ VALUES ('Futsal'),
 INSERT INTO Edicao (data_fim, data_comeco)
 VALUES ('2025-07-1', '2025-10-30');
 
-INSERT INTO Fase (grupo, nome)
-VALUES (1, 'FINAL');
+INSERT INTO Fase (ordem, nome_etapa, nome_grupo)
+VALUES (1, 'FINAL', '');
 
 INSERT INTO Local (ra, cep, quadra, rua, lote)
 VALUES ('Asa Norte', '70855-530', 'Cidade Universitária', 'Rua Santander', 'Arena Zhou');
