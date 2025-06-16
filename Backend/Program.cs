@@ -45,7 +45,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<FaseService>();
-
+builder.Services.AddTransient<MatchService>();
 
 
 var app = builder.Build();
