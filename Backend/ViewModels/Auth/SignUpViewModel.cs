@@ -9,7 +9,6 @@ public class SignUpViewModel
         string password
     )
     {
-
         Nickname = nickname;
         Email = email;
         Password = password;

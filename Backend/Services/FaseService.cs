@@ -20,5 +20,22 @@ public class FaseService
         _config = config;
     }
 
+    public Fase Create(CreateFaseViewModel data)
+    {
+    
+        var fase = _context.Fases
+            .FromSqlRaw(
+                @"
+                INSERT INTO Fase (ordem, nome_grupo, nome_etapa)
+                VALUES (@p0, @p1, @p2)
+                RETURNING id, ordem, nome_grupo, nome_etapa",
+                data.Ordem, data.NomeGrupo, data.NomeEtapa
+            )
+            .AsEnumerable()
+            .FirstOrDefault();
+
+        return fase;   
+    }
+
 
 }

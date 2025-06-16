@@ -22,7 +22,7 @@ public class Fase
     public int Ordem { get; set; }
 
     [Column("nome_grupo")]
-    public int NomeGrupo { get; set; }
+    public string NomeGrupo { get; set; }
 
     [Column("nome_etapa")]
     public string NomeEtapa { get; set; }

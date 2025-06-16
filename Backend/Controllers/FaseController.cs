@@ -14,4 +14,12 @@ public class FaseController : ControllerBase
     {
         this.FaseService = FaseService;
     }
+
+    [HttpPost]
+    public IActionResult Create(CreateFaseViewModel data)
+    {
+        var token = FaseService.Create(data);
+
+        return Ok(token);
+    }
 }
