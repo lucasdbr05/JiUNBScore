@@ -22,7 +22,6 @@ public class EstatisticaService
     {
 
         _context.Estatisticas.Add(
-
             new Estatisticas(
 
                 regStats.Qtd_acoes,

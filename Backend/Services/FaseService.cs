@@ -12,12 +12,10 @@ namespace Backend.Services;
 public class FaseService
 {
     private readonly JiunbDBContext _context;
-    private readonly IConfiguration _config;
 
-    public FaseService(JiunbDBContext dBContext, IConfiguration config)
+    public FaseService(JiunbDBContext dBContext)
     {
         _context = dBContext;
-        _config = config;
     }
 
     public Fase Create(CreateFaseViewModel data)

@@ -6,7 +6,7 @@ namespace Backend.Entities;
 [Table("atletica")]
 public class Atletica
 {
-    public Atletica(int id, string nome, byte[] logo)
+    public Atletica(int id, string nome, byte[]? logo = null)
     {
         Id = id;
         Nome = nome;
@@ -21,5 +21,5 @@ public class Atletica
     public string Nome { get; set; }
 
     [Column("logo")]
-    public Byte[] Logo { get; set; }
+    public Byte[]? Logo { get; set; }
 }
