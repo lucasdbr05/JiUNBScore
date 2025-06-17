@@ -7,14 +7,12 @@ namespace Backend.Entities;
 public class Estatisticas
 {
     public Estatisticas(
-        int id,
         int qtd_acoes,
         int id_partida,
         int id_acao,
         string id_competidor
     )
     {
-        Id = id;
         Qtd_acoes = qtd_acoes;
         Id_partida = id_partida;
         Id_acao = id_acao;

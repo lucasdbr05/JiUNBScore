@@ -18,6 +18,23 @@ public class EstatisticaService
         _config = config;
     }
 
+    public string RegsStat(RegsStatsViewModel regStats)
+    {
+
+        _context.Estatisticas.Add(
+
+            new Estatisticas(
+
+                regStats.Qtd_acoes,
+                regStats.Id_partida,
+                regStats.Id_acao,
+                regStats.Id_competidor
+            )
+        );
+
+        _context.SaveChanges();
+        return "OK!";
+    }
     public List<Estatisticas> TakeEstats(int id_partida, string id_competidor)
     {
 
