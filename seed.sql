@@ -25,8 +25,8 @@ VALUES (1, 'FINAL', '');
 INSERT INTO Local (ra, cep, quadra, rua, lote)
 VALUES ('Asa Norte', '70855-530', 'Cidade Universitária', 'Rua Santander', 'Arena Zhou');
 
-INSERT INTO Partidas (placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2)
-VALUES (4, 0, 1, 1, 1, 1, 2);
+INSERT INTO Partidas (placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, date)
+VALUES (4, 0, 1, 1, 1, 1, 2, '2025-11-04');
 
 INSERT INTO Acao (nome, pontuacao, id_esporte)
 VALUES ('Gol', 100, 1),
