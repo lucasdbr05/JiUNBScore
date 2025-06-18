@@ -79,7 +79,7 @@ public class MatchService
             .FirstOrDefault();
     }
 
-    public Match? Update(int id, RegisterMatchViewModel data)
+    public Match? Update(int id, UpdateMatchViewModel data)
     {
         var match = _context.Matches
             .FromSqlRaw(
