@@ -9,13 +9,11 @@ public class MatchService
 {
 
     private readonly JiunbDBContext _context;
-    private readonly IConfiguration _config;
 
-    public MatchService(JiunbDBContext context, IConfiguration config)
+    public MatchService(JiunbDBContext context)
     {
 
         _context = context;
-        _config = config;
     }
 
     public string? RegisterMatch(
