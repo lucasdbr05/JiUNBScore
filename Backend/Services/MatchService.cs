@@ -63,4 +63,51 @@ public class MatchService
 
         return null;
     }
+
+    public IEnumerable<Match> FindAll()
+    {
+        return _context.Matches
+            .FromSqlRaw("SELECT * FROM Partidas")
+            .AsEnumerable();
+    }
+
+    public Match? FindOne(int id)
+    {
+        return _context.Matches
+            .FromSqlRaw("SELECT * FROM Partidas WHERE id = @p0", id)
+            .AsEnumerable()
+            .FirstOrDefault();
+    }
+
+    public Match? Update(int id, RegisterMatchViewModel data)
+    {
+        var match = _context.Matches
+            .FromSqlRaw(
+                @"UPDATE Partidas SET placar_time_1 = @p1, placar_time_2 = @p2, id_edicao = @p3, id_fase = @p4, id_local = @p5, id_time_1 = @p6, id_time_2 = @p7, date = @p8 WHERE id = @p0 RETURNING *",
+                id,
+                data.Placar_time_1,
+                data.Placar_time_2,
+                data.Id_edicao,
+                data.Id_fase,
+                data.Id_local,
+                data.Id_time_1,
+                data.Id_time_2,
+                data.Data
+            )
+            .AsEnumerable()
+            .FirstOrDefault();
+        return match;
+    }
+
+    public Match? Delete(int id)
+    {
+        var match = _context.Matches
+            .FromSqlRaw(
+                @"DELETE FROM Partidas WHERE id = @p0 RETURNING *",
+                id
+            )
+            .AsEnumerable()
+            .FirstOrDefault();
+        return match;
+    }
 }
