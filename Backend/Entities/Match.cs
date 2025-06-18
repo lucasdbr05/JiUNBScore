@@ -52,7 +52,7 @@ public class Match
     [Column("id_time_2")]
     public int Id_time_2 { get; set; }
     
-    [Column("data_p")]
+    [Column("date")]
     public DateTime Data { get; set; }
 
     [ForeignKey("Id_edicao")]
