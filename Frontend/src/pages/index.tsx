@@ -1,4 +1,8 @@
+
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import { Api } from '../lib/apiClient';
+import type { Match, Fase, Athletic } from '../lib/types';
 
 const sports = [
   { name: 'Futebol', icon: '/file.svg' },
@@ -7,17 +11,40 @@ const sports = [
   { name: 'Handebol', icon: '/vercel.svg' },
 ];
 
-const nextMatches = [
-  { teams: 'Atlética A vs Atlética B', date: '18/06/2025 19:00', sport: 'Futebol' },
-  { teams: 'Atlética C vs Atlética D', date: '19/06/2025 20:00', sport: 'Vôlei' },
-];
-
-const mainCompetitions = [
-  { name: 'InterAtléticas 2025', sport: 'Futebol' },
-  { name: 'Copa UnB', sport: 'Basquete' },
-];
 
 export default function Home() {
+  const [nextMatches, setNextMatches] = useState<Match[]>([]);
+  const [mainCompetitions, setMainCompetitions] = useState<Fase[]>([]);
+  const [athletics, setAthletics] = useState<Athletic[]>([]);
+
+  useEffect(() => {
+    const api = new Api();
+    // Buscar próximas partidas
+    api.getMatches().then(setNextMatches).catch(() => {
+      // fallback mock se erro
+      setNextMatches([
+        { id: 1, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 1, id_time_2: 2, date: '2025-06-18T19:00:00' },
+        { id: 2, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 3, id_time_2: 4, date: '2025-06-19T20:00:00' },
+      ]);
+    });
+    // Buscar principais competições (fases)
+    api.getFases().then(setMainCompetitions).catch(() => {
+      setMainCompetitions([
+        { id: 1, ordem: 1, nome_grupo: 'Grupo A', nome_etapa: 'InterAtléticas 2025' },
+        { id: 2, ordem: 2, nome_grupo: 'Grupo B', nome_etapa: 'Copa UnB' },
+      ]);
+    });
+    // Buscar atléticas
+    api.getAthletics().then(setAthletics).catch(() => {
+      setAthletics([
+        { id: 1, nome: 'Atlética A', logo: null },
+        { id: 2, nome: 'Atlética B', logo: null },
+        { id: 3, nome: 'Atlética C', logo: null },
+        { id: 4, nome: 'Atlética D', logo: null },
+      ]);
+    });
+  }, []);
+
   return (
     <>
       <Head>
@@ -43,13 +70,18 @@ export default function Home() {
         <section className="mb-8 bg-white rounded-xl shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Próximas Partidas</h2>
           <ul>
-            {nextMatches.map((match, idx) => (
-              <li key={idx} className="flex justify-between items-center py-3 border-b last:border-b-0">
-                <span className="font-medium">{match.teams}</span>
-                <span className="text-gray-500 text-sm">{match.date}</span>
-                <span className="text-gray-500 text-sm">{match.sport}</span>
-              </li>
-            ))}
+            {nextMatches.map((match, idx) => {
+              // Buscar nomes das atléticas
+              const time1 = athletics.find(a => a.id === match.id_time_1)?.nome || `Time ${match.id_time_1}`;
+              const time2 = athletics.find(a => a.id === match.id_time_2)?.nome || `Time ${match.id_time_2}`;
+              return (
+                <li key={idx} className="flex justify-between items-center py-3 border-b last:border-b-0">
+                  <span className="font-medium">{time1} vs {time2}</span>
+                  <span className="text-gray-500 text-sm">{new Date(match.date).toLocaleString('pt-BR')}</span>
+                  <span className="text-gray-500 text-sm">{mainCompetitions.find(f => f.id === match.id_fase)?.nome_etapa || 'Competição'}</span>
+                </li>
+              );
+            })}
           </ul>
         </section>
         <section className="bg-white rounded-xl shadow p-6">
@@ -57,8 +89,8 @@ export default function Home() {
           <ul>
             {mainCompetitions.map((comp, idx) => (
               <li key={idx} className="flex justify-between items-center py-3 border-b last:border-b-0">
-                <span className="font-medium">{comp.name}</span>
-                <span className="text-gray-500 text-sm">{comp.sport}</span>
+                <span className="font-medium">{comp.nome_etapa}</span>
+                <span className="text-gray-500 text-sm">{comp.nome_grupo}</span>
               </li>
             ))}
           </ul>
