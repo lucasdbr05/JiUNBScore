@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { Api } from '../lib/apiClient';
-import type { Match, Fase, Athletic } from '../lib/types';
+import type { Match, Athletic, Edition } from '../lib/types';
 import { AuthCard } from '../components/AuthCard';
 import { login, signUp, logout, getUser } from '../lib/auth';
 
@@ -15,13 +15,12 @@ const sports = [
 
 export default function Home() {
   const [nextMatches, setNextMatches] = useState<Match[]>([]);
-  const [mainCompetitions, setMainCompetitions] = useState<Fase[]>([]);
+  const [mainEdition, setMainEdition] = useState<Edition[]>([]);
   const [athletics, setAthletics] = useState<Athletic[]>([]);
   const [showAuth, setShowAuth] = useState(false);
   const [user, setUser] = useState<{ nickname: string; email: string } | null | string>(null);
 
   useEffect(() => {
-    // TODO: get user data from local storage
     setUser(getUser());
   }, []);
 
@@ -33,11 +32,11 @@ export default function Home() {
         { id: 2, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 3, id_time_2: 4, date: '2025-06-19T20:00:00' },
       ]);
     });
-    // Buscar principais competições (fases)
-    api.getFases().then(setMainCompetitions).catch(() => {
-      setMainCompetitions([
-        { id: 1, ordem: 1, nome_grupo: 'Grupo A', nome_etapa: 'InterAtléticas 2025' },
-        { id: 2, ordem: 2, nome_grupo: 'Grupo B', nome_etapa: 'Copa UnB' },
+    // Buscar principais competições (edições)
+    api.getEditions().then(setMainEdition).catch(() => {
+      setMainEdition([
+        { id: 1, data_fim: '2025-07-01', data_comeco: '2025-10-30' },
+        { id: 2, data_fim: '2025-08-01', data_comeco: '2025-11-30' },
       ]);
     });
     // Buscar atléticas
@@ -121,7 +120,7 @@ export default function Home() {
                 <li key={idx} className="flex justify-between items-center py-3 border-b last:border-b-0">
                   <span className="font-medium">{time1} vs {time2}</span>
                   <span className="text-gray-500 text-sm">{new Date(match.date).toLocaleString('pt-BR')}</span>
-                  <span className="text-gray-500 text-sm">{mainCompetitions.find(f => f.id === match.id_fase)?.nome_etapa || 'Competição'}</span>
+                  <span className="text-gray-500 text-sm">{'Ano'}</span>
                 </li>
               );
             })}
@@ -130,10 +129,10 @@ export default function Home() {
         <section className="bg-white rounded-xl shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Principais Competições</h2>
           <ul>
-            {mainCompetitions.map((comp, idx) => (
+            {mainEdition.map((comp, idx) => (
               <li key={idx} className="flex justify-between items-center py-3 border-b last:border-b-0">
-                <span className="font-medium">{comp.nome_etapa}</span>
-                <span className="text-gray-500 text-sm">{comp.nome_grupo}</span>
+                <span className="font-medium">{comp.data_comeco}</span>
+                <span className="text-gray-500 text-sm">{comp.data_fim}</span>
               </li>
             ))}
           </ul>

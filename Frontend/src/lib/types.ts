@@ -65,3 +65,19 @@ export interface CreateAthleticData {
 export interface UpdateAthleticData extends CreateAthleticData {
   id: number;
 }
+
+// Edition
+export interface Edition {
+  id: number;
+  data_fim: string;
+  data_comeco: string;
+}
+
+export interface CreateEditionData {
+  data_fim: string;
+  data_comeco: string;
+}
+
+export interface UpdateEditionData extends CreateEditionData {
+  id: number;
+}

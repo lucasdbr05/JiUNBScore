@@ -10,7 +10,10 @@ import type {
   UpdateFaseData,
   Athletic,
   CreateAthleticData,
-  UpdateAthleticData
+  UpdateAthleticData,
+  Edition,
+  CreateEditionData,
+  UpdateEditionData
 } from "./types";
 
 
@@ -84,5 +87,26 @@ export class Api {
 
     async deleteAthletic(id: number): Promise<Athletic> {
         return await this.api.delete(`/athletic/${id}`);
+    }
+
+    // Edition
+    async getEditions(): Promise<Edition[]> {
+        return await this.api.get("/edition");
+    }
+
+    async getEdition(id: number): Promise<Edition> {
+        return await this.api.get(`/edition/${id}`);
+    }
+
+    async createEdition(data: CreateEditionData): Promise<Edition> {
+        return await this.api.post("/edition", data);
+    }
+
+    async updateEdition(data: UpdateEditionData): Promise<Edition> {
+        return await this.api.put(`/edition`, data);
+    }
+
+    async deleteEdition(id: number): Promise<Edition> {
+        return await this.api.delete(`/edition/${id}`);
     }
 }
