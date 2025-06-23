@@ -15,7 +15,7 @@ public class StatsController : ControllerBase
         StatsService = statsService;
     }
 
-    [HttpPost("register")]
+    [HttpPost()]
     public IActionResult RegsStat(RegsStatsViewModel regStat)
     {
         var result = StatsService.RegsStat(regStat);

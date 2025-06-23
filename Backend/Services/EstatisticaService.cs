@@ -18,31 +18,44 @@ public class EstatisticaService
         _config = config;
     }
 
-    public string RegsStat(RegsStatsViewModel regStats)
+    public Estatisticas RegsStat(RegsStatsViewModel data)
     {
 
-        _context.Estatisticas.Add(
-            new Estatisticas(
+        var stats = _context.Estatisticas.FromSqlRaw(
+                    @"
+                    INSERT INTO Estatisticas (qtd_acoes, id_partida, id_acao, id_competidor)
+                    VALUES (@p0, @p1, @p2, @p3)
+                    RETURNING id, qtd_acoes, id_partida, id_acao, id_competidor
+                    ",
+                    data.Qtd_acoes, data.Id_partida, data.Id_acao, data.Id_competidor
+                )
+                .AsEnumerable()
+                .FirstOrDefault();
 
-                regStats.Qtd_acoes,
-                regStats.Id_partida,
-                regStats.Id_acao,
-                regStats.Id_competidor
-            )
-        );
-
-        _context.SaveChanges();
-        return "OK!";
+        return stats;
     }
     public List<Estatisticas> TakeEstats(int id_partida, string id_competidor)
     {
 
         var listPlayerMatch = _context.Estatisticas
-                                    .FromSqlRaw(
-                                        $"SELECT * FROM Estatisticas WHERE id_partida = @p0 and id_competidor = @p1",
-                                        id_partida,
-                                        id_competidor
-                                        ).ToList();
+                                .FromSqlRaw(
+                                    @"
+                                    SELECT * FROM Estatisticas WHERE id_partida = @p0 and id_competidor = @p1
+                                    ",
+                                    id_partida,
+                                    id_competidor
+                                    ).ToList();
+                                    
+        foreach (var stat in listPlayerMatch)
+        {
+            stat.Action = _context.Actions.FromSqlRaw(
+                @"
+                    SELECT * FROM acao
+                    WHERE id = @p0
+                ",
+                stat.Id_acao
+            ).FirstOrDefault();
+        }
 
         return listPlayerMatch;
     }

@@ -15,7 +15,7 @@ public class CompController : ControllerBase
         CompService = compService;
     }
 
-    [HttpPost("register")]
+    [HttpPost()]
     public IActionResult RegsComp(RegsCompetidorViewModel regComp)
     {
 
@@ -24,6 +24,16 @@ public class CompController : ControllerBase
         if (result == null)
             return BadRequest("Esse competidor já foi registrado!");
 
+        return Ok(result);
+    }
+
+    [HttpGet("{matricula}")]
+    public IActionResult CompScreen(string matricula)
+    {
+
+        var result = CompService.CompetidorFinder(matricula);
+
+        if (result == null) return BadRequest(result);
         return Ok(result);
     }
 }

@@ -15,7 +15,7 @@ public class MatchController : ControllerBase
         MatchService = matchService;
     }
 
-    [HttpPost("register")]
+    [HttpPost()]
     public IActionResult RegsMatch(RegisterMatchViewModel regMatch)
     {
         var result = MatchService.RegisterMatch(regMatch);

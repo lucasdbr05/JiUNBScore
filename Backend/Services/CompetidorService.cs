@@ -26,7 +26,7 @@ public class CompetidorService
         _matchServ = matchServ;
     }
 
-    public string? RegsComp(
+    public Competidor? RegsComp(
         RegsCompetidorViewModel regsComp
     )
     {
@@ -38,49 +38,70 @@ public class CompetidorService
         if (checkExisting != null)
             return null;
 
-        _context.Competidores.Add(
-            new Competidor(
-                regsComp.Matricula,
-                regsComp.Nome,
-                regsComp.Id_atletica
-            )
-        );
+        var comp = _context.Competidores.FromSqlRaw(
+            @"
+            INSERT INTO Competidor (matricula, nome, id_atletica)
+            VALUES (@p0, @p1, @p2)
+            RETURNING matricula, nome, id_atletica
+            ",
+            regsComp.Matricula, regsComp.Nome, regsComp.Id_atletica
+        )
+        .AsEnumerable()
+        .FirstOrDefault();
 
         _context.SaveChanges();
 
-        return "OK!";
+        return comp;
     }
     // TODO: End this xiburubs
-    // public CompetidorScreenViewModel CompetidorFinder(string id_competidor)
-    // {
+    public CompetidorScreenViewModel? CompetidorFinder(string id_competidor)
+    {
 
-    //     var competidor = _context.Competidores
-    //         .FromSqlRaw(
-    //             $"SELECT * FROM Competidor WHERE matricula = @p0",
-    //             id_competidor
-    //             )
-    //         .FirstOrDefault();
+        var competidor = _context.Competidores
+            .FromSqlRaw(
+                @"SELECT * FROM Competidor WHERE matricula = @p0",
+                id_competidor
+                ).FirstOrDefault();
 
-    //     var listMatches = _matchServ.LastResults(competidor.Id_atletica);
+        competidor.Atletica = _context.Atleticas
+            .FromSqlRaw(
+                @"SELECT * FROM atletica
+                WHERE id = @p0",
+                competidor.Id_atletica
+            ).FirstOrDefault();
+        
+        if (competidor == null)
+            return null;
 
-    //     List<Tuple<string, string, Byte[], Byte[], int, int, float>> lastMatches = new List<Tuple<string, string, Byte[], Byte[], int, int, float>>();
+        var listMatches = _matchServ.LastResults(competidor.Id_atletica);
 
-    //     foreach (var match in listMatches)
-    //     {
+        List<Tuple<string, string, Byte[], Byte[], int, int, float>> lastMatches = new List<Tuple<string, string, Byte[], Byte[], int, int, float>>();
 
-    //         lastMatches.Add(
-    //             Tuple.Create(
-    //                 match.Item2,
-    //                 match.Item3,
-    //                 match.Item4,
-    //                 match.Item5,
-    //                 match.Item6,
-    //                 match.Item7,
-    //                 CalcNota(id_competidor, match.Item1)
-    //             )
-    //         );
-    //     }
-    // }
+        foreach (var match in listMatches)
+        {
+
+            lastMatches.Add(
+                Tuple.Create(
+                    match.Item2,
+                    match.Item3,
+                    match.Item4,
+                    match.Item5,
+                    match.Item6,
+                    match.Item7,
+                    CalcNota(id_competidor, match.Item1)
+                )
+            );
+        }
+
+        var compsScreen = new CompetidorScreenViewModel(
+            competidor.Nome,
+            competidor.Matricula,
+            competidor.Atletica.Nome,
+            lastMatches
+        );
+
+        return compsScreen;
+    }
     private float CalcNota(string id_competidor, int id_partida)
     {
 
