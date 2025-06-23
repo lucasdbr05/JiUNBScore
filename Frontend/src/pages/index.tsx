@@ -21,6 +21,7 @@ export default function Home() {
   const [user, setUser] = useState<{ nickname: string; email: string } | null | string>(null);
 
   useEffect(() => {
+    // TODO: get user data from local storage
     setUser(getUser());
   }, []);
 
