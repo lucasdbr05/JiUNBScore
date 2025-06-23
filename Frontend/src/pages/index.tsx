@@ -46,16 +46,15 @@ export default function Home() {
         { id: 4, nome: 'Atlética D', logo: null },
       ]);
     });
+
   }, []);
 
   const handleLogin = async (data: any) => {
     const u = await login(data);
-    setUser(u);
     setShowAuth(false);
   };
   const handleSignUp = async (data: any) => {
     const u = await signUp(data);
-    setUser(u);
     setShowAuth(false);
   };
   const handleLogout = () => {

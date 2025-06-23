@@ -36,9 +36,9 @@ export function AuthCard({ user, onLogin, onSignUp, onLogout }: AuthCardProps) {
     setError(null);
     try {
       if (mode === 'login') {
-        await onLogin({ nickname: form.nickname, senha: form.senha });
+        await onLogin({ nickname: form.nickname, password: form.password });
       } else {
-        await onSignUp({ nickname: form.nickname, senha: form.senha, email: (form as SignUpData).email });
+        await onSignUp({ nickname: form.nickname, password: form.password, email: (form as SignUpData).email });
       }
     } catch (err: any) {
       setError(err.message || 'Erro ao autenticar');
@@ -85,10 +85,10 @@ export function AuthCard({ user, onLogin, onSignUp, onLogout }: AuthCardProps) {
         )}
         <input
           className="border rounded px-3 py-2"
-          name="senha"
+          name="password"
           placeholder="Senha"
           type="password"
-          value={form.senha}
+          value={form.password}
           onChange={handleChange}
           required
         />

@@ -6,20 +6,19 @@ const api = new Api();
 
 export async function login(data: LoginData) {
   const token = await api.login(data);
-  Cookies.set('token', token, { expires: 7 }); 
+  Cookies.set('access_token', token, { expires: 7 }); 
   return token;
 }
-
+    
 export async function signUp(data: SignUpData) {
   const token = await api.signUp(data);
-  Cookies.set('token', token, { expires: 7 });
   return token;
 }
 
 export function logout() {
-  Cookies.remove('token');
+  Cookies.remove('access_token');
 }
 
 export function getUser() {
-  return Cookies.get('token') || null;
+  return Cookies.get('access_token') || null;
 }

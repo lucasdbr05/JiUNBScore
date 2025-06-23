@@ -1,13 +1,13 @@
 // Auth
 export interface LoginData {
   nickname: string;
-  senha: string;
+  password: string;
 }
 
 export interface SignUpData {
   nickname: string;
   email: string;
-  senha: string;
+  password: string;
 }
 
 // Match
