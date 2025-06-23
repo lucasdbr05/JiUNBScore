@@ -18,13 +18,15 @@ export default function Home() {
   const [mainCompetitions, setMainCompetitions] = useState<Fase[]>([]);
   const [athletics, setAthletics] = useState<Athletic[]>([]);
   const [showAuth, setShowAuth] = useState(false);
-  const [user, setUser] = useState<{ nickname: string; email: string } | null>(getUser());
+  const [user, setUser] = useState<{ nickname: string; email: string } | null | string>(null);
+
+  useEffect(() => {
+    setUser(getUser());
+  }, []);
 
   useEffect(() => {
     const api = new Api();
-    // Buscar próximas partidas
     api.getMatches().then(setNextMatches).catch(() => {
-      // fallback mock se erro
       setNextMatches([
         { id: 1, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 1, id_time_2: 2, date: '2025-06-18T19:00:00' },
         { id: 2, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 3, id_time_2: 4, date: '2025-06-19T20:00:00' },
