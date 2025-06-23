@@ -27,7 +27,7 @@ public class AuthService
     public string? Login(LoginViewModel data)
     {
         var user = _context.Users
-            .FromSqlRaw($"SELECT * FROM Usuario WHERE nickname = @p0", data.Name)
+            .FromSqlRaw($"SELECT * FROM Usuario WHERE nickname = @p0", data.Nickname)
             .FirstOrDefault();
 
         if (user == null || user.Password != treatSenha(data.Password))

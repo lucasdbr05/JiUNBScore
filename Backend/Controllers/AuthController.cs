@@ -18,12 +18,12 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(LoginViewModel data)
     {
-        var token = AuthService.Login(data);
+        var access_token = AuthService.Login(data);
 
-        if (token == null)
+        if (access_token == null)
             return BadRequest("Usuário não existe ou senha inválida");
 
-        return Ok(token);
+        return Ok(new { access_token });
     }
     
     [HttpPost("signUp")]

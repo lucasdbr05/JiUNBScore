@@ -2,12 +2,12 @@ namespace Backend.ViewModels;
 
 public class LoginViewModel
 {
-    public LoginViewModel(string name, string password)
+    public LoginViewModel(string nickname, string password)
     {
-        Name = name;
+        Nickname = nickname;
         Password = password;
     }
 
-    public string Name { get; set; }
+    public string Nickname { get; set; }
     public string Password { get; set; }
 }
