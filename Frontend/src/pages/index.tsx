@@ -1,8 +1,9 @@
-
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { Api } from '../lib/apiClient';
 import type { Match, Fase, Athletic } from '../lib/types';
+import { AuthCard } from '../components/AuthCard';
+import { login, signUp, logout, getUser } from '../lib/auth';
 
 const sports = [
   { name: 'Futebol', icon: '/file.svg' },
@@ -16,6 +17,8 @@ export default function Home() {
   const [nextMatches, setNextMatches] = useState<Match[]>([]);
   const [mainCompetitions, setMainCompetitions] = useState<Fase[]>([]);
   const [athletics, setAthletics] = useState<Athletic[]>([]);
+  const [showAuth, setShowAuth] = useState(false);
+  const [user, setUser] = useState<{ nickname: string; email: string } | null>(getUser());
 
   useEffect(() => {
     const api = new Api();
@@ -45,6 +48,22 @@ export default function Home() {
     });
   }, []);
 
+  const handleLogin = async (data: any) => {
+    const u = await login(data);
+    setUser(u);
+    setShowAuth(false);
+  };
+  const handleSignUp = async (data: any) => {
+    const u = await signUp(data);
+    setUser(u);
+    setShowAuth(false);
+  };
+  const handleLogout = () => {
+    logout();
+    setUser(null);
+    setShowAuth(false);
+  };
+
   return (
     <>
       <Head>
@@ -65,7 +84,29 @@ export default function Home() {
             </div>
           ))}
         </nav>
+        <button
+          className="ml-8 px-4 py-2 bg-white text-black rounded border hover:bg-black hover:text-white transition-colors"
+          onClick={() => setShowAuth((v) => !v)}
+        >
+          {user ? 'Perfil' : 'Login / Sign Up'}
+        </button>
       </header>
+      {showAuth && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <AuthCard
+            user={user}
+            onLogin={handleLogin}
+            onSignUp={handleSignUp}
+            onLogout={handleLogout}
+          />
+          <button
+            className="absolute top-4 right-4 text-white text-2xl font-bold"
+            onClick={() => setShowAuth(false)}
+          >
+            ×
+          </button>
+        </div>
+      )}
       <main className="p-8 bg-neutral-100 min-h-[80vh]">
         <section className="mb-8 bg-white rounded-xl shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Próximas Partidas</h2>

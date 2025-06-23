@@ -22,11 +22,11 @@ export class Api {
 
     // Auth
 
-    async login(data: LoginData) {
+    async login(data: LoginData): Promise<string> {
         return await this.api.post("/auth/login", data);
     }
 
-    async signUp(data: SignUpData) {
+    async signUp(data: SignUpData): Promise<string> {
         return await this.api.post("/auth/signUp", data);
     }
 
