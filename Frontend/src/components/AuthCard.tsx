@@ -10,7 +10,11 @@ interface AuthCardProps {
 
 export function AuthCard({ user, onLogin, onSignUp, onLogout }: AuthCardProps) {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
-  const [form, setForm] = useState<LoginData | SignUpData>({ nickname: '', senha: '', email: '' });
+  const [form, setForm] = useState<{ nickname: string; password: string; email?: string }>({
+    nickname: '',
+    password: '',
+    email: '',
+  });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +42,7 @@ export function AuthCard({ user, onLogin, onSignUp, onLogout }: AuthCardProps) {
       if (mode === 'login') {
         await onLogin({ nickname: form.nickname, password: form.password });
       } else {
-        await onSignUp({ nickname: form.nickname, password: form.password, email: (form as SignUpData).email });
+        await onSignUp({ nickname: form.nickname, password: form.password, email: form.email || '' });
       }
     } catch (err: any) {
       setError(err.message || 'Erro ao autenticar');
@@ -78,7 +82,7 @@ export function AuthCard({ user, onLogin, onSignUp, onLogout }: AuthCardProps) {
             name="email"
             placeholder="Email"
             type="email"
-            value={(form as SignUpData).email}
+            value={form.email}
             onChange={handleChange}
             required
           />

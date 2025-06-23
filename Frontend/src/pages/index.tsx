@@ -4,24 +4,22 @@ import { Api } from '../lib/apiClient';
 import type { Match, Athletic, Edition } from '../lib/types';
 import { AuthCard } from '../components/AuthCard';
 import { login, signUp, logout, getUser } from '../lib/auth';
-
-const sports = [
-  { name: 'Futebol', icon: '/file.svg' },
-  { name: 'Vôlei', icon: '/globe.svg' },
-  { name: 'Basquete', icon: '/window.svg' },
-  { name: 'Handebol', icon: '/vercel.svg' },
-];
-
+import { Header } from '../components/Header';
 
 export default function Home() {
   const [nextMatches, setNextMatches] = useState<Match[]>([]);
   const [mainEdition, setMainEdition] = useState<Edition[]>([]);
   const [athletics, setAthletics] = useState<Athletic[]>([]);
   const [showAuth, setShowAuth] = useState(false);
-  const [user, setUser] = useState<{ nickname: string; email: string } | null | string>(null);
+  const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
 
   useEffect(() => {
-    setUser(getUser());
+    const u = getUser();
+    if (typeof u === 'object' && u !== null && 'nickname' in u && 'email' in u) {
+      setUser(u as { nickname: string; email: string });
+    } else {
+      setUser(null);
+    }
   }, []);
 
   useEffect(() => {
@@ -32,14 +30,12 @@ export default function Home() {
         { id: 2, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 3, id_time_2: 4, date: '2025-06-19T20:00:00' },
       ]);
     });
-    // Buscar principais competições (edições)
     api.getEditions().then(setMainEdition).catch(() => {
       setMainEdition([
         { id: 1, data_fim: '2025-07-01', data_comeco: '2025-10-30' },
         { id: 2, data_fim: '2025-08-01', data_comeco: '2025-11-30' },
       ]);
     });
-    // Buscar atléticas
     api.getAthletics().then(setAthletics).catch(() => {
       setAthletics([
         { id: 1, nome: 'Atlética A', logo: null },
@@ -48,15 +44,16 @@ export default function Home() {
         { id: 4, nome: 'Atlética D', logo: null },
       ]);
     });
-
   }, []);
 
-  const handleLogin = async (data: any) => {
-    const u = await login(data);
+  const handleLogin = async (data: { email: string; password: string }) => {
+    await login(data);
+    setUser(getUser() as { nickname: string; email: string } | null);
     setShowAuth(false);
   };
-  const handleSignUp = async (data: any) => {
-    const u = await signUp(data);
+  const handleSignUp = async (data: { email: string; password: string; nickname: string }) => {
+    await signUp(data);
+    setUser(getUser() as { nickname: string; email: string } | null);
     setShowAuth(false);
   };
   const handleLogout = () => {
@@ -70,28 +67,7 @@ export default function Home() {
       <Head>
         <title>JiUNBScore - Home</title>
       </Head>
-      <header className="flex items-center justify-between bg-neutral-900 text-white px-8 py-4">
-        <div className="text-2xl font-bold tracking-wide">JiUNBScore</div>
-        <input
-          className="flex-1 mx-8 px-4 py-2 rounded-lg border-none text-black text-base min-w-[200px] max-w-md bg-white"
-          type="text"
-          placeholder="Pesquisar times, atletas, competições..."
-        />
-        <nav className="flex gap-8">
-          {sports.map((sport) => (
-            <div key={sport.name} className="flex flex-col items-center cursor-pointer text-white text-sm">
-              <img src={sport.icon} alt={sport.name} width={24} height={24} className="mb-1" />
-              <span>{sport.name}</span>
-            </div>
-          ))}
-        </nav>
-        <button
-          className="ml-8 px-4 py-2 bg-white text-black rounded border hover:bg-black hover:text-white transition-colors"
-          onClick={() => setShowAuth((v) => !v)}
-        >
-          {user ? 'Perfil' : 'Login / Sign Up'}
-        </button>
-      </header>
+      <Header user={user} onAuthClick={() => setShowAuth((v) => !v)} />
       {showAuth && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <AuthCard
@@ -113,7 +89,6 @@ export default function Home() {
           <h2 className="text-xl font-semibold mb-4">Próximas Partidas</h2>
           <ul>
             {nextMatches.map((match, idx) => {
-              // Buscar nomes das atléticas
               const time1 = athletics.find(a => a.id === match.id_time_1)?.nome || `Time ${match.id_time_1}`;
               const time2 = athletics.find(a => a.id === match.id_time_2)?.nome || `Time ${match.id_time_2}`;
               return (
