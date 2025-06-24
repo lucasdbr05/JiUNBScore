@@ -4,12 +4,12 @@ public class CreateEditionViewModel
 {
 
     public CreateEditionViewModel(
-        DateTime data_fim,
-        DateTime date_comeco
+        DateTime dataFim,
+        DateTime dataComeco
     )
     {
-        DataComeco = date_comeco;
-        DataFim = data_fim;
+        DataComeco = dateComeco;
+        DataFim = dataFim;
     }
 
     public DateTime DataComeco { get; set; }

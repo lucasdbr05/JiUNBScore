@@ -16,32 +16,31 @@ public class MatchService
         _context = context;
     }
 
-    public Match? RegisterMatch(
+    public Match? Create(
         RegisterMatchViewModel regMatch
     )
     {
-
+        Console.WriteLine($"[MatchService] regMatch: PlacarTime1={regMatch.PlacarTime1}, PlacarTime2={regMatch.PlacarTime2}, IdEdicao={regMatch.IdEdicao}, IdFase={regMatch.IdFase}, IdLocal={regMatch.IdLocal}, IdTime1={regMatch.IdTime1}, IdTime2={regMatch.IdTime2}, Date={regMatch.Date}");
         var checkRepeat = _context.Matches
                             .FromSqlRaw(
-                                $"SELECT * FROM Partidas WHERE id_edicao = @p0 and id_fase = @p1 and id_time_1 = @p2 and id_time_2 = @p3",
-                                regMatch.Id_edicao,
-                                regMatch.Id_fase,
-                                regMatch.Id_time_1,
-                                regMatch.Id_time_2
+                                    $"SELECT * FROM Partidas WHERE id_edicao = @p0 and id_fase = @p1 and id_time_1 = @p2 and id_time_2 = @p3",
+                                regMatch.IdEdicao,
+                                regMatch.IdFase,
+                                regMatch.IdTime1,
+                                regMatch.IdTime2
                                 ).FirstOrDefault();
 
         var checkRepeat1 = _context.Matches
                             .FromSqlRaw(
                                 $"SELECT * FROM Partidas WHERE id_edicao = @p0 and id_fase = @p1 and id_time_1 = @p2 and id_time_2 = @p3",
-                                regMatch.Id_edicao,
-                                regMatch.Id_fase,
-                                regMatch.Id_time_2,
-                                regMatch.Id_time_1
+                                regMatch.IdEdicao,
+                                regMatch.IdFase,
+                                regMatch.IdTime2,
+                                regMatch.IdTime1
                                 ).FirstOrDefault();
 
         if (checkRepeat == null && checkRepeat1 == null)
         {
-
             var match = _context.Matches
             .FromSqlRaw(
                 @"INSERT INTO partidas (
@@ -52,9 +51,17 @@ public class MatchService
                     id_local,
                     id_time_1,
                     id_time_2,
-                    data_p)
-                 VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p8)
-                 RETURNING id, placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, data_p "
+                    date)
+                 VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+                 RETURNING id, placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, date",
+                regMatch.PlacarTime1,
+                regMatch.PlacarTime2,
+                regMatch.IdEdicao,
+                regMatch.IdFase,
+                regMatch.IdLocal,
+                regMatch.IdTime1,
+                regMatch.IdTime2,
+                regMatch.Date
             )
             .AsEnumerable()
             .FirstOrDefault();
