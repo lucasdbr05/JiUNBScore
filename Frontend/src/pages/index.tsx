@@ -4,7 +4,6 @@ import { Api } from '../lib/apiClient';
 import type { Match, Athletic, Edition } from '../lib/types';
 import { AuthCard } from '../components/AuthCard';
 import { login, signUp, logout, getUser } from '../lib/auth';
-import { Header } from '../components/Header';
 import { SportDropdownItem } from '../components/SportDropdown';
 
 export default function Home() {
@@ -56,44 +55,12 @@ export default function Home() {
     });
   }, []);
 
-  const handleLogin = async (data: { email: string; password: string }) => {
-    await login(data);
-    setUser(getUser() as { nickname: string; email: string } | null);
-    setShowAuth(false);
-  };
-  const handleSignUp = async (data: { email: string; password: string; nickname: string }) => {
-    await signUp(data);
-    setUser(getUser() as { nickname: string; email: string } | null);
-    setShowAuth(false);
-  };
-  const handleLogout = () => {
-    logout();
-    setUser(null);
-    setShowAuth(false);
-  };
-
   return (
     <>
       <Head>
         <title>JiUNBScore - Home</title>
       </Head>
-      <Header user={user} onAuthClick={() => setShowAuth((v) => !v)} sports={sports} />
-      {showAuth && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-          <AuthCard
-            user={user}
-            onLogin={handleLogin}
-            onSignUp={handleSignUp}
-            onLogout={handleLogout}
-          />
-          <button
-            className="absolute top-4 right-4 text-white text-2xl font-bold"
-            onClick={() => setShowAuth(false)}
-          >
-            ×
-          </button>
-        </div>
-      )}
+      
       <main className="p-8 bg-neutral-100 min-h-[80vh] flex gap-8">
         <aside className="w-80 flex-shrink-0">
           <section className="bg-white rounded-xl shadow p-6 mb-8">

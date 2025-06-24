@@ -1,8 +1,7 @@
-import { Header } from '../../components/Header';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
-import type { Match, Edition, Athletic, SportDropdownItem } from '../../lib/types';
+import type { Match, Edition, Athletic } from '../../lib/types';
 import { getUser } from '../../lib/auth';
 
 export default function EditionPage() {
@@ -12,19 +11,9 @@ export default function EditionPage() {
   const [matches, setMatches] = useState<Match[]>([]);
   const [athletics, setAthletics] = useState<Athletic[]>([]);
   const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
-  const [sports, setSports] = useState<SportDropdownItem[]>([]);
 
   useEffect(() => {
     setUser(getUser() as any);
-    const api = new Api();
-    api.getSports().then(setSports).catch(() => {
-      setSports([
-        { id: 1, nome: 'Futebol' },
-        { id: 2, nome: 'Vôlei' },
-        { id: 3, nome: 'Basquete' },
-        { id: 4, nome: 'Handebol' },
-      ]);
-    });
   }, []);
 
   useEffect(() => {
@@ -39,12 +28,15 @@ export default function EditionPage() {
 
   return (
     <>
-      <Header user={user} onAuthClick={() => {}} sports={sports} />
       <div className="p-8 max-w-6xl mx-auto flex gap-8">
+        
         <section className="w-2/3">
           <h1 className="text-2xl font-bold mb-4">Competição: {edition.data_comeco} - {edition.data_fim}</h1>
           {user && (
             <button className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Editar Competição</button>
+          )}
+          {user && (
+            <button className="mb-4 ml-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Criar Partida</button>
           )}
           <div className="bg-white rounded-xl shadow p-6 mb-8">
             <h2 className="text-xl font-semibold mb-2">Jogos</h2>
