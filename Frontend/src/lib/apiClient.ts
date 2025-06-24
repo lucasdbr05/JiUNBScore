@@ -1,4 +1,3 @@
-
 import { HttpClient } from "./httpClient";
 import type {
   LoginData,
@@ -13,7 +12,10 @@ import type {
   UpdateAthleticData,
   Edition,
   CreateEditionData,
-  UpdateEditionData
+  UpdateEditionData,
+  Sport,
+  CreateSportData,
+  UpdateSportData
 } from "./types";
 
 
@@ -108,5 +110,22 @@ export class Api {
 
     async deleteEdition(id: number): Promise<Edition> {
         return await this.api.delete(`/edition/${id}`);
+    }
+
+    // Sports
+    async getSports(): Promise<Sport[]> {
+        return await this.api.get("/sport");
+    }
+    async getSport(id: number): Promise<Sport> {
+        return await this.api.get(`/sport/${id}`);
+    }
+    async createSport(data: CreateSportData): Promise<Sport> {
+        return await this.api.post("/sport", data);
+    }
+    async updateSport(data: UpdateSportData): Promise<Sport> {
+        return await this.api.put("/sport", data);
+    }
+    async deleteSport(id: number): Promise<void> {
+        return await this.api.delete(`/sport/${id}`);
     }
 }

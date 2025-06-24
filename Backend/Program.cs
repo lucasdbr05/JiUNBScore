@@ -61,6 +61,7 @@ builder.Services.AddTransient<CompetidorService>();
 builder.Services.AddTransient<EstatisticaService>();
 builder.Services.AddTransient<EditionService>();
 builder.Services.AddTransient<SportService>();
+builder.Services.AddTransient<AthleticService>();
 
 var app = builder.Build();
 

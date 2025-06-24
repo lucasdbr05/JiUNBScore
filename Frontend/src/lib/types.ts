@@ -81,3 +81,18 @@ export interface CreateEditionData {
 export interface UpdateEditionData extends CreateEditionData {
   id: number;
 }
+
+// Sport
+export interface Sport {
+  id: number;
+  nome: string;
+}
+
+export interface CreateSportData {
+  nome: string;
+}
+
+export interface UpdateSportData {
+  id: number;
+  nome: string;
+}

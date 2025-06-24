@@ -5,11 +5,13 @@ import type { Match, Athletic, Edition } from '../lib/types';
 import { AuthCard } from '../components/AuthCard';
 import { login, signUp, logout, getUser } from '../lib/auth';
 import { Header } from '../components/Header';
+import { SportDropdownItem } from '../components/SportDropdown';
 
 export default function Home() {
   const [nextMatches, setNextMatches] = useState<Match[]>([]);
   const [mainEdition, setMainEdition] = useState<Edition[]>([]);
   const [athletics, setAthletics] = useState<Athletic[]>([]);
+  const [sports, setSports] = useState<SportDropdownItem[]>([]);
   const [showAuth, setShowAuth] = useState(false);
   const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
 
@@ -44,6 +46,14 @@ export default function Home() {
         { id: 4, nome: 'Atlética D', logo: null },
       ]);
     });
+    api.getSports().then(setSports).catch(() => {
+      setSports([
+        { id: 1, nome: 'Futebol' },
+        { id: 2, nome: 'Vôlei' },
+        { id: 3, nome: 'Basquete' },
+        { id: 4, nome: 'Handebol' },
+      ]);
+    });
   }, []);
 
   const handleLogin = async (data: { email: string; password: string }) => {
@@ -67,7 +77,7 @@ export default function Home() {
       <Head>
         <title>JiUNBScore - Home</title>
       </Head>
-      <Header user={user} onAuthClick={() => setShowAuth((v) => !v)} />
+      <Header user={user} onAuthClick={() => setShowAuth((v) => !v)} sports={sports} />
       {showAuth && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <AuthCard
