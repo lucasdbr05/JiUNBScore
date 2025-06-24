@@ -16,9 +16,9 @@ public class MatchController : ControllerBase
     }
 
     [HttpPost()]
-    public IActionResult RegsMatch(RegisterMatchViewModel regMatch)
+    public IActionResult Create(RegisterMatchViewModel regMatch)
     {
-        var result = MatchService.RegisterMatch(regMatch);
+        var result = MatchService.Create(regMatch);
         if (result == null)
             return BadRequest("Essa partida já foi adicionada!");
         return Ok(result);
