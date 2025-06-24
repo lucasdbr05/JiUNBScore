@@ -52,9 +52,17 @@ public class MatchService
                     id_local,
                     id_time_1,
                     id_time_2,
-                    data_p)
-                 VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p8)
-                 RETURNING id, placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, data_p "
+                    date)
+                 VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+                 RETURNING id, placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, date",
+                regMatch.Placar_time_1,
+                regMatch.Placar_time_2,
+                regMatch.Id_edicao,
+                regMatch.Id_fase,
+                regMatch.Id_local,
+                regMatch.Id_time_1,
+                regMatch.Id_time_2,
+                regMatch.Data
             )
             .AsEnumerable()
             .FirstOrDefault();
