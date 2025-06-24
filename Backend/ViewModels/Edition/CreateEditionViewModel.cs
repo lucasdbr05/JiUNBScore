@@ -8,7 +8,7 @@ public class CreateEditionViewModel
         DateTime dataComeco
     )
     {
-        DataComeco = dateComeco;
+        DataComeco = dataComeco;
         DataFim = dataFim;
     }
 
