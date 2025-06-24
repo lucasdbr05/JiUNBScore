@@ -8,23 +8,23 @@ namespace Backend.Controllers;
 [Route("api/sport")]
 public class SportController : ControllerBase
 {
-    private readonly SportService _service;
+    private readonly SportService SportService;
     public SportController(SportService service)
     {
-        _service = service;
+        SportService = service;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var esportes = await _service.GetAllAsync();
+        var esportes = await SportService.GetAllAsync();
         return Ok(esportes);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var esporte = await _service.GetByIdAsync(id);
+        var esporte = await SportService.GetByIdAsync(id);
         if (esporte == null) return NotFound();
         return Ok(esporte);
     }
@@ -32,14 +32,14 @@ public class SportController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateSportViewModel model)
     {
-        var esporte = await _service.CreateAsync(model);
+        var esporte = await SportService.CreateAsync(model);
         return CreatedAtAction(nameof(GetById), new { id = esporte.Id }, esporte);
     }
 
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateSportViewModel model)
     {
-        var esporte = await _service.UpdateAsync(model);
+        var esporte = await SportService.UpdateAsync(model);
         if (esporte == null) return NotFound();
         return Ok(esporte);
     }
@@ -47,7 +47,7 @@ public class SportController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _service.DeleteAsync(id);
+        var deleted = await SportService.DeleteAsync(id);
         if (!deleted) return NotFound();
         return NoContent();
     }
