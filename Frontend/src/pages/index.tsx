@@ -94,8 +94,25 @@ export default function Home() {
           </button>
         </div>
       )}
-      <main className="p-8 bg-neutral-100 min-h-[80vh]">
-        <section className="mb-8 bg-white rounded-xl shadow p-6">
+      <main className="p-8 bg-neutral-100 min-h-[80vh] flex gap-8">
+        <aside className="w-80 flex-shrink-0">
+          <section className="bg-white rounded-xl shadow p-6 mb-8">
+            <h2 className="text-xl font-semibold mb-4">Principais Competições</h2>
+            <ul>
+              {mainEdition.map((comp, idx) => (
+                <li
+                  key={idx}
+                  className="flex justify-between items-center py-3 border-b last:border-b-0 cursor-pointer hover:bg-gray-100"
+                  onClick={() => window.location.href = `/edition/${comp.id}`}
+                >
+                  <span className="font-medium">{comp.data_comeco}</span>
+                  <span className="text-gray-500 text-sm">{comp.data_fim}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </aside>
+        <section className="flex-1 mb-8 bg-white rounded-xl shadow p-6">
           <h2 className="text-xl font-semibold mb-4">Próximas Partidas</h2>
           <ul>
             {nextMatches.map((match, idx) => {
@@ -109,17 +126,6 @@ export default function Home() {
                 </li>
               );
             })}
-          </ul>
-        </section>
-        <section className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Principais Competições</h2>
-          <ul>
-            {mainEdition.map((comp, idx) => (
-              <li key={idx} className="flex justify-between items-center py-3 border-b last:border-b-0">
-                <span className="font-medium">{comp.data_comeco}</span>
-                <span className="text-gray-500 text-sm">{comp.data_fim}</span>
-              </li>
-            ))}
           </ul>
         </section>
       </main>
