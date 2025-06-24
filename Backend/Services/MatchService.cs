@@ -16,7 +16,7 @@ public class MatchService
         _context = context;
     }
 
-    public string? RegisterMatch(
+    public Match? RegisterMatch(
         RegisterMatchViewModel regMatch
     )
     {
@@ -42,26 +42,82 @@ public class MatchService
         if (checkRepeat == null && checkRepeat1 == null)
         {
 
-            _context.Matches.Add(
-                new Match(
-                    regMatch.Placar_time_1,
-                    regMatch.Placar_time_2,
-                    regMatch.Id_edicao,
-                    regMatch.Id_fase,
-                    regMatch.Id_local,
-                    regMatch.Id_time_1,
-                    regMatch.Id_time_2,
-                    regMatch.Data
-                )
-            );
-
-            _context.SaveChanges();
-            return "OK!";
+            var match = _context.Matches
+            .FromSqlRaw(
+                @"INSERT INTO partidas (
+                    placar_time_1,
+                    placar_time_2,
+                    id_edicao,
+                    id_fase,
+                    id_local,
+                    id_time_1,
+                    id_time_2,
+                    data_p)
+                 VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p8)
+                 RETURNING id, placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, data_p "
+            )
+            .AsEnumerable()
+            .FirstOrDefault();
+            
+            return match;
         }
 
         return null;
     }
 
+    public List<Tuple<int, string, string, Byte[], Byte[], int, int>> LastResults(int id_atletica)
+    {
+
+        var listMatches = _context.Matches.FromSqlRaw(
+            @"SELECT *
+            FROM partidas AS m
+            WHERE m.id_time_1 = @p0 OR m.id_time_2 = @p0
+            ORDER BY date DESC",
+            id_atletica
+            )
+            .ToList();
+
+        List<Tuple<int, string, string, Byte[], Byte[], int, int>> results = new List<Tuple<int, string, string, byte[], byte[], int, int>>();
+        foreach (var match in listMatches)
+        {
+
+            if (results.Count == 5) break;
+
+            match.Time_1 = _context.Atleticas.FromSqlRaw(
+                @"
+                    SELECT * 
+                    FROM atletica
+                    WHERE id = @p0
+                 ",
+                 match.Id_time_1
+            )
+            .FirstOrDefault();
+
+            match.Time_2 = _context.Atleticas.FromSqlRaw(
+                @"
+                    SELECT * 
+                    FROM atletica
+                    WHERE id = @p0
+                 ",
+                 match.Id_time_2
+            )
+            .FirstOrDefault();
+
+            results.Add(
+                Tuple.Create(
+                    match.Id,
+                    match.Time_1.Nome,
+                    match.Time_2.Nome,
+                    match.Time_1.Logo,
+                    match.Time_2.Logo,
+                    match.Placar_time_1,
+                    match.Placar_time_2
+                )
+            );
+        }
+
+        return results;
+    }
     public IEnumerable<Match> FindAll()
     {
         return _context.Matches

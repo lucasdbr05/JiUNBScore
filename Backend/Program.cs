@@ -57,9 +57,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<FaseService>();
 builder.Services.AddTransient<MatchService>();
-builder.Services.AddTransient<AthleticService>();
+builder.Services.AddTransient<CompetidorService>();
+builder.Services.AddTransient<EstatisticaService>();
 builder.Services.AddTransient<EditionService>();
-
 
 var app = builder.Build();
 
