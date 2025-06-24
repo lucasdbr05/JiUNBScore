@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Api } from '../lib/apiClient';
 import type { Match, Athletic, Edition } from '../lib/types';
 import { AuthCard } from '../components/AuthCard';
-import { login, signUp, logout, getUser } from '../lib/auth';
+import { getUser } from '../lib/auth';
 import { SportDropdownItem } from '../components/SportDropdown';
 
 export default function Home() {

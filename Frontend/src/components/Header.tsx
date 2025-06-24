@@ -1,5 +1,6 @@
 import React from 'react';
 import { SportDropdown, SportDropdownItem } from './SportDropdown';
+import { useRouter } from 'next/router';
 
 interface HeaderProps {
   user: { nickname: string; email: string } | null;
@@ -9,6 +10,7 @@ interface HeaderProps {
 }
 
 export function Header({ user, onAuthClick, sports, onSportSelect }: HeaderProps) {
+  const router = useRouter();
   return (
     <header className="flex items-center justify-between bg-neutral-900 text-white px-8 py-4">
       <div className="text-2xl font-bold tracking-wide">JiUNBScore</div>

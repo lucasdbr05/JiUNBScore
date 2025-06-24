@@ -45,8 +45,8 @@ export class Api {
         return await this.api.get(`/match/${id}`);
     }
 
-    async registerMatch(data: RegisterMatchData): Promise<Match> {
-        return await this.api.post("/match/register", data);
+    async createMatch(data: RegisterMatchData): Promise<Match> {
+        return await this.api.post("/match", data);
     }
 
     // Fase
