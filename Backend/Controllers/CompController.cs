@@ -26,14 +26,43 @@ public class CompController : ControllerBase
 
         return Ok(result);
     }
+    [HttpGet]
+    public IActionResult FindAll()
+    {
 
+        var listComps = CompService.FindAll();
+
+        return Ok(listComps);
+    }
     [HttpGet("{matricula}")]
-    public IActionResult CompScreen(string matricula)
+    public IActionResult FindComp(string matricula)
     {
 
         var result = CompService.CompetidorFinder(matricula);
 
         if (result == null) return BadRequest(result);
+        return Ok(result);
+    }
+
+    [HttpPut("{matricula}")]
+    public IActionResult Update(string matricula, UpdateCompetidorViewModel updtComp)
+    {
+
+        var result = CompService.Update(matricula, updtComp);
+
+        if (result == null) return BadRequest(result);
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{matricula}")]
+    public IActionResult Delete(string matricula)
+    {
+
+        var result = CompService.Delete(matricula);
+
+        if (result == null) return BadRequest(result);
+
         return Ok(result);
     }
 }
