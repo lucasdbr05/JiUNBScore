@@ -16,14 +16,14 @@ public class MatchService
         _context = context;
     }
 
-    public Match? RegisterMatch(
+    public Match? Create(
         RegisterMatchViewModel regMatch
     )
     {
-
+        
         var checkRepeat = _context.Matches
                             .FromSqlRaw(
-                                $"SELECT * FROM Partidas WHERE id_edicao = @p0 and id_fase = @p1 and id_time_1 = @p2 and id_time_2 = @p3",
+                                    $"SELECT * FROM Partidas WHERE id_edicao = @p0 and id_fase = @p1 and id_time_1 = @p2 and id_time_2 = @p3",
                                 regMatch.Id_edicao,
                                 regMatch.Id_fase,
                                 regMatch.Id_time_1,
@@ -41,7 +41,6 @@ public class MatchService
 
         if (checkRepeat == null && checkRepeat1 == null)
         {
-
             var match = _context.Matches
             .FromSqlRaw(
                 @"INSERT INTO partidas (

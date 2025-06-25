@@ -17,6 +17,8 @@ export interface RegisterMatchData {
   idLocal: number;
   idTime1: number;
   idTime2: number;
+  placarTime1: number;
+  placarTime2: number;  
   date: string;
 }
 
@@ -64,4 +66,35 @@ export interface CreateAthleticData {
 
 export interface UpdateAthleticData extends CreateAthleticData {
   id: number;
+}
+
+// Edition
+export interface Edition {
+  id: number;
+  data_fim: string;
+  data_comeco: string;
+}
+
+export interface CreateEditionData {
+  data_fim: string;
+  data_comeco: string;
+}
+
+export interface UpdateEditionData extends CreateEditionData {
+  id: number;
+}
+
+// Sport
+export interface Sport {
+  id: number;
+  nome: string;
+}
+
+export interface CreateSportData {
+  nome: string;
+}
+
+export interface UpdateSportData {
+  id: number;
+  nome: string;
 }
