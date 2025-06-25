@@ -38,6 +38,17 @@ public class EditionController : ControllerBase
         return Ok(edicao);
     }
 
+    [HttpGet("standings/{competitionId}")]
+    public IActionResult GetStandings(int competitionId)
+    {
+        var standings = FaseService.GetStandings(competitionId);
+
+        if (standings == null)
+            return NotFound();
+
+        return Ok(standings);
+    }
+
     [HttpPut("{id}")]
     public IActionResult Update(int id, UpdateEditionViewModel data)
     {

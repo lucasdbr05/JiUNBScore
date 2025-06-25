@@ -42,6 +42,72 @@ public class EditionService
             .FirstOrDefault();
     }
 
+    public Dictionary<string, List<StandingsViewModel>> GetStandings(int competitionId)
+    {
+        var teams = _context.Atleticas.FromSqlRaw(@"
+            SELECT a.* FROM atletica a
+            INNER JOIN partidas p ON (a.id = p.id_time_1 OR a.id = p.id_time_2)
+            WHERE p.id_edicao = @p0
+            GROUP BY a.id
+        ", competitionId).ToList();
+
+        var matches = _context.Matches.FromSqlRaw(@"
+            SELECT * FROM partidas WHERE id_edicao = @p0
+        ", competitionId).ToList();
+
+        var standings = new List<StandingsViewModel>();
+        foreach (var team in teams)
+        {
+            var jogos = matches.Where(m => m.Id_time_1 == team.Id || m.Id_time_2 == team.Id).ToList();
+            int vitorias = jogos.Count(m => (m.Id_time_1 == team.Id && m.Placar_time_1 > m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 > m.Placar_time_1));
+            int empates = jogos.Count(m => m.Placar_time_1 == m.Placar_time_2);
+            int derrotas = jogos.Count(m => (m.Id_time_1 == team.Id && m.Placar_time_1 < m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 < m.Placar_time_1));
+            int golsPro = jogos.Sum(m => m.Id_time_1 == team.Id ? m.Placar_time_1 : m.Id_time_2 == team.Id ? m.Placar_time_2 : 0);
+            int golsContra = jogos.Sum(m => m.Id_time_1 == team.Id ? m.Placar_time_2 : m.Id_time_2 == team.Id ? m.Placar_time_1 : 0);
+            int saldo = golsPro - golsContra;
+            int pontos = vitorias * 3 + empates;
+            int jogosDisputados = jogos.Count;
+
+            var ultimos5 = jogos.OrderByDescending(m => m.Date)
+                .Take(5)
+                .Select(m => {
+                    if ((m.Id_time_1 == team.Id && m.Placar_time_1 > m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 > m.Placar_time_1)) return "V";
+                    if (m.Placar_time_1 == m.Placar_time_2) return "E";
+                    return "D";
+                })
+                .ToList();
+
+            standings.Add(new StandingsViewModel
+            {
+                TeamId = team.Id,
+                TeamName = team.Nome,
+                TeamLogo = team.Logo,
+                GamesPlayed = jogosDisputados,
+                Wins = vitorias,
+                Draws = empates,
+                Losses = derrotas,
+                GoalDifference = saldo,
+                GoalsScored = golsPro,
+                GoalsConceded = golsContra,
+                Last5 = ultimos5,
+                Points = pontos
+            });
+        }
+
+        standings = standings.OrderByDescending(s => s.Points)
+                             .ThenByDescending(s => s.GoalDifference)
+                             .ThenByDescending(s => s.GoalsScored)
+                             .ToList();
+    
+        for (int i = 0; i < standings.Count; i++)
+            standings[i].Rank = i + 1;
+
+        return new Dictionary<string, List<StandingsViewModel>>
+        {
+            { "Gropu X", standings }
+        };
+    }
+
     public Edicao? Update(int id, UpdateEditionViewModel data)
     {
         var edicao = _context.Edicoes
