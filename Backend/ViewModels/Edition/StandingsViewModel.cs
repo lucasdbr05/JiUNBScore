@@ -8,14 +8,14 @@ public class StandingsViewModel
     public StandingsViewModel(
         int teamId,
         string teamName,
-        string teamLogo,
+        byte[]? teamLogo,
         int gamesPlayed,
         int wins,
         int draws,
         int looses,
         int scoresDifference,
         int scored,
-        int concened,
+        int conceded,
         List<string> last5,
         int points)
     {
@@ -28,7 +28,7 @@ public class StandingsViewModel
         Looses = looses;
         ScoresDifference = scoresDifference;
         Scored = scored;
-        Concened = concened;
+        Conceded = conceded;
         Last5 = last5;
         Points = points;
     }
@@ -36,7 +36,7 @@ public class StandingsViewModel
     public int Rank { get; set; }
     public int TeamId { get; set; }
     public string TeamName { get; set; }
-    public byte[] TeamLogo { get; set; }
+    public byte[]? TeamLogo { get; set; }
     public int GamesPlayed { get; set; }
     public int Wins { get; set; }
     public int Draws { get; set; }

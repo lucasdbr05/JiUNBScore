@@ -61,10 +61,10 @@ public class EditionService
             var jogos = matches.Where(m => m.Id_time_1 == team.Id || m.Id_time_2 == team.Id).ToList();
             int wins = jogos.Count(m => (m.Id_time_1 == team.Id && m.Placar_time_1 > m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 > m.Placar_time_1));
             int draws = jogos.Count(m => m.Placar_time_1 == m.Placar_time_2);
-            int losses = jogos.Count(m => (m.Id_time_1 == team.Id && m.Placar_time_1 < m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 < m.Placar_time_1));
+            int looses = jogos.Count(m => (m.Id_time_1 == team.Id && m.Placar_time_1 < m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 < m.Placar_time_1));
             int scored = jogos.Sum(m => m.Id_time_1 == team.Id ? m.Placar_time_1 : m.Id_time_2 == team.Id ? m.Placar_time_2 : 0);
-            int concened = jogos.Sum(m => m.Id_time_1 == team.Id ? m.Placar_time_2 : m.Id_time_2 == team.Id ? m.Placar_time_1 : 0);
-            int saldo = scored - concened;
+            int conceded = jogos.Sum(m => m.Id_time_1 == team.Id ? m.Placar_time_2 : m.Id_time_2 == team.Id ? m.Placar_time_1 : 0);
+            int saldo = scored - conceded;
             int points = wins * 3 + draws;
             int gamesPlayed = jogos.Count;
 
@@ -77,21 +77,20 @@ public class EditionService
                 })
                 .ToList();
 
-            standings.Add(new StandingsViewModel
-            {
-                TeamId = team.Id,
-                TeamName = team.Nome,
-                TeamLogo = team.Logo,
-                GamesPlayed = gamesPlayed,
-                Wins = wins,
-                Draws = draws,
-                Looses = looses,
-                ScoresDifference = saldo,
-                Scored = scored,
-                Conceded = conceded,
-                Last5 = last5,
-                Points = points
-            });
+            standings.Add(new StandingsViewModel(
+                team.Id,
+                team.Nome,
+                team.Logo,
+                gamesPlayed,
+                wins,
+                draws,
+                looses,
+                saldo,
+                scored,
+                conceded,
+                last5,
+                points
+            ));
         }
 
         standings = standings.OrderByDescending(s => s.Points)
