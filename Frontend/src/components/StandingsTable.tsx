@@ -87,15 +87,3 @@ export const StandingsTable: React.FC<StandingsTableProps> = ({ stats }) => {
     </div>
   );
 };
-
-export const mockStats: TeamStats[] = [
-  { rank: 1, teamName: 'Flamengo', teamLogo: null, gamesPlayed: 11, wins: 7, draws: 3, losses: 1, goalDifference: 20, goalsScored: 24, goalsConceded: 4, last5: ['D', 'V', 'E', 'V', 'V'], points: 24 },
-  { rank: 2, teamName: 'Cruzeiro', teamLogo: null, gamesPlayed: 12, wins: 7, draws: 3, losses: 2, goalDifference: 9, goalsScored: 17, goalsConceded: 8, last5: ['V', 'E', 'V', 'V', 'E'], points: 24 },
-  { rank: 3, teamName: 'RB Bragantino', teamLogo: null, gamesPlayed: 12, wins: 7, draws: 2, losses: 3, goalDifference: 3, goalsScored: 14, goalsConceded: 11, last5: ['E', 'D', 'V', 'V', 'D'], points: 23 },
-  { rank: 4, teamName: 'Palmeiras', teamLogo: null, gamesPlayed: 11, wins: 7, draws: 1, losses: 3, goalDifference: 4, goalsScored: 12, goalsConceded: 8, last5: ['V', 'V', 'V', 'D', 'D'], points: 22 },
-  { rank: 5, teamName: 'Bahia', teamLogo: null, gamesPlayed: 12, wins: 6, draws: 3, losses: 3, goalDifference: 3, goalsScored: 14, goalsConceded: 11, last5: ['D', 'V', 'D', 'V', 'V'], points: 21 },
-  { rank: 6, teamName: 'Fluminense', teamLogo: null, gamesPlayed: 11, wins: 6, draws: 2, losses: 3, goalDifference: 3, goalsScored: 15, goalsConceded: 12, last5: ['V', 'D', 'E', 'V', 'V'], points: 20 },
-  { rank: 7, teamName: 'Atlético-MG', teamLogo: null, gamesPlayed: 12, wins: 5, draws: 5, losses: 2, goalDifference: 3, goalsScored: 13, goalsConceded: 10, last5: ['V', 'E', 'E', 'V', 'V'], points: 20 },
-  { rank: 8, teamName: 'Botafogo', teamLogo: null, gamesPlayed: 11, wins: 5, draws: 3, losses: 3, goalDifference: 7, goalsScored: 14, goalsConceded: 7, last5: ['D', 'V', 'E', 'V', 'V'], points: 18 },
-  { rank: 9, teamName: 'Mirassol', teamLogo: null, gamesPlayed: 11, wins: 4, draws: 5, losses: 2, goalDifference: 5, goalsScored: 17, goalsConceded: 12, last5: ['D', 'V', 'E', 'V', 'V'], points: 17 },
-];

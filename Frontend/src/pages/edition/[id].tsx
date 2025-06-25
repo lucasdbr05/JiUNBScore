@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
 import type { Match, Edition, Athletic } from '../../lib/types';
 import { getUser } from '../../lib/auth';
-import { StandingsTable, mockStats } from '../../components/StandingsTable';
+import { StandingsTable } from '../../components/StandingsTable';
 
 export default function EditionPage() {
   const router = useRouter();
@@ -13,6 +13,7 @@ export default function EditionPage() {
   const [athletics, setAthletics] = useState<Athletic[]>([]);
   const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
   const [activeTab, setActiveTab] = useState<'jogos' | 'classificacao'>('jogos');
+  const [standings, setStandings] = useState<any[]>([]);
 
   useEffect(() => {
     setUser(getUser() as any);
@@ -24,6 +25,10 @@ export default function EditionPage() {
     api.getEdition(Number(id)).then(setEdition);
     api.getMatches().then(ms => setMatches(ms.filter(m => m.id_edicao === Number(id))));
     api.getAthletics().then(setAthletics);
+    api.getStandings(Number(id)).then(data => {
+      const group = Object.values(data)[0] || [];
+      setStandings(group);
+    });
   }, [id]);
 
   if (!edition) return <div className="p-8">Carregando...</div>;
@@ -79,7 +84,7 @@ export default function EditionPage() {
             {activeTab === 'classificacao' && (
               <>
                 <h2 className="text-xl font-semibold mb-2">Classificação</h2>
-                <StandingsTable stats={mockStats} />
+                <StandingsTable stats={standings} />
               </>
             )}
           </div>

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 namespace Backend.ViewModels;
 
 
-class StandingsViewModel
+public class StandingsViewModel
 {
     public StandingsViewModel(
+        int teamId,
         string teamName,
         string teamLogo,
         int gamesPlayed,
@@ -18,6 +19,7 @@ class StandingsViewModel
         List<string> last5,
         int points)
     {
+        TeamId = teamId;
         TeamName = teamName;
         TeamLogo = teamLogo;
         GamesPlayed = gamesPlayed;
@@ -31,15 +33,17 @@ class StandingsViewModel
         Points = points;
     }
 
+    public int Rank { get; set; }
+    public int TeamId { get; set; }
     public string TeamName { get; set; }
-    public string TeamLogo { get; set; }
+    public byte[] TeamLogo { get; set; }
     public int GamesPlayed { get; set; }
     public int Wins { get; set; }
     public int Draws { get; set; }
     public int Looses { get; set; }
     public int ScoresDifference { get; set; }
     public int Scored { get; set; }
-    public int Concened { get; set; }
+    public int Conceded { get; set; }
     public List<string> Last5 { get; set; }
     public int Points { get; set; }
 }

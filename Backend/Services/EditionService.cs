@@ -59,16 +59,16 @@ public class EditionService
         foreach (var team in teams)
         {
             var jogos = matches.Where(m => m.Id_time_1 == team.Id || m.Id_time_2 == team.Id).ToList();
-            int vitorias = jogos.Count(m => (m.Id_time_1 == team.Id && m.Placar_time_1 > m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 > m.Placar_time_1));
-            int empates = jogos.Count(m => m.Placar_time_1 == m.Placar_time_2);
-            int derrotas = jogos.Count(m => (m.Id_time_1 == team.Id && m.Placar_time_1 < m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 < m.Placar_time_1));
-            int golsPro = jogos.Sum(m => m.Id_time_1 == team.Id ? m.Placar_time_1 : m.Id_time_2 == team.Id ? m.Placar_time_2 : 0);
-            int golsContra = jogos.Sum(m => m.Id_time_1 == team.Id ? m.Placar_time_2 : m.Id_time_2 == team.Id ? m.Placar_time_1 : 0);
-            int saldo = golsPro - golsContra;
-            int pontos = vitorias * 3 + empates;
-            int jogosDisputados = jogos.Count;
+            int wins = jogos.Count(m => (m.Id_time_1 == team.Id && m.Placar_time_1 > m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 > m.Placar_time_1));
+            int draws = jogos.Count(m => m.Placar_time_1 == m.Placar_time_2);
+            int losses = jogos.Count(m => (m.Id_time_1 == team.Id && m.Placar_time_1 < m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 < m.Placar_time_1));
+            int scored = jogos.Sum(m => m.Id_time_1 == team.Id ? m.Placar_time_1 : m.Id_time_2 == team.Id ? m.Placar_time_2 : 0);
+            int concened = jogos.Sum(m => m.Id_time_1 == team.Id ? m.Placar_time_2 : m.Id_time_2 == team.Id ? m.Placar_time_1 : 0);
+            int saldo = scored - concened;
+            int points = wins * 3 + draws;
+            int gamesPlayed = jogos.Count;
 
-            var ultimos5 = jogos.OrderByDescending(m => m.Date)
+            var last5 = jogos.OrderByDescending(m => m.Data)
                 .Take(5)
                 .Select(m => {
                     if ((m.Id_time_1 == team.Id && m.Placar_time_1 > m.Placar_time_2) || (m.Id_time_2 == team.Id && m.Placar_time_2 > m.Placar_time_1)) return "V";
@@ -82,21 +82,21 @@ public class EditionService
                 TeamId = team.Id,
                 TeamName = team.Nome,
                 TeamLogo = team.Logo,
-                GamesPlayed = jogosDisputados,
-                Wins = vitorias,
-                Draws = empates,
-                Losses = derrotas,
-                GoalDifference = saldo,
-                GoalsScored = golsPro,
-                GoalsConceded = golsContra,
-                Last5 = ultimos5,
-                Points = pontos
+                GamesPlayed = gamesPlayed,
+                Wins = wins,
+                Draws = draws,
+                Looses = looses,
+                ScoresDifference = saldo,
+                Scored = scored,
+                Conceded = conceded,
+                Last5 = last5,
+                Points = points
             });
         }
 
         standings = standings.OrderByDescending(s => s.Points)
-                             .ThenByDescending(s => s.GoalDifference)
-                             .ThenByDescending(s => s.GoalsScored)
+                             .ThenByDescending(s => s.ScoresDifference)
+                             .ThenByDescending(s => s.Scored)
                              .ToList();
     
         for (int i = 0; i < standings.Count; i++)
