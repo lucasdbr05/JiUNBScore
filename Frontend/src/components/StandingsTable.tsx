@@ -7,10 +7,10 @@ interface TeamStats {
   gamesPlayed: number;
   wins: number;
   draws: number;
-  losses: number;
-  goalDifference: number;
-  goalsScored: number;
-  goalsConceded: number;
+  looses: number;
+  scoresDifference: number;
+  scored: number;
+  conceded: number;
   last5: ('V' | 'E' | 'D')[];
   points: number;
 }
@@ -67,9 +67,9 @@ export const StandingsTable: React.FC<StandingsTableProps> = ({ stats }) => {
               <td className="px-4 py-2 border-b text-sm text-gray-800">{team.gamesPlayed}</td>
               <td className="px-4 py-2 border-b text-sm text-gray-800">{team.wins}</td>
               <td className="px-4 py-2 border-b text-sm text-gray-800">{team.draws}</td>
-              <td className="px-4 py-2 border-b text-sm text-gray-800">{team.losses}</td>
-              <td className="px-4 py-2 border-b text-sm text-gray-800">{team.goalDifference >= 0 ? '+' : ''}{team.goalDifference}</td>
-              <td className="px-4 py-2 border-b text-sm text-gray-800">{team.goalsScored}:{team.goalsConceded}</td>
+              <td className="px-4 py-2 border-b text-sm text-gray-800">{team.looses}</td>
+              <td className="px-4 py-2 border-b text-sm text-gray-800">{team.scoresDifference >= 0 ? '+' : ''}{team.scoresDifference}</td>
+              <td className="px-4 py-2 border-b text-sm text-gray-800">{team.scored}:{team.conceded}</td>
               <td className="px-4 py-2 border-b text-sm text-gray-800">
                 <div className="flex gap-1">
                   {team.last5.map((result, i) => (
