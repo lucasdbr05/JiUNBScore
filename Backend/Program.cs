@@ -63,6 +63,7 @@ builder.Services.AddTransient<EditionService>();
 builder.Services.AddTransient<SportService>();
 builder.Services.AddTransient<AthleticService>();
 builder.Services.AddTransient<LocalService>();
+builder.Services.AddTransient<ActionService>();
 
 var app = builder.Build();
 
