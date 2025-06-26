@@ -59,12 +59,10 @@ builder.Services.AddTransient<FaseService>();
 builder.Services.AddTransient<MatchService>();
 builder.Services.AddTransient<CompetidorService>();
 builder.Services.AddTransient<EstatisticaService>();
-<<<<<<< HEAD
-=======
 builder.Services.AddTransient<EditionService>();
 builder.Services.AddTransient<SportService>();
->>>>>>> f38bd76dc94f5a76f0b8b5d0aab6efec63061148
 builder.Services.AddTransient<AthleticService>();
+builder.Services.AddTransient<LocalService>();
 
 var app = builder.Build();
 
