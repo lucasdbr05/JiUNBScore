@@ -221,6 +221,5 @@ public class EstatisticaService
                 )
                 .FirstOrDefault();
                 
-        return;
     }
 }
