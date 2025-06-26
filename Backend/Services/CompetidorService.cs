@@ -53,7 +53,56 @@ public class CompetidorService
 
         return comp;
     }
-    // TODO: End this xiburubs
+
+    public IEnumerable<Competidor> FindAll()
+    {
+
+        return _context.Competidores
+                .FromSqlRaw("SELECT * FROM Competidor")
+                .AsEnumerable();
+    }
+
+    public Competidor? Update(string matricula, UpdateCompetidorViewModel upComp)
+    {
+
+        var UpdtdComp = _context.Competidores
+                            .FromSqlRaw(
+
+                                @"
+                                    UPDATE Competidor
+                                    SET nome = @p0, id_atletica = @p1
+                                    WHERE matricula = @p2
+                                    RETURNING *
+                                ",
+
+                                upComp.Nome,
+                                upComp.Id_atletica,
+                                matricula
+                            )
+                            .AsEnumerable()
+                            .FirstOrDefault();
+
+        return UpdtdComp;
+    }
+
+    public Competidor? Delete(string matricula)
+    {
+
+        var dltdComp = _context.Competidores
+                            .FromSqlRaw(
+                                @"
+                                DELETE FROM Competidor
+                                WHERE matricula = @p0
+                                RETURNING *
+                                ",
+                                matricula
+                            )
+                            .AsEnumerable()
+                            .FirstOrDefault();
+
+        return dltdComp;
+    }
+
     public CompetidorScreenViewModel? CompetidorFinder(string id_competidor)
     {
 
@@ -69,7 +118,7 @@ public class CompetidorService
                 WHERE id = @p0",
                 competidor.Id_atletica
             ).FirstOrDefault();
-        
+
         if (competidor == null)
             return null;
 
