@@ -13,6 +13,7 @@ export default function PhasesPage() {
   const [ordem, setOrdem] = useState<number>(phases.length + 1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tipo, setTipo] = useState<'grupo' | 'mata-mata'>('grupo');
 
   useEffect(() => {
     if (!id) return;
@@ -27,7 +28,11 @@ export default function PhasesPage() {
     setError(null);
     try {
       const api = new Api();
-      const data: CreateFaseData = { ordem, nomeGrupo: nomeGrupo || undefined, nomeEtapa };
+      const data: CreateFaseData = {
+        ordem,
+        nomeGrupo: tipo === 'grupo' ? nomeGrupo : '',
+        nomeEtapa: tipo === 'grupo' ? 'Grupo' : nomeEtapa
+      };
       await api.createFase(data);
       const fases = await api.getFases();
       setPhases(fases);
@@ -47,14 +52,38 @@ export default function PhasesPage() {
       {edition && (
         <div className="mb-6 text-gray-700">Competição: {edition.data_comeco} - {edition.data_fim}</div>
       )}
+      <div className="flex gap-4 mb-4">
+        <button
+          type="button"
+          className={`px-4 py-2 rounded ${tipo === 'grupo' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setTipo('grupo')}
+        >
+          Grupo
+        </button>
+        <button
+          type="button"
+          className={`px-4 py-2 rounded ${tipo === 'mata-mata' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setTipo('mata-mata')}
+        >
+          Mata-mata
+        </button>
+      </div>
       <form onSubmit={handleCreate} className="mb-8 bg-white rounded-xl shadow p-6 flex flex-col gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Nome do Grupo <span className="text-gray-400 text-xs">(opcional)</span></label>
-          <input value={nomeGrupo} onChange={e => setNomeGrupo(e.target.value)} className="border rounded px-3 py-2 w-full" placeholder="Ex: Grupo A" />
-        </div>
+        {tipo === 'grupo' && (
+          <div>
+            <label className="block text-sm font-medium mb-1">Nome do Grupo <span className="text-gray-400 text-xs">(obrigatório)</span></label>
+            <input value={nomeGrupo} onChange={e => setNomeGrupo(e.target.value)} className="border rounded px-3 py-2 w-full" placeholder="Ex: Grupo A" required={tipo === 'grupo'} />
+          </div>
+        )}
         <div>
           <label className="block text-sm font-medium mb-1">Nome da Etapa</label>
-          <input value={nomeEtapa} onChange={e => setNomeEtapa(e.target.value)} className="border rounded px-3 py-2 w-full" required />
+          <input
+            value={tipo === 'grupo' ? 'Grupo' : nomeEtapa}
+            onChange={e => setNomeEtapa(e.target.value)}
+            className="border rounded px-3 py-2 w-full"
+            required
+            disabled={tipo === 'grupo'}
+          />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Ordem</label>
