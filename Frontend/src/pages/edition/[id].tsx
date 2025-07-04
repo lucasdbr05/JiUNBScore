@@ -26,8 +26,7 @@ export default function EditionPage() {
     api.getMatches().then(ms => setMatches(ms.filter(m => m.id_edicao === Number(id))));
     api.getAthletics().then(setAthletics);
     api.getStandings(Number(id)).then(data => {
-      const group = Object.values(data)[0] || [];
-      setStandings(group);
+      setStandings(Array.isArray(data) ? data : (Object.values(data)[0] || []));
     });
   }, [id]);
 
@@ -39,7 +38,12 @@ export default function EditionPage() {
         <section className="w-2/3">
           <h1 className="text-2xl font-bold mb-4">Competição: {edition.data_comeco} - {edition.data_fim}</h1>
           {user && (
-            <button className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Editar Competição</button>
+            <button
+              className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              onClick={() => router.push(`/edition/${id}/phases`)}
+            >
+              Editar Competição
+            </button>
           )}
           {user && (
             <button

@@ -38,13 +38,13 @@ export interface Match {
 export interface Fase {
   id: number;
   ordem: number;
-  nome_grupo: string;
-  nome_etapa: string;
+  nomeGrupo: string;
+  nomeEtapa: string;
 }
 
 export interface CreateFaseData {
   ordem: number;
-  nomeGrupo: string;
+  nomeGrupo?: string ;
   nomeEtapa: string;
 }
 
