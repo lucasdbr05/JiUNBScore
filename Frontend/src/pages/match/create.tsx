@@ -41,7 +41,7 @@ export default function CreateMatchPage() {
     setError(null);
     try {
       const api = new Api();
-      await api.registerMatch({
+      await api.createMatch({
         ...form,
         idEdicao: Number(form.idEdicao),
         idFase: Number(form.idFase),
