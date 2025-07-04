@@ -15,8 +15,10 @@ import type {
   UpdateEditionData,
   Sport,
   CreateSportData,
-  UpdateSportData
+  UpdateSportData,
+  EditMatchData
 } from "./types";
+
 
 
 export class Api {
@@ -47,6 +49,14 @@ export class Api {
 
     async createMatch(data: RegisterMatchData): Promise<Match> {
         return await this.api.post("/match/register", data);
+    }
+    
+    async updateMatch(id: number, data: EditMatchData): Promise<Match> {
+        return await this.api.put(`/match/${id}`, data);
+    }       
+
+    async deleteMatch(id: number): Promise<void> {
+        await this.api.delete(`/match/${id}`);
     }
 
     // Fase

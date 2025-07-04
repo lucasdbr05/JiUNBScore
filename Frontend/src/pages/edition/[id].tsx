@@ -78,7 +78,27 @@ export default function EditionPage() {
                     return (
                       <li key={idx} className="flex justify-between items-center py-2 border-b last:border-b-0">
                         <span>{time1} {typeof match.placar_time_1 === 'number' ? match.placar_time_1 : '-'} x {typeof match.placar_time_2 === 'number' ? match.placar_time_2 : '-'} {time2}</span>
-                        <span>{new Date(match.date).toLocaleString('pt-BR')}</span>
+                        <span>{new Date(match.data).toLocaleString('pt-BR')}</span>
+                        <button
+                          className="ml-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 text-xs"
+                          onClick={() => router.push(`/match/${match.id}/edit`)}
+                        >
+                          Editar
+                        </button>
+                        {user && (
+                          <button
+                            className="ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 text-xs"
+                            onClick={async () => {
+                              if (confirm('Tem certeza que deseja deletar esta partida?')) {
+                                const api = new Api();
+                                await api.deleteMatch(match.id);
+                                setMatches(matches.filter(m => m.id !== match.id));
+                              }
+                            }}
+                          >
+                            Deletar
+                          </button>
+                        )}
                       </li>
                     );
                   })}

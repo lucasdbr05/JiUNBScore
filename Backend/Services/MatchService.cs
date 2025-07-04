@@ -105,7 +105,7 @@ public class MatchService
                     SELECT * 
                     FROM atletica
                     WHERE id = @p0
-                 ",
+                ",
                  match.Id_time_2
             )
             .FirstOrDefault();
@@ -146,13 +146,13 @@ public class MatchService
             .FromSqlRaw(
                 @"UPDATE Partidas SET placar_time_1 = @p1, placar_time_2 = @p2, id_edicao = @p3, id_fase = @p4, id_local = @p5, id_time_1 = @p6, id_time_2 = @p7, date = @p8 WHERE id = @p0 RETURNING *",
                 id,
-                data.Placar_time_1,
-                data.Placar_time_2,
-                data.Id_edicao,
-                data.Id_fase,
-                data.Id_local,
-                data.Id_time_1,
-                data.Id_time_2,
+                data.PlacarTime1,
+                data.PlacarTime2,
+                data.IdEdicao,
+                data.IdFase,
+                data.IdLocal,
+                data.IdTime1,
+                data.IdTime2,
                 data.Data
             )
             .AsEnumerable()

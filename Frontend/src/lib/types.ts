@@ -22,6 +22,19 @@ export interface RegisterMatchData {
   date: string;
 }
 
+
+  export type EditMatchData = {
+  id?: number;
+  placarTime1?: number;
+  placarTime2?: number;
+  idEdicao?: number;
+  idFase?: number;
+  idLocal?: number;
+  idTime1?: number;
+  idTime2?: number;
+  data?: string;  
+};
+
 export interface Match {
   id: number;
   placar_time_1: number | null;
@@ -31,7 +44,7 @@ export interface Match {
   id_local: number | null;
   id_time_1: number | null;
   id_time_2: number | null;
-  date: string;
+  data: string;
 }
 
 // Fase
