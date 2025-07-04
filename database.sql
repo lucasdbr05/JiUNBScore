@@ -79,7 +79,7 @@ CREATE TABLE Fase
     ordem INT,
     nome_grupo VARCHAR(50) NOT NULL,
     nome_etapa VARCHAR(50) NOT NULL
-);
+);  
 
 
 CREATE TABLE Escalacao 
