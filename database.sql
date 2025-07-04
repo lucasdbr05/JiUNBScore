@@ -77,7 +77,7 @@ CREATE TABLE Fase
 (
     id SERIAL PRIMARY KEY,
     ordem INT,
-    nome_grupo VARCHAR(50) NOT NULL,
+    nome_grupo VARCHAR(50),
     nome_etapa VARCHAR(50) NOT NULL
 );  
 
