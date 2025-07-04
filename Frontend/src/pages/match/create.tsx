@@ -30,13 +30,14 @@ export default function CreateMatchPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     try {
       const api = new Api();
-      await api.createMatch({
+      await api.registerMatch({
         ...form,
         idEdicao: Number(form.idEdicao),
         idFase: Number(form.idFase),
