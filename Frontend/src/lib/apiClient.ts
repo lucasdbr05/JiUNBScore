@@ -16,7 +16,8 @@ import type {
   Sport,
   CreateSportData,
   UpdateSportData,
-  EditMatchData
+  EditMatchData,
+  MatchResult
 } from "./types";
 
 
@@ -57,6 +58,10 @@ export class Api {
 
     async deleteMatch(id: number): Promise<void> {
         await this.api.delete(`/match/${id}`);
+    }
+    
+    async getMatchesByAthletic(idAthletic: number) : Promise<MatchResult[]>{
+        return await this.api.get(`/match/athletic/${idAthletic}`);
     }
 
     // Fase

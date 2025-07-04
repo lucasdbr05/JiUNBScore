@@ -72,7 +72,7 @@ public class MatchService
         return null;
     }
 
-    public List<Tuple<int, string, string, Byte[], Byte[], int, int>> LastResults(int id_atletica)
+    public List<Tuple<int, string, string, int, int>> LastResults(int id_atletica)
     {
 
         var listMatches = _context.Matches.FromSqlRaw(
@@ -84,7 +84,7 @@ public class MatchService
             )
             .ToList();
 
-        List<Tuple<int, string, string, Byte[], Byte[], int, int>> results = new List<Tuple<int, string, string, byte[], byte[], int, int>>();
+        List<Tuple<int, string, string, int, int>> results = new List<Tuple<int, string, string, int, int>>();
         foreach (var match in listMatches)
         {
 
@@ -115,8 +115,6 @@ public class MatchService
                     match.Id,
                     match.Time_1.Nome,
                     match.Time_2.Nome,
-                    match.Time_1.Logo,
-                    match.Time_2.Logo,
                     match.Placar_time_1,
                     match.Placar_time_2
                 )

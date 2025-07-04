@@ -40,6 +40,16 @@ public class MatchController : ControllerBase
         return Ok(match);
     }
 
+    [HttpGet("/athletic/{id}")]
+    public IActionResult FindByAthletic(int id)
+    {
+        var matches = MatchService.LastResults(id);
+        if (matches == null)
+            return NotFound();
+
+        return Ok(matches);
+    }
+
     [HttpPut("{id}")]
     public IActionResult Update(int id, UpdateMatchViewModel data)
     {

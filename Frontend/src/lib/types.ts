@@ -47,6 +47,8 @@ export interface Match {
   data: string;
 }
 
+export type MatchResult = [number, string, string, number, number];
+
 // Fase
 export interface Fase {
   id: number;

@@ -124,7 +124,7 @@ public class CompetidorService
 
         var listMatches = _matchServ.LastResults(competidor.Id_atletica);
 
-        List<Tuple<string, string, Byte[], Byte[], int, int, float>> lastMatches = new List<Tuple<string, string, Byte[], Byte[], int, int, float>>();
+        List<Tuple<string, string, int, int, float>> lastMatches = new List<Tuple<string, string, int, int, float>>();
 
         foreach (var match in listMatches)
         {
@@ -135,8 +135,6 @@ public class CompetidorService
                     match.Item3,
                     match.Item4,
                     match.Item5,
-                    match.Item6,
-                    match.Item7,
                     CalcNota(id_competidor, match.Item1)
                 )
             );
