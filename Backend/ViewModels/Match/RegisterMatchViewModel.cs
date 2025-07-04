@@ -10,25 +10,25 @@ public class RegisterMatchViewModel
         int idLocal,
         int idTime1,
         int idTime2,
-        DateTime date
+        DateTime data
     )
     {
-        Placar_time_1 = placarTime1;
-        Placar_time_2 = placarTime2;
-        Id_edicao = idEdicao;
-        Id_fase = idFase;
-        Id_local = idLocal;
-        Id_time_1 = idTime1;
-        Id_time_2 = idTime2;
-        Data = date;
+        PlacarTime1 = placarTime1;
+        PlacarTime2 = placarTime2;
+        IdEdicao = idEdicao;
+        IdFase = idFase;
+        IdLocal = idLocal;
+        IdTime1 = idTime1;
+        IdTime2 = idTime2;
+        Data = data;
     }
 
-    public int Placar_time_1 { get; set; }
-    public int Placar_time_2 { get; set; }
-    public int Id_edicao { get; set; }
-    public int Id_fase { get; set; }
-    public int Id_local { get; set; }
-    public int Id_time_1 { get; set; }
-    public int Id_time_2 { get; set; }
+    public int PlacarTime1 { get; set; }
+    public int PlacarTime2 { get; set; }
+    public int IdEdicao { get; set; }
+    public int IdFase { get; set; }
+    public int IdLocal { get; set; }
+    public int IdTime1 { get; set; }
+    public int IdTime2 { get; set; }
     public DateTime Data { get; set; }
 }
