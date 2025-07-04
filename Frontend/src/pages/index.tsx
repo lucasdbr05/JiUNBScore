@@ -27,8 +27,8 @@ export default function Home() {
     const api = new Api();
     api.getMatches().then(setNextMatches).catch(() => {
       setNextMatches([
-        { id: 1, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 1, id_time_2: 2, date: '2025-06-18T19:00:00' },
-        { id: 2, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 3, id_time_2: 4, date: '2025-06-19T20:00:00' },
+        { id: 1, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 1, id_time_2: 2, data: '2025-06-18T19:00:00' },
+        { id: 2, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 3, id_time_2: 4, data: '2025-06-19T20:00:00' },
       ]);
     });
     api.getEditions().then(setMainEdition).catch(() => {
@@ -88,7 +88,7 @@ export default function Home() {
               return (
                 <li key={idx} className="flex justify-between items-center py-3 border-b last:border-b-0">
                   <span className="font-medium">{time1} vs {time2}</span>
-                  <span className="text-gray-500 text-sm">{new Date(match.date).toLocaleString('pt-BR')}</span>
+                  <span className="text-gray-500 text-sm">{new Date(match.data).toLocaleString('pt-BR')}</span>
                   <span className="text-gray-500 text-sm">{'Ano'}</span>
                 </li>
               );
