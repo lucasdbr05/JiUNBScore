@@ -64,6 +64,7 @@ builder.Services.AddTransient<SportService>();
 builder.Services.AddTransient<AthleticService>();
 builder.Services.AddTransient<LocalService>();
 builder.Services.AddTransient<ActionService>();
+builder.Services.AddTransient<RankingService>();
 
 var app = builder.Build();
 
