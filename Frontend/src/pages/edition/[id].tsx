@@ -5,6 +5,7 @@ import { Api } from '../../lib/apiClient';
 import type { Match, Edition, Athletic } from '../../lib/types';
 import { getUser } from '../../lib/auth';
 import { StandingsTable } from '../../components/StandingsTable';
+import { MatchDetailsModal } from '../../components/MatchDetailsModal';
 import type { TeamStats } from '../../components/StandingsTable';
 
 export default function EditionPage() {
@@ -16,6 +17,8 @@ export default function EditionPage() {
   const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
   const [activeTab, setActiveTab] = useState<'jogos' | 'classificacao'>('jogos');
   const [standings, setStandings] = useState<TeamStats[] | Record<string, TeamStats[]>>([]);
+  const [showMatchDetails, setShowMatchDetails] = useState(false);
+  const [selectedMatchId, setSelectedMatchId] = useState<number | null>(null);
 
   useEffect(() => {
     setUser(getUser() as { nickname: string; email: string } | null);
@@ -108,11 +111,26 @@ export default function EditionPage() {
                         </span>
                         <span>{new Date(match.data).toLocaleString('pt-BR')}</span>
                         <button
+                          className="mr-2 px-2 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-xs"
+                          onClick={() => { setSelectedMatchId(match.id); setShowMatchDetails(true); }}
+                        >
+                          Ver detalhes
+                        </button>
+                        <button
                           className="ml-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 text-xs"
                           onClick={() => router.push(`/match/${match.id}/edit`)}
                         >
                           Editar
                         </button>
+                {showMatchDetails && selectedMatchId !== null && (
+                  <MatchDetailsModal
+                    isOpen={showMatchDetails}
+                    onClose={() => setShowMatchDetails(false)}
+                    matchId={selectedMatchId}
+                    athletic1={athletic1}
+                    athletic2={athletic2}
+                  />
+                )}
                         {user && (
                           <button
                             className="ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 text-xs"

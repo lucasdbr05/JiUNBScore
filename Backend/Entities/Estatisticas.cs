@@ -7,16 +7,16 @@ namespace Backend.Entities;
 public class Estatisticas
 {
     public Estatisticas(
-        int qtd_acoes,
-        int id_partida,
-        int id_acao,
-        string id_competidor
+        int qtdAcoes,
+        int idPartida,
+        int idAcao,
+        string idCompetidor
     )
     {
-        Qtd_acoes = qtd_acoes;
-        Id_partida = id_partida;
-        Id_acao = id_acao;
-        Id_competidor = id_competidor;
+        QtdAcoes = qtdAcoes;
+        IdPartida = idPartida;
+        IdAcao = idAcao;
+        IdCompetidor = idCompetidor;
     }
 
     [Key]
@@ -24,22 +24,22 @@ public class Estatisticas
     public int Id { get; set; }
 
     [Column("qtd_acoes")]
-    public int Qtd_acoes { get; set; }
+    public int QtdAcoes { get; set; }
 
     [Column("id_partida")]
-    public int Id_partida { get; set; }
+    public int IdPartida { get; set; }
 
     [ForeignKey("id_partida")]
     public Match? Match { get; set; }
 
     [Column("id_acao")]
-    public int Id_acao { get; set; }
+    public int IdAcao { get; set; }
 
     [ForeignKey("id_acao")]
     public Action? Action { get; set; }
 
     [Column("id_competidor")]
-    public string Id_competidor { get; set; }
+    public string IdCompetidor { get; set; }
 
     [ForeignKey("id_competidor")]
     public Competidor? Competidor { get; set; }
