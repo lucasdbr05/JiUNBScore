@@ -3,22 +3,21 @@ namespace Backend.ViewModels;
 public class UpdateStatViewModel
 {
 
-    public int Qtd_acoes { get; set; }
-    public int Id_acao { get; set; }
-    public string Id_competidor { get; set; }
-    public int Id_partida { get; set; }
+    public int QtdAcoes { get; set; }
+    public int IdAcao { get; set; }
+    public string IdCompetidor { get; set; }
+    public int IdPartida { get; set; }
 
     public UpdateStatViewModel(
-        int qtd_acoes,
-        int id_acao,
-        string id_competidor,
-        int id_partida
+        int qtdAcoes,
+        int idAcao,
+        string idCompetidor,
+        int idPartida
     )
     {
-
-        Qtd_acoes = qtd_acoes;
-        Id_acao = id_acao;
-        Id_competidor = id_competidor;
-        Id_partida = id_partida;
+        QtdAcoes = qtdAcoes;
+        IdAcao = idAcao;
+        IdCompetidor = idCompetidor;
+        IdPartida = idPartida;
     }
 }

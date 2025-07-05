@@ -1,6 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Api } from '../../../lib/apiClient';
+import { CreateStatisticModal } from '../../../components/CreateStatisticModal';
+  const [showStatModal, setShowStatModal] = useState(false);
+  const [competitors, setCompetitors] = useState<{ id: number; nome: string }[]>([]);
+  const [actions, setActions] = useState<{ id: number; nome: string }[]>([]);
+  const openStatModal = async () => {
+    if (!id) return;
+    const api = new Api();
+    const [comps, acts] = await Promise.all([
+      api.getCompetitorsByMatch(Number(id)),
+      api.getActions()
+    ]);
+    setCompetitors(comps);
+    setActions(acts);
+    setShowStatModal(true);
+  };
+
+  const handleCreateStatistic = async (data: any) => {
+    const api = new Api();
+    await api.createStatistic(data);
+  };
 import type { Match } from '../../../lib/types';
 
 export default function EditMatchPage() {
@@ -88,6 +108,21 @@ export default function EditMatchPage() {
     <div className="max-w-xl mx-auto p-8 bg-white rounded-xl shadow mt-8">
       <h1 className="text-2xl font-bold mb-6">Editar Placar</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <button
+          type="button"
+          className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          onClick={openStatModal}
+        >
+          Criar Estatística
+        </button>
+      <CreateStatisticModal
+        isOpen={showStatModal}
+        onClose={() => setShowStatModal(false)}
+        onCreate={handleCreateStatistic}
+        matchId={Number(id)}
+        competitors={competitors}
+        actions={actions}
+      />
         <div className="flex flex-col gap-2 bg-gray-50 rounded p-4 border mb-2">
           <div className="flex gap-2">
             <span className="font-semibold">Fase:</span>

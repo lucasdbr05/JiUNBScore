@@ -26,8 +26,8 @@ public class EstatisticaService
                     INSERT INTO Estatisticas (qtd_acoes, id_partida, id_acao, id_competidor)
                     VALUES (@p0, @p1, @p2, @p3)
                     RETURNING id, qtd_acoes, id_partida, id_acao, id_competidor
-                    ",
-                    data.Qtd_acoes, data.Id_partida, data.Id_acao, data.Id_competidor
+                    ",  
+                    data.QtdAcoes, data.IdPartida, data.IdAcao, data.IdCompetidor
                 )
                 .AsEnumerable()
                 .FirstOrDefault();
@@ -45,10 +45,10 @@ public class EstatisticaService
                 WHERE id = @p4
                 RETURNING *
                 ",
-                updtStat.Qtd_acoes,
-                updtStat.Id_acao,
-                updtStat.Id_partida,
-                updtStat.Id_competidor,
+                updtStat.QtdAcoes,
+                updtStat.IdAcao,
+                updtStat.IdPartida,
+                updtStat.IdCompetidor,
                 id
             )
             .AsEnumerable()

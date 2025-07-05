@@ -54,12 +54,28 @@ public class CompetidorService
         return comp;
     }
 
-    public IEnumerable<Competidor> FindAll()
+    public IEnumerable<Competidor> FindAll(
+        int? idTime1,
+        int? idTime2,
+        int? idEsporte
+    )
     {
-
-        return _context.Competidores
+        if (!idTime1.HasValue && !idTime2.HasValue && !idEsporte.HasValue)
+        {
+            return _context.Competidores
                 .FromSqlRaw("SELECT * FROM Competidor")
                 .AsEnumerable();
+        }
+        if (idTime1.HasValue && idTime2.HasValue && idEsporte.HasValue)
+        {
+            string sql = @"SELECT * FROM Competidor WHERE 
+                (id_atletica = @p0 OR id_atletica = @p1)
+                AND id_atletica IN (SELECT id FROM Atletica WHERE id_esporte = @p2)";
+            return _context.Competidores
+                .FromSqlRaw(sql, idTime1.Value, idTime2.Value, idEsporte.Value)
+                .AsEnumerable();
+        }
+        return Enumerable.Empty<Competidor>();
     }
 
     public Competidor? Update(string matricula, UpdateCompetidorViewModel upComp)

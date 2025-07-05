@@ -29,6 +29,6 @@ public class RegisterMatchViewModel
     public int IdFase { get; set; }
     public int IdLocal { get; set; }
     public int IdTime1 { get; set; }
-    public int IdTime2 { get; set; }
+    public int IdTime2 { get; set; }    
     public DateTime Data { get; set; }
 }

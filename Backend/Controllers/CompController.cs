@@ -27,15 +27,21 @@ public class CompController : ControllerBase
         return Ok(result);
     }
     [HttpGet]
-    public IActionResult FindAll()
-    {
-
-        var listComps = CompService.FindAll();
+    public IActionResult FindAll(
+        [FromQuery(Name = "idTime1")] int? idTime1,
+        [FromQuery(Name = "idTime2")] int? idTime2,
+        [FromQuery(Name = "idEsporte")] int? idEsporte
+    )
+    {   
+        var listComps = CompService.FindAll(idTime1, idTime2, idEsporte);
 
         return Ok(listComps);
     }
+
     [HttpGet("{matricula}")]
-    public IActionResult FindComp(string matricula)
+    public IActionResult FindComp(
+        string matricula
+    )
     {
 
         var result = CompService.CompetidorFinder(matricula);

@@ -1,3 +1,36 @@
+// Competidor
+export interface Competitor {
+  id: number;
+  nome: string;
+  matricula?: string;
+  idAtletica?: number;
+}
+
+// Ação
+export interface Action {
+  id: number;
+  nome: string;
+  points?: number;
+}
+// Estatísticas
+export interface Statistic {
+  id: number;
+  qtdAcoes: number;
+  idPartida: number;
+  idAcao: number;
+  idCompetidor: number;
+}
+
+export interface CreateStatisticData {
+  qtdAcoes: number;
+  idPartida: number;
+  idAcao: number;
+  idCompetidor: number;
+}
+
+export interface UpdateStatisticData extends CreateStatisticData {
+  id: number;
+}
 // Auth
 export interface LoginData {
   nickname: string;

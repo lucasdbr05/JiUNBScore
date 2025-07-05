@@ -3,23 +3,22 @@ namespace Backend.ViewModels;
 public class RegsStatsViewModel
 {
 
-    public int Qtd_acoes { get; set; }
-    public int Id_partida { get; set; }
-    public int Id_acao { get; set; }
-    public string Id_competidor { get; set; }
+    public int QtdAcoes { get; set; }
+    public int IdPartida { get; set; }
+    public int IdAcao { get; set; }
+    public string IdCompetidor { get; set; }
 
     public RegsStatsViewModel
     (
-        int qtd_acoes,
-        int id_partida,
-        int id_acao,
-        string id_competidor
+        int qtdAcoes,
+        int idPartida,
+        int idAcao,
+        string idCompetidor
     )
     {
-
-        Qtd_acoes = qtd_acoes;
-        Id_partida = id_partida;
-        Id_acao = id_acao;
-        Id_competidor = id_competidor;
+        QtdAcoes = qtdAcoes;
+        IdPartida = idPartida;
+        IdAcao = idAcao;
+        IdCompetidor = idCompetidor;
     }
 }

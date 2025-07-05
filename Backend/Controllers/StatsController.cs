@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers;
 
-[Route("api/estatisticas")]
+[Route("api/statistic")]
 [ApiController]
 public class StatsController : ControllerBase
 {
