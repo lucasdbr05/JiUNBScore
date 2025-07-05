@@ -1,9 +1,11 @@
+
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
 import type { Match, Edition, Athletic } from '../../lib/types';
 import { getUser } from '../../lib/auth';
 import { StandingsTable } from '../../components/StandingsTable';
+import type { TeamStats } from '../../components/StandingsTable';
 
 export default function EditionPage() {
   const router = useRouter();
@@ -13,10 +15,10 @@ export default function EditionPage() {
   const [athletics, setAthletics] = useState<Athletic[]>([]);
   const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
   const [activeTab, setActiveTab] = useState<'jogos' | 'classificacao'>('jogos');
-  const [standings, setStandings] = useState<any[]>([]);
+  const [standings, setStandings] = useState<TeamStats[] | Record<string, TeamStats[]>>([]);
 
   useEffect(() => {
-    setUser(getUser() as any);
+    setUser(getUser() as { nickname: string; email: string } | null);
   }, []);
 
   useEffect(() => {
@@ -26,7 +28,13 @@ export default function EditionPage() {
     api.getMatches().then(ms => setMatches(ms.filter(m => m.id_edicao === Number(id))));
     api.getAthletics().then(setAthletics);
     api.getStandings(Number(id)).then(data => {
-      setStandings(Array.isArray(data) ? data : (Object.values(data)[0] || []));
+      if (Array.isArray(data)) {
+        setStandings(data);
+      } else if (typeof data === 'object' && data !== null) {
+        setStandings(data);
+      } else {
+        setStandings([]);
+      }
     });
   }, [id]);
 
@@ -73,11 +81,31 @@ export default function EditionPage() {
                 <h2 className="text-xl font-semibold mb-2">Jogos</h2>
                 <ul>
                   {matches.map((match, idx) => {
-                    const time1 = athletics.find(a => a.id === match.id_time_1)?.nome || `Time ${match.id_time_1}`;
-                    const time2 = athletics.find(a => a.id === match.id_time_2)?.nome || `Time ${match.id_time_2}`;
+                    const athletic1 = athletics.find(a => a.id === match.id_time_1);
+                    const athletic2 = athletics.find(a => a.id === match.id_time_2);
+                    const time1 = athletic1?.nome || `Time ${match.id_time_1}`;
+                    const time2 = athletic2?.nome || `Time ${match.id_time_2}`;
                     return (
                       <li key={idx} className="flex justify-between items-center py-2 border-b last:border-b-0">
-                        <span>{time1} {typeof match.placar_time_1 === 'number' ? match.placar_time_1 : '-'} x {typeof match.placar_time_2 === 'number' ? match.placar_time_2 : '-'} {time2}</span>
+                        <span className="flex items-center gap-2">
+                          {athletic1?.logo && (
+                            <>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={athletic1.logo} alt={time1} className="h-6 w-6 object-cover border" />
+                            </>
+                          )}
+                          {time1}
+                        </span>
+                        <span>{typeof match.placar_time_1 === 'number' ? match.placar_time_1 : '-'} x {typeof match.placar_time_2 === 'number' ? match.placar_time_2 : '-'} </span>
+                        <span className="flex items-center gap-2">
+                          {athletic2?.logo && (
+                            <>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={athletic2.logo} alt={time2} className="h-6 w-6 object-cover border" />
+                            </>
+                          )}
+                          {time2}
+                        </span>
                         <span>{new Date(match.data).toLocaleString('pt-BR')}</span>
                         <button
                           className="ml-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 text-xs"
@@ -108,7 +136,16 @@ export default function EditionPage() {
             {activeTab === 'classificacao' && (
               <>
                 <h2 className="text-xl font-semibold mb-2">Classificação</h2>
-                <StandingsTable stats={standings} />
+                {Array.isArray(standings) ? (
+                  <StandingsTable stats={standings} athletics={athletics} />
+                ) : (
+                  Object.entries(standings).map(([groupName, stats]) => (
+                    <div key={groupName} className="mb-8">
+                      <h3 className="text-lg font-bold mb-2">{groupName}</h3>
+                      <StandingsTable stats={stats as TeamStats[]} athletics={athletics} />
+                    </div>
+                  ))
+                )}
               </>
             )}
           </div>
