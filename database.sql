@@ -82,14 +82,6 @@ CREATE TABLE Fase
 );  
 
 
-CREATE TABLE Escalacao 
-(
-    id SERIAL PRIMARY KEY,
-    is_titular BOOLEAN NOT NULL,
-    id_partida INT NOT NULL
-);
-
-
 CREATE TABLE Relacionados 
 (
     id SERIAL PRIMARY KEY,
@@ -132,14 +124,6 @@ CREATE TABLE RelacionadosEdicao
 );
 
 
-CREATE TABLE RelacionadosEscalacao 
-(
-    id_relacionado INT,
-    id_escalacao INT,
-    PRIMARY KEY (id_relacionado, id_escalacao)
-);
-
-
 ALTER TABLE Usuario ADD FOREIGN KEY(nickname) REFERENCES Usuario(nickname);
 ALTER TABLE Competidor ADD FOREIGN KEY(id_atletica) REFERENCES Atletica(id) ON DELETE CASCADE;
 ALTER TABLE Partidas ADD FOREIGN KEY(id_edicao) REFERENCES Edicao(id) ON DELETE CASCADE;
@@ -149,7 +133,6 @@ ALTER TABLE Partidas ADD FOREIGN KEY(id_time_1) REFERENCES Atletica(id) ON DELET
 ALTER TABLE Partidas ADD FOREIGN KEY(id_time_2) REFERENCES Atletica(id) ON DELETE SET NULL;
 ALTER TABLE Estatisticas ADD FOREIGN KEY(id_partida) REFERENCES Partidas(id) ON DELETE CASCADE;
 ALTER TABLE Estatisticas ADD FOREIGN KEY(id_competidor) REFERENCES Competidor(matricula) ON DELETE CASCADE;
-ALTER TABLE Escalacao ADD FOREIGN KEY(id_partida) REFERENCES Partidas(id) ON DELETE CASCADE;
 ALTER TABLE Relacionados ADD FOREIGN KEY(id_competidor) REFERENCES Competidor(matricula) ON DELETE CASCADE;
 ALTER TABLE Estatisticas ADD FOREIGN KEY(id_acao) REFERENCES Acao(id) ON DELETE CASCADE;
 ALTER TABLE Acao ADD FOREIGN KEY(id_esporte) REFERENCES Esportes(id) ON DELETE CASCADE;
@@ -159,5 +142,3 @@ ALTER TABLE EsporteEdicao ADD FOREIGN KEY(id_esporte) REFERENCES Esportes(id) ON
 ALTER TABLE EsporteEdicao ADD FOREIGN KEY(id_edicao) REFERENCES Edicao(id) ON DELETE CASCADE;
 ALTER TABLE RelacionadosEdicao ADD FOREIGN KEY(id_relacionado) REFERENCES Relacionados(id) ON DELETE CASCADE;
 ALTER TABLE RelacionadosEdicao ADD FOREIGN KEY(id_edicao) REFERENCES Edicao(id) ON DELETE CASCADE;
-ALTER TABLE RelacionadosEscalacao ADD FOREIGN KEY(id_relacionado) REFERENCES Relacionados(id) ON DELETE CASCADE;
-ALTER TABLE RelacionadosEscalacao ADD FOREIGN KEY(id_escalacao) REFERENCES Escalacao(id) ON DELETE CASCADE;
