@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers;
 
-[Route("api/acao")]
+[Route("api/action")]
 [ApiController]
 public class ActionController : ControllerBase
 {

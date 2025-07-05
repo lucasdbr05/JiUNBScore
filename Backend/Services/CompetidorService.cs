@@ -70,7 +70,7 @@ public class CompetidorService
         {
             string sql = @"SELECT * FROM Competidor WHERE 
                 (id_atletica = @p0 OR id_atletica = @p1)
-                AND id_atletica IN (SELECT id FROM Atletica WHERE id_esporte = @p2)";
+                AND id_atletica IN (SELECT id_atletica FROM EsportesAtletica WHERE id_esporte = @p2)";
             return _context.Competidores
                 .FromSqlRaw(sql, idTime1.Value, idTime2.Value, idEsporte.Value)
                 .AsEnumerable();
