@@ -1,9 +1,11 @@
+
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
 import type { Match, Edition, Athletic } from '../../lib/types';
 import { getUser } from '../../lib/auth';
 import { StandingsTable } from '../../components/StandingsTable';
+import type { TeamStats } from '../../components/StandingsTable';
 
 export default function EditionPage() {
   const router = useRouter();
@@ -13,10 +15,10 @@ export default function EditionPage() {
   const [athletics, setAthletics] = useState<Athletic[]>([]);
   const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
   const [activeTab, setActiveTab] = useState<'jogos' | 'classificacao'>('jogos');
-  const [standings, setStandings] = useState<any[]>([]);
+  const [standings, setStandings] = useState<TeamStats[] | Record<string, TeamStats[]>>([]);
 
   useEffect(() => {
-    setUser(getUser() as any);
+    setUser(getUser() as { nickname: string; email: string } | null);
   }, []);
 
   useEffect(() => {
@@ -26,7 +28,13 @@ export default function EditionPage() {
     api.getMatches().then(ms => setMatches(ms.filter(m => m.id_edicao === Number(id))));
     api.getAthletics().then(setAthletics);
     api.getStandings(Number(id)).then(data => {
-      setStandings(Array.isArray(data) ? data : (Object.values(data)[0] || []));
+      if (Array.isArray(data)) {
+        setStandings(data);
+      } else if (typeof data === 'object' && data !== null) {
+        setStandings(data);
+      } else {
+        setStandings([]);
+      }
     });
   }, [id]);
 
@@ -128,7 +136,16 @@ export default function EditionPage() {
             {activeTab === 'classificacao' && (
               <>
                 <h2 className="text-xl font-semibold mb-2">Classificação</h2>
-                <StandingsTable stats={standings} athletics={athletics} />
+                {Array.isArray(standings) ? (
+                  <StandingsTable stats={standings} athletics={athletics} />
+                ) : (
+                  Object.entries(standings).map(([groupName, stats]) => (
+                    <div key={groupName} className="mb-8">
+                      <h3 className="text-lg font-bold mb-2">{groupName}</h3>
+                      <StandingsTable stats={stats as TeamStats[]} athletics={athletics} />
+                    </div>
+                  ))
+                )}
               </>
             )}
           </div>

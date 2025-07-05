@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface TeamStats {
+export interface TeamStats {
   rank: number;
   teamName: string;
   teamLogo?: string | null;
