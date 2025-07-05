@@ -88,6 +88,7 @@ public class EstatisticaService
 
         return result.AsEnumerable();
     }
+
     public IEnumerable<Estatisticas> FindStatPartida(int id_partida)
     {
 
@@ -168,7 +169,6 @@ public class EstatisticaService
         return result.AsEnumerable();
     }
 
-    // public Estatisticas? Update()
     public List<Estatisticas> TakeEstats(int id_partida, string id_competidor)
     {
 
@@ -197,7 +197,7 @@ public class EstatisticaService
                         SELECT * FROM partidas
                         WHERE id = @p0
                         ",
-                        stat.Id_partida
+                        stat.IdPartida
                     )
                     .FirstOrDefault();
 
@@ -207,7 +207,7 @@ public class EstatisticaService
                     SELECT * FROM acao
                     WHERE id = @p0
                     ",
-                    stat.Id_acao
+                    stat.IdAcao
                 )
                 .FirstOrDefault();
 
@@ -217,7 +217,7 @@ public class EstatisticaService
                     SELECT * FROM competidor
                     WHERE matricula = @p0
                     ",
-                    stat.Id_competidor
+                    stat.IdCompetidor
                 )
                 .FirstOrDefault();
                 

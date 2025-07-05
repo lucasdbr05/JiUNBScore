@@ -180,8 +180,8 @@ public class CompetidorService
 
             if (estat.Action != null)
             {
-                nota += estat.Action.Points * estat.Qtd_acoes;
-                qtd += estat.Qtd_acoes;
+                nota += estat.Action.Points * estat.QtdAcoes;
+                qtd += estat.QtdAcoes;
             }
         }
 
