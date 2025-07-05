@@ -204,7 +204,7 @@ export class Api {
     }
 
     // Ações
-    async getActions(): Promise<Action[]> {
+    async  getActions(): Promise<Action[]> {
         return await this.api.get('/action');
     }
 

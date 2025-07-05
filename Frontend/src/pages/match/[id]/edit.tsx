@@ -2,25 +2,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Api } from '../../../lib/apiClient';
 import { CreateStatisticModal } from '../../../components/CreateStatisticModal';
-  const [showStatModal, setShowStatModal] = useState(false);
-  const [competitors, setCompetitors] = useState<{ id: number; nome: string }[]>([]);
-  const [actions, setActions] = useState<{ id: number; nome: string }[]>([]);
-  const openStatModal = async () => {
-    if (!id) return;
-    const api = new Api();
-    const [comps, acts] = await Promise.all([
-      api.getCompetitorsByMatch(Number(id)),
-      api.getActions()
-    ]);
-    setCompetitors(comps);
-    setActions(acts);
-    setShowStatModal(true);
-  };
-
-  const handleCreateStatistic = async (data: any) => {
-    const api = new Api();
-    await api.createStatistic(data);
-  };
 import type { Match } from '../../../lib/types';
 
 export default function EditMatchPage() {
@@ -36,7 +17,30 @@ export default function EditMatchPage() {
   const [date, setDate] = useState<string>('');
   const [faseLabel, setFaseLabel] = useState<string>('');
   const [editionDates, setEditionDates] = useState<string>('');
+  const [showStatModal, setShowStatModal] = useState(false);
+  const [competitors, setCompetitors] = useState<{ id: number; nome: string }[]>([]);
+  const [actions, setActions] = useState<{ id: number; nome: string }[]>([]);
 
+  const openStatModal = async () => {
+    if (!id || !match) return;
+    const api = new Api();
+    const [comps, acts] = await Promise.all([
+      api.getCompetitors(
+        match.id_time_1 ?? undefined,
+        match.id_time_2 ?? undefined,
+        match.id_fase ?? undefined 
+      ),
+      api.getActions()
+    ]);
+    setCompetitors(comps);
+    setActions(acts);
+    setShowStatModal(true);
+  };
+
+  const handleCreateStatistic = async (data: any) => {
+    const api = new Api();
+    await api.createStatistic(data);
+  };
   useEffect(() => {
     if (!id) return;
     const api = new Api();

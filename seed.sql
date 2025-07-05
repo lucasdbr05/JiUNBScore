@@ -5,16 +5,19 @@ INSERT INTO Atletica (nome)
 VALUES ('Selecic'),
        ('Aplicada');
 
+
 INSERT INTO Competidor (matricula, nome, id_atletica) 
 VALUES ('231003406', 'Lucas Flu', 1),
        ('231019003', 'Cauê', 1),
        ('231003531', 'Emershow', 1);
+
 
 INSERT INTO Esportes (nome)
 VALUES ('Futsal'),
        ('Basquete'),
        ('Vôlei'),
        ('Handebol');
+
 
 INSERT INTO Edicao (data_fim, data_comeco)
 VALUES ('2025-07-1', '2025-10-30');
@@ -36,3 +39,9 @@ INSERT INTO Estatisticas (qtd_acoes, id_partida, id_acao, id_competidor)
 VALUES (2, 1, 2,'231003406'),
        (1, 1, 2,'231019003'),
        (3, 1, 1,'231003531');
+
+INSERT INTO EsportesAtletica (id_atletica, id_esporte) 
+VALUES (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4);
