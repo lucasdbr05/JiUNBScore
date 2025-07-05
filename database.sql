@@ -142,3 +142,16 @@ ALTER TABLE EsporteEdicao ADD FOREIGN KEY(id_esporte) REFERENCES Esportes(id) ON
 ALTER TABLE EsporteEdicao ADD FOREIGN KEY(id_edicao) REFERENCES Edicao(id) ON DELETE CASCADE;
 ALTER TABLE RelacionadosEdicao ADD FOREIGN KEY(id_relacionado) REFERENCES Relacionados(id) ON DELETE CASCADE;
 ALTER TABLE RelacionadosEdicao ADD FOREIGN KEY(id_edicao) REFERENCES Edicao(id) ON DELETE CASCADE;
+
+CREATE OR REPLACE VIEW ranking_atletas AS
+SELECT
+    c.matricula AS atleta_id,
+    c.nome AS atleta_nome,
+    a.nome AS atletica_nome,
+    SUM((ac.pontuacao * e.qtd_acoes) / 10.0) AS ranking
+FROM Estatisticas e
+JOIN Acao ac ON ac.id = e.id_acao
+JOIN Competidor c ON c.matricula = e.id_competidor
+JOIN Atletica a ON a.id = c.id_atletica
+GROUP BY c.matricula, c.nome, a.nome
+ORDER BY ranking DESC;
