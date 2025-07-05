@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import type { CreateStatisticData } from '../lib/types';
+import type { Action, Competitor, CreateStatisticData } from '../lib/types';
+import { Api } from '../lib/apiClient';
 
 interface CreateStatisticModalProps {
   isOpen: boolean;
   onClose: () => void;
   onCreate: (data: CreateStatisticData) => Promise<void>;
   matchId: number;
-  competitors: { id: number; nome: string }[];
-  actions: { id: number; nome: string }[];
+  competitors: Competitor[];
+  actions: Action[];
 }
 
 export const CreateStatisticModal: React.FC<CreateStatisticModalProps> = ({
@@ -18,12 +19,12 @@ export const CreateStatisticModal: React.FC<CreateStatisticModalProps> = ({
   competitors,
   actions,
 }) => {
-  const [id_competidor, setCompetidor] = useState<number>(competitors[0]?.id || 0);
+  const [id_competidor, setCompetidor] = useState<string>(competitors[0]?.matricula || "0");
   const [id_acao, setAcao] = useState<number>(actions[0]?.id || 0);
   const [qtd_acoes, setQtdAcoes] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const api = new Api();
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,10 +32,10 @@ export const CreateStatisticModal: React.FC<CreateStatisticModalProps> = ({
     setLoading(true);
     setError(null);
     try {
-      await onCreate({
+      await api.createStatistic({
         qtdAcoes: qtd_acoes,
         idPartida: matchId,
-        idAcao: id_acao,
+        idAcao: id_acao,    
         idCompetidor: id_competidor,
       });
       onClose();
@@ -53,9 +54,9 @@ export const CreateStatisticModal: React.FC<CreateStatisticModalProps> = ({
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label className="block mb-1 font-semibold">Competidor</label>
-            <select value={id_competidor} onChange={e => setCompetidor(Number(e.target.value))} className="border rounded px-2 py-1 w-full">
+            <select value={id_competidor} onChange={e => setCompetidor(Number(e.target.value).toString())} className="border rounded px-2 py-1 w-full">
               {competitors.map(c => (
-                <option key={c.id} value={c.id}>{c.nome}</option>
+                <option key={c.matricula} value={c.matricula}>{c.nome}</option>
               ))}
             </select>
           </div>

@@ -119,14 +119,6 @@ export default function EditMatchPage() {
         >
           Criar Estatística
         </button>
-      <CreateStatisticModal
-        isOpen={showStatModal}
-        onClose={() => setShowStatModal(false)}
-        onCreate={handleCreateStatistic}
-        matchId={Number(id)}
-        competitors={competitors}
-        actions={actions}
-      />
         <div className="flex flex-col gap-2 bg-gray-50 rounded p-4 border mb-2">
           <div className="flex gap-2">
             <span className="font-semibold">Fase:</span>
@@ -193,6 +185,14 @@ export default function EditMatchPage() {
           {loading ? 'Salvando...' : 'Salvar Placar'}
         </button>
       </form>
+      <CreateStatisticModal
+        isOpen={showStatModal}
+        onClose={() => setShowStatModal(false)}
+        onCreate={handleCreateStatistic}
+        matchId={Number(id)}
+        competitors={competitors}
+        actions={actions}
+      />
     </div>
   );
 }

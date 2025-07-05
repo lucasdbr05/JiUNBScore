@@ -1,9 +1,8 @@
 // Competidor
 export interface Competitor {
-  id: number;
   nome: string;
-  matricula?: string;
-  idAtletica?: number;
+  matricula: string;
+  idAtletica: number;
 }
 
 // Ação
@@ -18,14 +17,14 @@ export interface Statistic {
   qtdAcoes: number;
   idPartida: number;
   idAcao: number;
-  idCompetidor: number;
+  idCompetidor: string;
 }
 
 export interface CreateStatisticData {
   qtdAcoes: number;
   idPartida: number;
   idAcao: number;
-  idCompetidor: number;
+  idCompetidor: string;
 }
 
 export interface UpdateStatisticData extends CreateStatisticData {
