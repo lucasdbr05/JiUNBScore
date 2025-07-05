@@ -145,3 +145,11 @@ export interface UpdateSportData {
   id: number;
   nome: string;
 }
+
+//Ranking
+export interface RankingAtleta {
+  atletaId: string;
+  atletaNome: string;
+  atleticaNome: string;
+  ranking: number;
+}

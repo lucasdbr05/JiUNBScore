@@ -1,4 +1,3 @@
-
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
@@ -7,6 +6,7 @@ import { getUser } from '../../lib/auth';
 import { StandingsTable } from '../../components/StandingsTable';
 import { MatchDetailsModal } from '../../components/MatchDetailsModal';
 import type { TeamStats } from '../../components/StandingsTable';
+import type { RankingAtleta } from '../../lib/ApiClient';
 
 export default function EditionPage() {
   const router = useRouter();
@@ -19,6 +19,7 @@ export default function EditionPage() {
   const [standings, setStandings] = useState<TeamStats[] | Record<string, TeamStats[]>>([]);
   const [showMatchDetails, setShowMatchDetails] = useState(false);
   const [selectedMatchId, setSelectedMatchId] = useState<number | null>(null);
+  const [ranking, setRanking] = useState<RankingAtleta[]>([]);
 
   useEffect(() => {
     setUser(getUser() as { nickname: string; email: string } | null);
@@ -39,6 +40,7 @@ export default function EditionPage() {
         setStandings([]);
       }
     });
+    api.getRankingByEdition(Number(id)).then(setRanking);
   }, [id]);
 
   if (!edition) return <div className="p-8">Carregando...</div>;
@@ -170,7 +172,20 @@ export default function EditionPage() {
         </section>
         <aside className="w-1/3 bg-white rounded-xl shadow p-6 h-fit">
           <h2 className="text-xl font-semibold mb-4">Ranking da Competição</h2>
-          <div className="text-gray-500">(Em breve: ranking, artilharia, etc.)</div>
+          {ranking.length === 0 ? (
+            <div className="text-gray-500">Nenhum atleta ranqueado.</div>
+          ) : (
+            <ol className="space-y-2">
+              {ranking.map((r, idx) => (
+                <li key={r.atletaId} className="flex items-center gap-2">
+                  <span className="font-bold w-6 text-right">{idx + 1}.</span>
+                  <span className="flex-1">{r.atletaNome}</span>
+                  <span className="text-xs text-gray-500">({r.atleticaNome})</span>
+                  <span className="ml-auto font-mono bg-gray-100 rounded px-2 py-0.5">{r.ranking.toFixed(2)}</span>
+                </li>
+              ))}
+            </ol>
+          )}
         </aside>
       </div>
     </>

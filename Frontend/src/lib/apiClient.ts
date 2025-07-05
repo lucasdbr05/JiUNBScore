@@ -22,9 +22,9 @@ import type {
   CreateStatisticData,
   UpdateStatisticData,
   Competitor,
-  Action
+  Action,
+  RankingAtleta
 } from "./types";
-
 
 
 export class Api {
@@ -211,5 +211,10 @@ export class Api {
     // Standings
     async getStandings(editionId: number): Promise<Record<string, any[]>> {
         return await this.api.get(`/edition/standings/${editionId}`);
+    }
+
+    // Ranking
+    async getRankingByEdition(editionId: number): Promise<RankingAtleta[]> {
+        return await this.api.get(`/ranking`, { editionId });
     }
 }

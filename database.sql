@@ -148,10 +148,12 @@ SELECT
     c.matricula AS atleta_id,
     c.nome AS atleta_nome,
     a.nome AS atletica_nome,
+    p.id_edicao AS edicao_id,
     SUM((ac.pontuacao * e.qtd_acoes) / 10.0) AS ranking
 FROM Estatisticas e
 JOIN Acao ac ON ac.id = e.id_acao
 JOIN Competidor c ON c.matricula = e.id_competidor
 JOIN Atletica a ON a.id = c.id_atletica
-GROUP BY c.matricula, c.nome, a.nome
-ORDER BY ranking DESC;
+JOIN Partidas p ON p.id = e.id_partida
+GROUP BY c.matricula, c.nome, a.nome, p.id_edicao
+ORDER BY p.id_edicao, ranking DESC;

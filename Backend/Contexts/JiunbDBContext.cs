@@ -19,4 +19,11 @@ public class JiunbDBContext : DbContext
     public DbSet<Estatisticas> Estatisticas { get; set; }
     public DbSet<Match> Matches { get; set; }
     public DbSet<Relacionados> Relacionados { get; set; }
+    public DbSet<Ranking> Ranking { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Ranking>().HasNoKey();
+    }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Backend.Controllers;
 
 [ApiController]
-[Route("ranking")]
+[Route("api/ranking")]
 public class RankingController : ControllerBase
 {
     private readonly RankingService rankingService;
@@ -16,9 +16,9 @@ public class RankingController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<RankingAtletaViewModel>> GetRanking([FromQuery] int edicaoId)
+    public ActionResult<List<RankingAtletaViewModel>> GetRanking([FromQuery(Name= "editionId")] int editionId)
     {
-        var ranking = rankingService.GetRankingByEdition(edicaoId);
+        var ranking = rankingService.GetRankingByEdition(editionId);
         return Ok(ranking);
     }
 }
