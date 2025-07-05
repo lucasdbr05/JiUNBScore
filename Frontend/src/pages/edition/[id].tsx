@@ -169,7 +169,7 @@ export default function EditionPage() {
           </div>
         </section>
         <aside className="w-1/3 bg-white rounded-xl shadow p-6 h-fit">
-          <h2 className="text-xl font-semibold mb-4">Estatísticas da Competição</h2>
+          <h2 className="text-xl font-semibold mb-4">Ranking da Competição</h2>
           <div className="text-gray-500">(Em breve: ranking, artilharia, etc.)</div>
         </aside>
       </div>

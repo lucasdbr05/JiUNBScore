@@ -88,6 +88,7 @@ public class EstatisticaService
 
         return result.AsEnumerable();
     }
+
     public IEnumerable<Estatisticas> FindStatPartida(int id_partida)
     {
 
@@ -168,7 +169,6 @@ public class EstatisticaService
         return result.AsEnumerable();
     }
 
-    // public Estatisticas? Update()
     public List<Estatisticas> TakeEstats(int id_partida, string id_competidor)
     {
 

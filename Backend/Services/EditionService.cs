@@ -52,7 +52,8 @@ public class EditionService
         ", competitionId).ToList();
 
         var matches = _context.Matches.FromSqlRaw(@"
-            SELECT * FROM partidas WHERE id_edicao = @p0
+            SELECT * FROM partidas 
+            WHERE id_edicao = @p0 AND id_fase IN (SELECT id FROM fase WHERE nome_grupo IS NOT NULL)
         ", competitionId).ToList();
 
         var standings = new List<StandingsViewModel>();
@@ -101,10 +102,26 @@ public class EditionService
         for (int i = 0; i < standings.Count; i++)
             standings[i].Rank = i + 1;
 
-        return new Dictionary<string, List<StandingsViewModel>>
+        var fases = _context.Fases.FromSqlRaw(@"SELECT * FROM fase WHERE id IN (SELECT id_fase FROM partidas WHERE id_edicao = @p0)", competitionId).ToList();
+
+        var result = new Dictionary<string, List<StandingsViewModel>>();
+        foreach (var team in teams)
         {
-            { "Gropu X", standings }
-        };
+            var jogo = matches.FirstOrDefault(m => m.Id_time_1 == team.Id || m.Id_time_2 == team.Id);
+            if (jogo != null)
+            {
+                var fase = fases.FirstOrDefault(f => f.Id == jogo.Id_fase);
+                string nomeFase = fase?.NomeEtapa ?? "Fase";
+                string nomeGrupo = fase?.NomeGrupo ?? "Grupo";
+                string chave = $"{nomeFase}-{nomeGrupo}";
+                if (!result.ContainsKey(chave))
+                    result[chave] = new List<StandingsViewModel>();
+                var standing = standings.FirstOrDefault(s => s.TeamId == team.Id);
+                if (standing != null)
+                    result[chave].Add(standing);
+            }
+        }
+        return result;
     }
 
     public Edicao? Update(int id, UpdateEditionViewModel data)
