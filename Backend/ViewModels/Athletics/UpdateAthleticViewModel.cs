@@ -2,14 +2,14 @@ namespace Backend.ViewModels;
 
 public class UpdateAthleticViewModel
 {
-    public UpdateAthleticViewModel(int id, string? nome, byte[]? logo = null)
+    public UpdateAthleticViewModel(int id, string? nome, string? logo = null)
     {
         Id = id;
         Nome = nome;
-        Logo = logo;
+        Logo = logo;    
     }
 
     public int Id { get; set; }
     public string? Nome { get; set; }
-    public byte[]? Logo { get; set; }
+    public string? Logo { get; set; }
 }

@@ -3,7 +3,7 @@ namespace Backend.ViewModels;
 public class UpdateMatchViewModel
 {
     public UpdateMatchViewModel(
-        int? id,
+        int? id,    
         int? placarTime1,
         int? placarTime2,
         int? idEdicao,

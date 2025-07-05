@@ -24,19 +24,19 @@ public class MatchService
         var checkRepeat = _context.Matches
                             .FromSqlRaw(
                                     $"SELECT * FROM Partidas WHERE id_edicao = @p0 and id_fase = @p1 and id_time_1 = @p2 and id_time_2 = @p3",
-                                regMatch.Id_edicao,
-                                regMatch.Id_fase,
-                                regMatch.Id_time_1,
-                                regMatch.Id_time_2
+                                regMatch.IdEdicao,
+                                regMatch.IdFase,
+                                regMatch.IdTime1,
+                                regMatch.IdTime2
                                 ).FirstOrDefault();
 
         var checkRepeat1 = _context.Matches
                             .FromSqlRaw(
                                 $"SELECT * FROM Partidas WHERE id_edicao = @p0 and id_fase = @p1 and id_time_1 = @p2 and id_time_2 = @p3",
-                                regMatch.Id_edicao,
-                                regMatch.Id_fase,
-                                regMatch.Id_time_2,
-                                regMatch.Id_time_1
+                                regMatch.IdEdicao,
+                                regMatch.IdFase,
+                                regMatch.IdTime2,
+                                regMatch.IdTime1
                                 ).FirstOrDefault();
 
         if (checkRepeat == null && checkRepeat1 == null)
@@ -54,13 +54,13 @@ public class MatchService
                     date)
                  VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
                  RETURNING id, placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, date",
-                regMatch.Placar_time_1,
-                regMatch.Placar_time_2,
-                regMatch.Id_edicao,
-                regMatch.Id_fase,
-                regMatch.Id_local,
-                regMatch.Id_time_1,
-                regMatch.Id_time_2,
+                regMatch.PlacarTime1,
+                regMatch.PlacarTime2,
+                regMatch.IdEdicao,
+                regMatch.IdFase,
+                regMatch.IdLocal,
+                regMatch.IdTime1,
+                regMatch.IdTime2,
                 regMatch.Data
             )
             .AsEnumerable()
@@ -72,7 +72,7 @@ public class MatchService
         return null;
     }
 
-    public List<Tuple<int, string, string, Byte[], Byte[], int, int>> LastResults(int id_atletica)
+    public List<Tuple<int, string, string, int, int>> LastResults(int id_atletica)
     {
 
         var listMatches = _context.Matches.FromSqlRaw(
@@ -84,7 +84,7 @@ public class MatchService
             )
             .ToList();
 
-        List<Tuple<int, string, string, Byte[], Byte[], int, int>> results = new List<Tuple<int, string, string, byte[], byte[], int, int>>();
+        List<Tuple<int, string, string, int, int>> results = new List<Tuple<int, string, string, int, int>>();
         foreach (var match in listMatches)
         {
 
@@ -115,8 +115,6 @@ public class MatchService
                     match.Id,
                     match.Time_1.Nome,
                     match.Time_2.Nome,
-                    match.Time_1.Logo,
-                    match.Time_2.Logo,
                     match.Placar_time_1,
                     match.Placar_time_2
                 )

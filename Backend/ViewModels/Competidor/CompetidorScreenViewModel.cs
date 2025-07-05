@@ -9,13 +9,13 @@ public class CompetidorScreenViewModel
     public string Nome { get; set; }
     public string Matr { get; set; }
 
-    public List<Tuple<string, string, Byte[], Byte[], int, int, float>> UltimasPartidas { get; set; }
+    public List<Tuple<string, string, int, int, float>> UltimasPartidas { get; set; }
 
     public CompetidorScreenViewModel(
         string nome,
         string matricula,
         string atletica,
-        List<Tuple<string, string, Byte[], Byte[], int, int, float>> lastMatches
+        List<Tuple<string, string, int, int, float>> lastMatches
         )
     {
 

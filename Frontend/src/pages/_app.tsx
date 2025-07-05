@@ -28,7 +28,7 @@ useEffect(() => {
   }, []);
   
   
-  const handleLogin = async (data: { email: string; password: string }) => {
+  const handleLogin = async (data: { nickname: string; password: string }) => {
     await login(data);
     setUser(getUser() as { nickname: string; email: string } | null);
     setShowAuth(false);
@@ -58,7 +58,7 @@ useEffect(() => {
             className="absolute top-4 right-4 text-white text-2xl font-bold"
             onClick={() => setShowAuth(false)}
           >
-            ×
+            
           </button>
         </div>
       )}
