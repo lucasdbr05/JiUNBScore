@@ -17,7 +17,12 @@ import type {
   CreateSportData,
   UpdateSportData,
   EditMatchData,
-  MatchResult
+  MatchResult,
+  Statistic,
+  CreateStatisticData,
+  UpdateStatisticData,
+  Competitor,
+  Action
 } from "./types";
 
 
@@ -146,6 +151,61 @@ export class Api {
 
     async deleteSport(id: number): Promise<Sport> {
         return await this.api.delete(`/sport/${id}`);
+    }
+
+    // Estatísticas
+    async getStatistics(): Promise<Statistic[]> {
+        return await this.api.get("/statistic");
+    }
+
+    async getStatistic(id: number): Promise<Statistic> {
+        return await this.api.get(`/statistic/${id}`);
+    }
+
+    async createStatistic(data: CreateStatisticData): Promise<Statistic> {
+        return await this.api.post("/statistic", data);
+    }
+
+    async updateStatistic(id: number, data: UpdateStatisticData): Promise<Statistic> {
+        return await this.api.put(`/statistic/${id}`, data);
+    }
+
+    async deleteStatistic(id: number): Promise<void> {
+        await this.api.delete(`/statistic/${id}`);
+    }
+
+    // Competidores
+    async getCompetitors(
+        idTime1?: number, 
+        idTime2?: number,
+        idEsporte?: number, 
+    ): Promise<Competitor[]> {
+        return await this.api.get('/competidor/', {
+            idTime1, 
+            idTime2,
+            idEsporte,
+        });
+    }
+
+    async getCompetitor(id: number): Promise<Competitor> {
+        return await this.api.get(`/competidor/${id}`);
+    }
+
+    async createCompetitor(data: Omit<Competitor, 'id'>): Promise<Competitor> {
+        return await this.api.post('/competidor/', data);
+    }
+
+    async updateCompetitor(id: number, data: Partial<Competitor>): Promise<Competitor> {
+        return await this.api.put(`/competidor/${id}`, data);
+    }
+
+    async deleteCompetitor(id: number): Promise<void> {
+        await this.api.delete(`/competidor/${id}`);
+    }
+
+    // Ações
+    async getActions(): Promise<Action[]> {
+        return await this.api.get('/action');
     }
 
     // Standings
