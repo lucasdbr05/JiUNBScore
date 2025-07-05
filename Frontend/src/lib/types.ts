@@ -68,7 +68,7 @@ export interface UpdateFaseData extends CreateFaseData {
 }
 
 // Athletic
-export interface Athletic {
+export interface  Athletic {
   id: number;
   nome: string;
   logo?: string | null;

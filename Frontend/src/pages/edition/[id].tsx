@@ -73,11 +73,31 @@ export default function EditionPage() {
                 <h2 className="text-xl font-semibold mb-2">Jogos</h2>
                 <ul>
                   {matches.map((match, idx) => {
-                    const time1 = athletics.find(a => a.id === match.id_time_1)?.nome || `Time ${match.id_time_1}`;
-                    const time2 = athletics.find(a => a.id === match.id_time_2)?.nome || `Time ${match.id_time_2}`;
+                    const athletic1 = athletics.find(a => a.id === match.id_time_1);
+                    const athletic2 = athletics.find(a => a.id === match.id_time_2);
+                    const time1 = athletic1?.nome || `Time ${match.id_time_1}`;
+                    const time2 = athletic2?.nome || `Time ${match.id_time_2}`;
                     return (
                       <li key={idx} className="flex justify-between items-center py-2 border-b last:border-b-0">
-                        <span>{time1} {typeof match.placar_time_1 === 'number' ? match.placar_time_1 : '-'} x {typeof match.placar_time_2 === 'number' ? match.placar_time_2 : '-'} {time2}</span>
+                        <span className="flex items-center gap-2">
+                          {athletic1?.logo && (
+                            <>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={athletic1.logo} alt={time1} className="h-6 w-6 object-cover border" />
+                            </>
+                          )}
+                          {time1}
+                        </span>
+                        <span>{typeof match.placar_time_1 === 'number' ? match.placar_time_1 : '-'} x {typeof match.placar_time_2 === 'number' ? match.placar_time_2 : '-'} </span>
+                        <span className="flex items-center gap-2">
+                          {athletic2?.logo && (
+                            <>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={athletic2.logo} alt={time2} className="h-6 w-6 object-cover border" />
+                            </>
+                          )}
+                          {time2}
+                        </span>
                         <span>{new Date(match.data).toLocaleString('pt-BR')}</span>
                         <button
                           className="ml-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 text-xs"
@@ -108,7 +128,7 @@ export default function EditionPage() {
             {activeTab === 'classificacao' && (
               <>
                 <h2 className="text-xl font-semibold mb-2">Classificação</h2>
-                <StandingsTable stats={standings} />
+                <StandingsTable stats={standings} athletics={athletics} />
               </>
             )}
           </div>
