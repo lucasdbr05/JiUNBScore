@@ -1,10 +1,8 @@
-import Head from 'next/head';
 import {useRouter} from 'next/router'
 import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
 import type { Athletic } from '../../lib/types';
 import { getUser } from '@/lib/auth';
-import { MarkOptions } from 'perf_hooks';
 
 export default function AthleticPage() {
     const router = useRouter();
