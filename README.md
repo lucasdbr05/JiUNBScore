@@ -23,10 +23,10 @@ JiUNBScore/
 │   │   └── ...
 │   └── ...
 ├── Database/
-│   │   ├── database.sql    # Schema e procedures/views do banco
-│   │   ├── seed.sql        # Povoamento do banco
-│   │   └── ...
-│   └── ...# Dados de exemplo
+│   ├── database.sql    # Schema e procedures/views do banco
+│   ├── seed.sql        # Povoamento do banco
+│   └── ...
+│   
 └── README.md
 ```
 
