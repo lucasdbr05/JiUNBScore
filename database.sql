@@ -157,3 +157,76 @@ JOIN Atletica a ON a.id = c.id_atletica
 JOIN Partidas p ON p.id = e.id_partida
 GROUP BY c.matricula, c.nome, a.nome, p.id_edicao
 ORDER BY p.id_edicao, ranking DESC;
+
+CREATE OR REPLACE PROCEDURE get_standings_by_edition(
+    IN p_edicao_id INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DROP TABLE IF EXISTS temp_standings;
+    CREATE TABLE temp_standings AS
+    SELECT
+        a.id AS team_id,
+        a.nome AS team_name,
+        a.logo AS team_logo,
+        COUNT(p.id) AS games_played,
+        SUM(
+            CASE
+                WHEN (a.id = p.id_time_1 AND p.placar_time_1 > p.placar_time_2)
+                  OR (a.id = p.id_time_2 AND p.placar_time_2 > p.placar_time_1)
+                THEN 1 ELSE 0 END
+        ) AS wins,
+        SUM(
+            CASE WHEN p.placar_time_1 = p.placar_time_2 THEN 1 ELSE 0 END
+        ) AS draws,
+        SUM(
+            CASE
+                WHEN (a.id = p.id_time_1 AND p.placar_time_1 < p.placar_time_2)
+                  OR (a.id = p.id_time_2 AND p.placar_time_2 < p.placar_time_1)
+                THEN 1 ELSE 0 END
+        ) AS losses,
+        SUM(
+            CASE
+                WHEN a.id = p.id_time_1 THEN p.placar_time_1
+                WHEN a.id = p.id_time_2 THEN p.placar_time_2
+                ELSE 0 END
+        ) AS scored,
+        SUM(
+            CASE
+                WHEN a.id = p.id_time_1 THEN p.placar_time_2
+                WHEN a.id = p.id_time_2 THEN p.placar_time_1
+                ELSE 0 END
+        ) AS conceded
+    FROM
+        atletica a
+        INNER JOIN partidas p ON (a.id = p.id_time_1 OR a.id = p.id_time_2)
+    WHERE
+        p.id_edicao = p_edicao_id
+        AND p.id_fase IN (SELECT id FROM fase WHERE nome_grupo IS NOT NULL)
+    GROUP BY
+        a.id, a.nome, a.logo;
+
+    ALTER TABLE temp_standings ADD COLUMN saldo INT;
+    ALTER TABLE temp_standings ADD COLUMN points INT;
+    ALTER TABLE temp_standings ADD COLUMN rank INT;
+   
+    UPDATE temp_standings
+    SET
+        saldo = scored - conceded,
+        points = wins * 3 + draws;
+
+    WITH ranked AS (
+        SELECT
+            team_id,
+            ROW_NUMBER() OVER (
+                ORDER BY points DESC, saldo DESC, scored DESC
+            ) AS rk
+        FROM temp_standings
+    )
+    UPDATE temp_standings t
+    SET rank = r.rk
+    FROM ranked r
+    WHERE t.team_id = r.team_id;
+END;
+$$;
