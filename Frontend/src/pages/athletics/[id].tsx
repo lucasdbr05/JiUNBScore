@@ -17,7 +17,7 @@ export default function AthleticPage() {
     );
 
     useEffect(() => {
-        if (!id) return;
+        if (!id || isNaN(Number(id))) return;
         const api = new Api();
         api.getAthletic(Number(id))
             .then(setAthletic)

@@ -69,6 +69,12 @@ export default function Home() {
           >
             Registrar nova Atlética
           </button>
+          <button
+            className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 w-full"
+            onClick={() => window.location.href = '/athletics/index'}
+          >
+            Visualizar Atléticas
+          </button>
           <section className="bg-white rounded-xl shadow p-6 mb-8">
             <h2 className="text-xl font-semibold mb-4">Principais Competições</h2>
             <ul>
