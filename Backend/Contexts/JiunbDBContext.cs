@@ -20,10 +20,12 @@ public class JiunbDBContext : DbContext
     public DbSet<Match> Matches { get; set; }
     public DbSet<Relacionados> Relacionados { get; set; }
     public DbSet<Ranking> Ranking { get; set; }
+    public DbSet<Standings> Standings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Ranking>().HasNoKey();
+        modelBuilder.Entity<Standings>().HasNoKey();
     }
 }

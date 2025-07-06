@@ -41,7 +41,7 @@ public class EditionController : ControllerBase
     [HttpGet("standings/{competitionId}")]
     public IActionResult GetStandings(int competitionId)
     {
-        var standings = EditionService.GetStandings(competitionId);
+        var standings = EditionService.GetStandingsAsProcedure(competitionId);
 
         if (standings == null)
             return NotFound();

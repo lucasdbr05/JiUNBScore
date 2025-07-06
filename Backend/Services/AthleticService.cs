@@ -80,14 +80,14 @@ namespace Backend.Services
             );
         }
 
-        private static byte[] Base64ToBytes(string base64)
+        public static byte[] Base64ToBytes(string base64)
         {
             if (string.IsNullOrEmpty(base64)) return null;
             var clean =  base64.Split(',')[1];
             return Convert.FromBase64String(clean);
         }
 
-        private static string BytesToBase64(object logo)
+        public static string BytesToBase64(object logo)
         {
             if (logo is byte[] bytes && bytes.Length > 0)
                 return "data:image/png;base64," + Convert.ToBase64String(bytes);

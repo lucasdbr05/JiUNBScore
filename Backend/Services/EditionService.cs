@@ -124,6 +124,47 @@ public class EditionService
         return result;
     }
 
+    public List<StandingsViewModel> GetStandingsAsProcedure(int competitionId)
+    {
+        _context.Database.ExecuteSqlRaw("CALL get_standings_by_edition(@p0)", competitionId);
+
+        var standings = _context.Standings.FromSqlRaw(@"SELECT team_id, team_name, team_logo, games_played, wins, draws, losses, saldo, scored, conceded, points, rank FROM temp_standings").ToList();
+        var matches = _context.Matches.FromSqlRaw(@"SELECT * FROM partidas WHERE id_edicao = @p0 AND id_fase IN (SELECT id FROM fase WHERE nome_grupo IS NOT NULL)", competitionId).ToList();
+
+        var standingsViewModels = standings.Select(s => {
+            var jogos = matches.Where(m => m.Id_time_1 == s.TeamId || m.Id_time_2 == s.TeamId)
+                .OrderByDescending(m => m.Data)
+                .Take(5)
+                .Select(m => {
+                    if ((m.Id_time_1 == s.TeamId && m.Placar_time_1 > m.Placar_time_2) || (m.Id_time_2 == s.TeamId && m.Placar_time_2 > m.Placar_time_1)) return "V";
+                    if (m.Placar_time_1 == m.Placar_time_2) return "E";
+                    return "D";
+                })
+                .ToList();
+            return new StandingsViewModel(
+                s.TeamId,
+                s.TeamName,
+                s.TeamLogo,
+                s.GamesPlayed,
+                s.Wins,
+                s.Draws,
+                s.Losses,
+                s.Saldo,
+                s.Scored,
+                s.Conceded,
+                jogos,
+                s.Points
+            )
+            {
+                Rank = s.Rank
+            };
+        }).ToList();
+
+        _context.Database.ExecuteSqlRaw("DROP TABLE IF EXISTS temp_standings");
+
+        return standingsViewModels;
+    }
+
     public Edicao? Update(int id, UpdateEditionViewModel data)
     {
         var edicao = _context.Edicoes
