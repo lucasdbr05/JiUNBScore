@@ -17,7 +17,6 @@ import type {
   CreateSportData,
   UpdateSportData,
   EditMatchData,
-  MatchResult,
   Statistic,
   CreateStatisticData,
   UpdateStatisticData,
@@ -65,7 +64,7 @@ export class Api {
         await this.api.delete(`/match/${id}`);
     }
     
-    async getMatchesByAthletic(idAthletic: number) : Promise<MatchResult[]>{
+    async getMatchesByAthletic(idAthletic: number) : Promise<Match[]>{
         return await this.api.get(`/match/athletic/${idAthletic}`);
     }
 

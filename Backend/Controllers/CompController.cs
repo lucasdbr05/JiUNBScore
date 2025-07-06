@@ -43,10 +43,9 @@ public class CompController : ControllerBase
         string matricula
     )
     {
-
         var result = CompService.CompetidorFinder(matricula);
 
-        if (result == null) return BadRequest(result);
+        if (result == null) return NotFound();
         return Ok(result);
     }
 
