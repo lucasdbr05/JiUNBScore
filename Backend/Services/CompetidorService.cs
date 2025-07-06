@@ -119,7 +119,7 @@ public class CompetidorService
         return dltdComp;
     }
 
-    public CompetidorScreenViewModel? CompetidorFinder(string id_competidor)
+    public Competidor? CompetidorFinder(string id_competidor)
     {
 
         var competidor = _context.Competidores
@@ -138,53 +138,6 @@ public class CompetidorService
         if (competidor == null)
             return null;
 
-        var listMatches = _matchServ.LastResults(competidor.Id_atletica);
-
-        List<Tuple<string, string, int, int, float>> lastMatches = new List<Tuple<string, string, int, int, float>>();
-
-        foreach (var match in listMatches)
-        {
-
-            lastMatches.Add(
-                Tuple.Create(
-                    match.Item2,
-                    match.Item3,
-                    match.Item4,
-                    match.Item5,
-                    CalcNota(id_competidor, match.Item1)
-                )
-            );
-        }
-
-        var compsScreen = new CompetidorScreenViewModel(
-            competidor.Nome,
-            competidor.Matricula,
-            competidor.Atletica.Nome,
-            lastMatches
-        );
-
-        return compsScreen;
-    }
-    private float CalcNota(string id_competidor, int id_partida)
-    {
-
-        float nota = 0;
-        float qtd = 0;
-
-        var listActions = _estService.TakeEstats(
-            id_partida, id_competidor
-            );
-
-        foreach (var estat in listActions)
-        {
-
-            if (estat.Action != null)
-            {
-                nota += estat.Action.Points * estat.QtdAcoes;
-                qtd += estat.QtdAcoes;
-            }
-        }
-
-        return (qtd > 0) ? nota / qtd : 0;
+        return competidor;
     }
 }
