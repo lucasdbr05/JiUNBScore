@@ -26,7 +26,13 @@ export function Header({ user, onAuthClick, sports, onSportSelect }: HeaderProps
       />
       <SportDropdown sports={sports} onSelect={onSportSelect} />
       <button
-        className="ml-8 px-4 py-2 bg-white text-black rounded border hover:bg-black hover:text-white transition-colors"
+        className="ml-4 px-4 py-2 bg-green-600 text-white rounded border hover:bg-green-700 transition-colors"
+        onClick={() => router.push('/edition/create')}
+      >
+        Criar Edição
+      </button>
+      <button
+        className="ml-4 px-4 py-2 bg-white text-black rounded border hover:bg-black hover:text-white transition-colors"
         onClick={onAuthClick}
       >
         {user ? 'Perfil' : 'Login / Sign Up'}

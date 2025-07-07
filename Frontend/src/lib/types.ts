@@ -121,8 +121,9 @@ export interface Edition {
 }
 
 export interface CreateEditionData {
-  data_fim: string;
-  data_comeco: string;
+  dataFim: string;
+  dataComeco: string;
+  selectedSports: number[];
 }
 
 export interface UpdateEditionData extends CreateEditionData {

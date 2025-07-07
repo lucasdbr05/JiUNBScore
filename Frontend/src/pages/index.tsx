@@ -68,8 +68,7 @@ export default function Home({ selectedSport }: HomeProps) {
                   className="flex justify-between items-center py-3 border-b last:border-b-0 cursor-pointer hover:bg-gray-100"
                   onClick={() => window.location.href = `/edition/${comp.id}`}
                 >
-                  <span className="font-medium">{comp.data_comeco}</span>
-                  <span className="text-gray-500 text-sm">{comp.data_fim}</span>
+                  <span className="font-medium">{new Date(comp.data_comeco).getFullYear()}</span>
                 </li>
               ))}
             </ul>
