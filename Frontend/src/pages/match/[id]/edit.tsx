@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Api } from '../../../lib/apiClient';
 import { CreateStatisticModal } from '../../../components/CreateStatisticModal';
-import type { Match } from '../../../lib/types';
+import type { Competitor, Match } from '../../../lib/types';
 
 export default function EditMatchPage() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function EditMatchPage() {
   const [faseLabel, setFaseLabel] = useState<string>('');
   const [editionDates, setEditionDates] = useState<string>('');
   const [showStatModal, setShowStatModal] = useState(false);
-  const [competitors, setCompetitors] = useState<{ id: number; nome: string }[]>([]);
+  const [competitors, setCompetitors] = useState<Competitor[]>([]);
   const [actions, setActions] = useState<{ id: number; nome: string }[]>([]);
 
   const openStatModal = async () => {

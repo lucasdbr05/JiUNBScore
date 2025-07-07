@@ -55,11 +55,11 @@ CREATE TABLE Partidas
 CREATE TABLE Local 
 (
     id SERIAL PRIMARY KEY,
-    ra VARCHAR(20) NOT NULL,
+    ra VARCHAR(210) NOT NULL,
     cep VARCHAR(9) UNIQUE,
-    quadra VARCHAR(20),
-    rua VARCHAR(20),
-    lote VARCHAR(20)
+    quadra VARCHAR(210),
+    rua VARCHAR(210),
+    lote VARCHAR(210)
 );
 
 
