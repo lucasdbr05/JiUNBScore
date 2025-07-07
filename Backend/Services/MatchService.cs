@@ -113,11 +113,16 @@ public class MatchService
 
         return results.AsEnumerable();
     }
-    public IEnumerable<Match> FindAll()
+    public IEnumerable<Match> FindAll(int? idEsporte = null)
     {
-        return _context.Matches
-            .FromSqlRaw("SELECT * FROM Partidas")
-            .AsEnumerable();
+        if (idEsporte.HasValue)
+            return _context.Matches.FromSqlRaw(@"
+                SELECT m.* FROM Partidas m
+                JOIN Edicao e ON m.id_edicao = e.id
+                JOIN EsporteEdicao ee ON e.id = ee.id_edicao
+                WHERE ee.id_esporte = @p0
+            ", idEsporte.Value).AsEnumerable();
+        return _context.Matches.FromSqlRaw("SELECT * FROM Partidas").AsEnumerable();
     }
 
     public Match? FindOne(int id)

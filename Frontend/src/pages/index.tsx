@@ -1,37 +1,34 @@
+
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { Api } from '../lib/apiClient';
 import type { Match, Athletic, Edition } from '../lib/types';
 import { AuthCard } from '../components/AuthCard';
-import { getUser } from '../lib/auth';
+// import { getUser } from '../lib/auth';
 import { SportDropdownItem } from '../components/SportDropdown';
 
-export default function Home() {
+
+interface HomeProps {
+  selectedSport: number | undefined;
+  setSelectedSport: (id: number | undefined) => void;
+  sports: SportDropdownItem[];
+}
+
+export default function Home({ selectedSport }: HomeProps) {
   const [nextMatches, setNextMatches] = useState<Match[]>([]);
   const [mainEdition, setMainEdition] = useState<Edition[]>([]);
   const [athletics, setAthletics] = useState<Athletic[]>([]);
-  const [sports, setSports] = useState<SportDropdownItem[]>([]);
-  const [showAuth, setShowAuth] = useState(false);
-  const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
 
-  useEffect(() => {
-    const u = getUser();
-    if (typeof u === 'object' && u !== null && 'nickname' in u && 'email' in u) {
-      setUser(u as { nickname: string; email: string });
-    } else {
-      setUser(null);
-    }
-  }, []);
 
   useEffect(() => {
     const api = new Api();
-    api.getMatches().then(setNextMatches).catch(() => {
+    api.getMatches(selectedSport).then(setNextMatches).catch(() => {
       setNextMatches([
         { id: 1, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 1, id_time_2: 2, data: '2025-06-18T19:00:00' },
         { id: 2, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 3, id_time_2: 4, data: '2025-06-19T20:00:00' },
       ]);
     });
-    api.getEditions().then(setMainEdition).catch(() => {
+    api.getEditions(selectedSport).then(setMainEdition).catch(() => {
       setMainEdition([
         { id: 1, data_fim: '2025-07-01', data_comeco: '2025-10-30' },
         { id: 2, data_fim: '2025-08-01', data_comeco: '2025-11-30' },
@@ -45,15 +42,8 @@ export default function Home() {
         { id: 4, nome: 'Atlética D', logo: null },
       ]);
     });
-    api.getSports().then(setSports).catch(() => {
-      setSports([
-        { id: 1, nome: 'Futebol' },
-        { id: 2, nome: 'Vôlei' },
-        { id: 3, nome: 'Basquete' },
-        { id: 4, nome: 'Handebol' },
-      ]);
-    });
-  }, []);
+  }, [selectedSport]);
+
 
   return (
     <>
@@ -84,8 +74,7 @@ export default function Home() {
                   className="flex justify-between items-center py-3 border-b last:border-b-0 cursor-pointer hover:bg-gray-100"
                   onClick={() => window.location.href = `/edition/${comp.id}`}
                 >
-                  <span className="font-medium">{comp.data_comeco}</span>
-                  <span className="text-gray-500 text-sm">{comp.data_fim}</span>
+                  <span className="font-medium">{new Date(comp.data_comeco).getFullYear()}</span>
                 </li>
               ))}
             </ul>

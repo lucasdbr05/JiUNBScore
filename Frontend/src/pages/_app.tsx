@@ -10,9 +10,10 @@ import { AuthCard } from "../components/AuthCard";
 export default function App({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
   const [sports, setSports] = useState<SportDropdownItem[]>([]);
+  const [selectedSport, setSelectedSport] = useState<number | undefined>(1);
   const [showAuth, setShowAuth] = useState(false);
-  
-useEffect(() => {
+
+  useEffect(() => {
     const u = getUser();
     if (typeof u === 'object' && u !== null && 'nickname' in u && 'email' in u) {
       setUser(u as { nickname: string; email: string });
@@ -26,8 +27,7 @@ useEffect(() => {
       ]);
     });
   }, []);
-  
-  
+
   const handleLogin = async (data: { nickname: string; password: string }) => {
     await login(data);
     setUser(getUser() as { nickname: string; email: string } | null);
@@ -62,8 +62,18 @@ useEffect(() => {
           </button>
         </div>
       )}
-      <Header user={user} onAuthClick={() => setShowAuth(true)} sports={sports} />
-      <Component {...pageProps} />
+      <Header
+        user={user}
+        onAuthClick={() => setShowAuth(true)}
+        sports={sports}
+        onSportSelect={sport => setSelectedSport(sport?.id)}
+      />
+      <Component
+        {...pageProps}
+        selectedSport={selectedSport}
+        setSelectedSport={setSelectedSport}
+        sports={sports}
+      />
     </>
   );
 }

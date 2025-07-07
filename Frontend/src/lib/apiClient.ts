@@ -44,8 +44,8 @@ export class Api {
 
     
     // Matches
-    async getMatches(): Promise<Match[]> {
-        return await this.api.get("/match");
+    async getMatches(idEsporte?: number): Promise<Match[]> {
+        return await this.api.get("/match" + (idEsporte ? `?idEsporte=${idEsporte}` : ""));
     }
 
     async getMatch(id: number): Promise<Match> {
@@ -90,8 +90,8 @@ export class Api {
     }
 
     // Athletic
-    async getAthletics(): Promise<Athletic[]> {
-        return await this.api.get("/athletic");
+    async getAthletics(idEsporte?: number): Promise<Athletic[]> {
+        return await this.api.get("/athletic" + (idEsporte ? `?idEsporte=${idEsporte}` : ""));
     }
 
     async getAthletic(id: number): Promise<Athletic> {
@@ -111,8 +111,8 @@ export class Api {
     }
 
     // Edition
-    async getEditions(): Promise<Edition[]> {
-        return await this.api.get("/edition");
+    async getEditions(idEsporte?: number): Promise<Edition[]> {
+        return await this.api.get("/edition" + (idEsporte ? `?idEsporte=${idEsporte}` : ""));
     }
 
     async getEdition(id: number): Promise<Edition> {

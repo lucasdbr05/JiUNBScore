@@ -23,9 +23,9 @@ public class EditionController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult FindAll()
+    public IActionResult FindAll([FromQuery(Name="idEsporte")] int? idEsporte)
     {
-        var edicoes = EditionService.FindAll();
+        var edicoes = EditionService.FindAll(idEsporte);
         return Ok(edicoes);
     }
 

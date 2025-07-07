@@ -30,8 +30,13 @@ namespace Backend.Services
             return atletica != null ? ToDefaultViewModel(atletica) : null;
         }
 
-        public IEnumerable<DefaultAtheticViewModel> FindAll()
+        public IEnumerable<DefaultAtheticViewModel> FindAll(int? idEsporte = null)
         {
+            if (idEsporte.HasValue)
+                return _context.Atleticas
+                    .FromSqlRaw("SELECT a.id, a.nome, a.logo FROM Atletica a JOIN EsportesAtletica ea ON a.id = ea.id_atletica WHERE ea.id_esporte = @p0", idEsporte)
+                    .AsEnumerable()
+                    .Select(a => ToDefaultViewModel(a));
             return _context.Atleticas
                 .FromSqlRaw("SELECT id, nome, logo FROM Atletica")
                 .AsEnumerable()

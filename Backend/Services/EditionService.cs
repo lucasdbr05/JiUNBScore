@@ -17,18 +17,36 @@ public class EditionService
 
     public Edicao Create(CreateEditionViewModel data)
     {
+        var dataFimUtc = data.DataFim.Kind == DateTimeKind.Utc ? data.DataFim : DateTime.SpecifyKind(data.DataFim, DateTimeKind.Utc);
+        var dataComecoUtc = data.DataComeco.Kind == DateTimeKind.Utc ? data.DataComeco : DateTime.SpecifyKind(data.DataComeco, DateTimeKind.Utc);
+
         var edicao = _context.Edicoes
             .FromSqlRaw(
                 @"INSERT INTO Edicao (data_fim, data_comeco) VALUES (@p0, @p1) RETURNING id, data_fim, data_comeco",
-                data.DataFim, data.DataComeco
+                dataFimUtc, dataComecoUtc
             )
             .AsEnumerable()
             .FirstOrDefault();
+
+        if (edicao != null && data.SelectedSports != null)
+        {
+            foreach (var idEsporte in data.SelectedSports)
+            {
+                _context.Database.ExecuteSqlRaw(
+                    "INSERT INTO EsporteEdicao (id_edicao, id_esporte) VALUES (@p0, @p1)",
+                    edicao.Id, idEsporte
+                );
+            }
+        }
         return edicao;
     }
 
-    public IEnumerable<Edicao> FindAll()
+    public IEnumerable<Edicao> FindAll(int? idEsporte = null)
     {
+        if (idEsporte.HasValue)
+            return _context.Edicoes
+                .FromSqlRaw("SELECT id, data_fim, data_comeco FROM Edicao e JOIN EsporteEdicao ee ON e.id = ee.id_edicao WHERE ee.id_esporte = @p0", idEsporte)
+                .AsEnumerable();
         return _context.Edicoes
             .FromSqlRaw("SELECT id, data_fim, data_comeco FROM Edicao")
             .AsEnumerable();

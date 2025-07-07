@@ -47,7 +47,7 @@ CREATE TABLE Partidas
     id_local INT,
     id_time_1 INT,
     id_time_2 INT,
-    date DATE NOT NULL
+    date TIMESTAMP NOT NULL
     CHECK(id_time_1 != id_time_2)
 );
 
