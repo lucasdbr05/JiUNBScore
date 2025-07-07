@@ -61,7 +61,7 @@ export default function Home({ selectedSport }: HomeProps) {
           </button>
           <button
             className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 w-full"
-            onClick={() => window.location.href = '/athletics/index'}
+            onClick={() => window.location.href = '/athletics/all'}
           >
             Visualizar Atléticas
           </button>

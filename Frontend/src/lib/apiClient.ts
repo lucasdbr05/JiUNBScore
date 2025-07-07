@@ -179,7 +179,7 @@ export class Api {
         idTime2?: number,
         idEsporte?: number, 
     ): Promise<Competitor[]> {
-        return await this.api.get('/competidor/', {
+        return await this.api.get('/competidor', {
             idTime1, 
             idTime2,
             idEsporte,
