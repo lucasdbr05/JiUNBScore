@@ -28,13 +28,21 @@ VALUES ('Futsal'),
 
 
 INSERT INTO Edicao (data_fim, data_comeco)
-VALUES ('2025-07-1', '2025-10-30');
+VALUES ('2025-07-1', '2025-10-30'),
+    ('2025-10-4', '2026-01-10'),
+    ('2025-05-2', '2025-10-09'),
+    ('2025-01-25', '2025-02-10'),
+    ('2025-08-24', '2025-11-21');
 
 INSERT INTO Fase (ordem, nome_etapa, nome_grupo)
 VALUES (1, 'FINAL', '');
 
 INSERT INTO Local (ra, cep, quadra, rua, lote)
-VALUES ('Asa Norte', '70855-530', 'Cidade Universitária', 'Rua Santander', 'Arena Zhou');
+VALUES ('Asa Norte', '70855-530', 'Cidade Universitária', 'Rua Santander', 'Arena Zhou'),
+        ('Asa Norte', '70910-900', 'Cidade Universitária', 'Centro Olimpico', 'Arena UnB'),
+        ('Asa Sul', '70330-000', '102 sul', 'Eixinho', 'Vila Norai'),
+        ('Ceilândia', '70040-020', 'QNN 14', 'St. N', 'Abadião'),
+        ('Gama', '72492-010', 'Setor Central', 'Rua Walmir Campelo Bezerra', 'Bezerrão');
 
 INSERT INTO Partidas (placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, date)
 VALUES (4, 0, 1, 1, 1, 1, 2, '2025-10-04T19:00:00');
@@ -69,7 +77,9 @@ VALUES ('Gol', 100, 1),
 INSERT INTO Estatisticas (qtd_acoes, id_partida, id_acao, id_competidor)
 VALUES (2, 1, 2,'231003406'),
        (1, 1, 2,'231019003'),
-       (3, 1, 1,'231003531');
+       (3, 1, 1,'231003531'),
+       (5, 1, 14, '231034841'),
+       (1, 1, 15, '231003406');
 
 INSERT INTO EsportesAtletica (id_atletica, id_esporte) 
 VALUES (1, 1),
