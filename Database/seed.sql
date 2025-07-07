@@ -9,14 +9,22 @@ VALUES ('Selecic'),
 INSERT INTO Competidor (matricula, nome, id_atletica) 
 VALUES ('231003406', 'Lucas Flu', 1),
        ('231019003', 'Cauê', 1),
-       ('231003531', 'Emershow', 1);
+       ('231003531', 'Emershow', 1),
+       ('231018964', 'Pedrolas', 1),
+       ('231034841', 'Henrique', 1),
+       ('200016997', 'Bigode', 2),
+       ('190086912', 'Everson', 2),
+       ('201020124', 'Guga', 2),
+       ('211003406', 'Guto', 2),
+       ('222340070', 'Trikas', 2);
 
 
 INSERT INTO Esportes (nome)
 VALUES ('Futsal'),
        ('Basquete'),
        ('Vôlei'),
-       ('Handebol');
+       ('Handebol'),
+       ('Futebol Americano');
 
 
 INSERT INTO Edicao (data_fim, data_comeco)
@@ -33,7 +41,30 @@ VALUES (4, 0, 1, 1, 1, 1, 2, '2025-10-04T19:00:00');
 
 INSERT INTO Acao (nome, pontuacao, id_esporte)
 VALUES ('Gol', 100, 1),
-       ('Assistência', 50, 1);
+       ('Assistência', 50, 1),
+       ('Toco', 25, 2),
+       ('Cesta', 100, 2),
+       ('Assistência', 35, 2),
+       ('Bloqueio', 15, 3),
+       ('Defesa', 100, 1),
+       ('Defesa', 100, 4),
+       ('Gol', 100, 4),
+       ('Assistência', 50, 4),
+       ('Field Goal', 75, 5),
+       ('Towchdown recebido', 100, 5),
+       ('Towchdown corrido', 100, 5),
+       ('Touchdown Passe', 100, 5),
+       ('Interceptação', 75, 5),
+       ('Interceptação', 20, 1),
+       ('Interceptação', 15, 4),
+       ('Tackle', 20, 5),
+       ('Passe Completo', 10, 5),
+       ('Passe Completo', 10, 1),
+       ('Passe Completo', 10, 4),
+       ('Passe Completo', 5, 5),
+       ('Passe Completo', 5, 1),
+       ('Passe Tentado', 5, 4),
+       ('Ponto', 100, 2);
 
 INSERT INTO Estatisticas (qtd_acoes, id_partida, id_acao, id_competidor)
 VALUES (2, 1, 2,'231003406'),
