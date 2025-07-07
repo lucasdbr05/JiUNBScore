@@ -75,6 +75,15 @@ public class CompetidorService
                 .FromSqlRaw(sql, idTime1.Value, idTime2.Value, idEsporte.Value)
                 .AsEnumerable();
         }
+        
+        if (idTime1.HasValue)
+        {
+            string sql = @"SELECT * FROM Competidor WHERE 
+                (id_atletica = @p0)";
+            return _context.Competidores
+                .FromSqlRaw(sql, idTime1.Value)
+                .AsEnumerable();
+        }
         return Enumerable.Empty<Competidor>();
     }
 
