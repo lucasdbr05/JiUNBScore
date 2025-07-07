@@ -49,7 +49,11 @@ export default function EditionPage() {
     <>
       <div className="p-8 max-w-6xl mx-auto flex gap-8">
         <section className="w-2/3">
-          <h1 className="text-2xl font-bold mb-4">Competição: {edition.data_comeco} - {edition.data_fim}</h1>
+          <h1 className="text-2xl font-bold mb-4">
+            Competição: {new Date(edition.data_comeco).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+            {' '} - {' '}
+            {new Date(edition.data_fim).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+          </h1>
           {user && (
             <button
               className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"

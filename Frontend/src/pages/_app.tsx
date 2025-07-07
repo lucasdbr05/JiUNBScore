@@ -44,8 +44,6 @@ export default function App({ Component, pageProps }: AppProps) {
     setShowAuth(false);
   };
 
-  // (selectedSportObj not needed, removed)
-
   return (
     <>
       {showAuth && (
