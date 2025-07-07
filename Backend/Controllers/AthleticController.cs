@@ -23,9 +23,9 @@ public class AthleticController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult FindAll()
+    public IActionResult FindAll([FromQuery(Name="idEsporte")] int? idEsporte)
     {
-        var atleticas = AthleticService.FindAll();
+        var atleticas = AthleticService.FindAll(idEsporte);
         return Ok(atleticas);
     }
 

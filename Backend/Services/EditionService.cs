@@ -27,8 +27,12 @@ public class EditionService
         return edicao;
     }
 
-    public IEnumerable<Edicao> FindAll()
+    public IEnumerable<Edicao> FindAll(int? idEsporte = null)
     {
+        if (idEsporte.HasValue)
+            return _context.Edicoes
+                .FromSqlRaw("SELECT id, data_fim, data_comeco FROM Edicao e JOIN EsporteEdicao ee ON e.id = ee.id_edicao WHERE ee.id_esporte = @p0", idEsporte)
+                .AsEnumerable();
         return _context.Edicoes
             .FromSqlRaw("SELECT id, data_fim, data_comeco FROM Edicao")
             .AsEnumerable();

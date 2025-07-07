@@ -25,9 +25,9 @@ public class MatchController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult FindAll()
+    public IActionResult FindAll([FromQuery(Name="idEsporte")] int? idEsporte)
     {
-        var matches = MatchService.FindAll();
+        var matches = MatchService.FindAll(idEsporte);
         return Ok(matches);
     }
 
