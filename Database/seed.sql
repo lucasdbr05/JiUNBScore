@@ -64,7 +64,7 @@ VALUES ('Asa Norte', '70855-530', 'Cidade Universitária', 'Rua Santander', 'Are
 
 INSERT INTO Partidas (placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, date) 
 VALUES
-    (8, 0, 1, 1, 1, 2, 1, '2025-07-07 00:00:00'),
+    (8, 0, 1, 1, 1, 1, 2, '2025-07-07 00:00:00'),
     (5, 1, 1, 2, 1, 3, 4, '2025-07-07 00:00:00'),
     (3, 0, 1, 1, 1, 1, 6, '2025-07-07 00:00:00'),
     (2, 6, 1, 1, 1, 5, 1, '2025-07-07 00:00:00'),
