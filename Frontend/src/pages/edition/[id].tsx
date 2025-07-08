@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
-import type { Match, Edition, Athletic, RankingAtleta } from '../../lib/types';
+import type { Match, Edition, Athletic, RankingAtleta, Fase } from '../../lib/types';
 import { getUser } from '../../lib/auth';
 import { StandingsTable } from '../../components/StandingsTable';
 import { MatchDetailsModal } from '../../components/MatchDetailsModal';
@@ -13,6 +13,7 @@ export default function EditionPage({ selectedSport }: { selectedSport: number }
   const [edition, setEdition] = useState<Edition | null>(null);
   const [matches, setMatches] = useState<Match[]>([]);
   const [athletics, setAthletics] = useState<Athletic[]>([]);
+  const [phases, setPhases] = useState<Fase[]>([]);
   const [user, setUser] = useState<{ nickname: string; email: string } | null>(null);
   const [activeTab, setActiveTab] = useState<'jogos' | 'classificacao'>('jogos');
   const [standings, setStandings] = useState<TeamStats[] | Record<string, TeamStats[]>>([]);
@@ -30,6 +31,7 @@ export default function EditionPage({ selectedSport }: { selectedSport: number }
     api.getEdition(Number(id)).then(setEdition);
     api.getMatches(selectedSport).then(ms => setMatches(ms.filter(m => m.id_edicao === Number(id))));
     api.getAthletics().then(setAthletics);
+    api.getFases().then(setPhases);
     api.getStandings(Number(id), selectedSport).then(data => {
       if (Array.isArray(data)) {
         setStandings(data);
@@ -87,71 +89,92 @@ export default function EditionPage({ selectedSport }: { selectedSport: number }
             {activeTab === 'jogos' && (
               <>
                 <h2 className="text-xl font-semibold mb-2">Jogos</h2>
-                <ul>
-                  {matches.map((match, idx) => {
-                    const athletic1 = athletics.find(a => a.id === match.id_time_1);
-                    const athletic2 = athletics.find(a => a.id === match.id_time_2);
-                    const time1 = athletic1?.nome || `Time ${match.id_time_1}`;
-                    const time2 = athletic2?.nome || `Time ${match.id_time_2}`;
-                    return (
-                      <li key={idx} className="flex justify-between items-center py-2 border-b last:border-b-0">
-                        <span className="flex items-center gap-2">
-                          {athletic1?.logo && (
-                            <>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={athletic1.logo} alt={time1} className="h-6 w-6 object-cover border" />
-                            </>
-                          )}
-                          {time1}
-                        </span>
-                        <span>{typeof match.placar_time_1 === 'number' ? match.placar_time_1 : '-'} x {typeof match.placar_time_2 === 'number' ? match.placar_time_2 : '-'} </span>
-                        <span className="flex items-center gap-2">
-                          {athletic2?.logo && (
-                            <>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={athletic2.logo} alt={time2} className="h-6 w-6 object-cover border" />
-                            </>
-                          )}
-                          {time2}
-                        </span>
-                        <span>{new Date(match.data).toLocaleString('pt-BR')}</span>
-                        <button
-                          className="mr-2 px-2 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-xs"
-                          onClick={() => { setSelectedMatchId(match.id); setShowMatchDetails(true); }}
-                        >
-                          Ver detalhes
-                        </button>
-                        <button
-                          className="ml-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 text-xs"
-                          onClick={() => router.push(`/match/${match.id}/edit`)}
-                        >
-                          Editar
-                        </button>
-                {showMatchDetails && selectedMatchId !== null && (
-                  <MatchDetailsModal
-                    isOpen={showMatchDetails}
-                    onClose={() => setShowMatchDetails(false)}
-                    matchId={selectedMatchId}
-                  />
-                )}
-                        {user && (
-                          <button
-                            className="ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 text-xs"
-                            onClick={async () => {
-                              if (confirm('Tem certeza que deseja deletar esta partida?')) {
-                                const api = new Api();
-                                await api.deleteMatch(match.id);
-                                setMatches(matches.filter(m => m.id !== match.id));
-                              }
-                            }}
-                          >
-                            Deletar
-                          </button>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
+                {(() => {
+                  const faseMap = new Map(phases.map(f => [f.id, f]));
+                  const grouped: Record<string, { ordem: number, matches: Match[] }> = {};
+                  matches.forEach(match => {
+                    const fase = faseMap.get(match.id_fase);
+                    if (!fase) return;
+                    const nomeEtapa = fase.nomeEtapa;
+                    if (!grouped[nomeEtapa]) grouped[nomeEtapa] = { ordem: fase.ordem ?? 0, matches: [] };
+                    grouped[nomeEtapa].matches.push(match);
+                  });
+                  const sortedGroups = Object.entries(grouped).sort((a, b) => b[1].ordem - a[1].ordem);
+                  return (
+                    <div>
+                      {sortedGroups.map(([nomeEtapa, { matches }]) => (
+                        <div key={nomeEtapa} className="mb-6">
+                          <h3 className="text-lg font-bold mb-2">{nomeEtapa}</h3>
+                          <ul>
+                            {matches.map((match, idx) => {
+                              const athletic1 = athletics.find(a => a.id === match.id_time_1);
+                              const athletic2 = athletics.find(a => a.id === match.id_time_2);
+                              const time1 = athletic1?.nome || `Time ${match.id_time_1}`;
+                              const time2 = athletic2?.nome || `Time ${match.id_time_2}`;
+                              return (
+                                <li key={match.id} className="flex justify-between items-center py-2 border-b last:border-b-0">
+                                  <span className="flex items-center gap-2">
+                                    {athletic1?.logo && (
+                                      <>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={athletic1.logo} alt={time1} className="h-6 w-6 object-cover border" />
+                                      </>
+                                    )}
+                                    {time1}
+                                  </span>
+                                  <span>{typeof match.placar_time_1 === 'number' ? match.placar_time_1 : '-'} x {typeof match.placar_time_2 === 'number' ? match.placar_time_2 : '-'} </span>
+                                  <span className="flex items-center gap-2">
+                                    {athletic2?.logo && (
+                                      <>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={athletic2.logo} alt={time2} className="h-6 w-6 object-cover border" />
+                                      </>
+                                    )}
+                                    {time2}
+                                  </span>
+                                  <span>{new Date(match.data).toLocaleString('pt-BR')}</span>
+                                  <button
+                                    className="mr-2 px-2 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-xs"
+                                    onClick={() => { setSelectedMatchId(match.id); setShowMatchDetails(true); }}
+                                  >
+                                    Ver detalhes
+                                  </button>
+                                  <button
+                                    className="ml-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 text-xs"
+                                    onClick={() => router.push(`/match/${match.id}/edit`)}
+                                  >
+                                    Editar
+                                  </button>
+                                  {showMatchDetails && selectedMatchId !== null && (
+                                    <MatchDetailsModal
+                                      isOpen={showMatchDetails}
+                                      onClose={() => setShowMatchDetails(false)}
+                                      matchId={selectedMatchId}
+                                    />
+                                  )}
+                                  {user && (
+                                    <button
+                                      className="ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 text-xs"
+                                      onClick={async () => {
+                                        if (confirm('Tem certeza que deseja deletar esta partida?')) {
+                                          const api = new Api();
+                                          await api.deleteMatch(match.id);
+                                          setMatches(matches.filter(m => m.id !== match.id));
+                                        }
+                                      }}
+                                    >
+                                      Deletar
+                                    </button>
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
               </>
             )}
             {activeTab === 'classificacao' && (

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 namespace Backend.ViewModels;
 
 public class RegisterMatchViewModel
