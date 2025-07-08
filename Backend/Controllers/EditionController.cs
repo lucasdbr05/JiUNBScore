@@ -38,10 +38,13 @@ public class EditionController : ControllerBase
         return Ok(edicao);
     }
 
-    [HttpGet("standings/{competitionId}")]
-    public IActionResult GetStandings(int competitionId)
+    [HttpGet("standings")]
+    public IActionResult GetStandings(
+        [FromQuery(Name = "editionId")] int editionId,
+        [FromQuery(Name = "sportId")] int sportId
+    )
     {
-        var standings = EditionService.GetStandingsAsProcedure(competitionId);
+        var standings = EditionService.GetStandingsAsProcedure(editionId, sportId);
 
         if (standings == null)
             return NotFound();

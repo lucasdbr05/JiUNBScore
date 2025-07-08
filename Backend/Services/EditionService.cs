@@ -142,13 +142,30 @@ public class EditionService
         return result;
     }
 
-    public Dictionary<string, List<StandingsViewModel>> GetStandingsAsProcedure(int competitionId)
+    public Dictionary<string, List<StandingsViewModel>> GetStandingsAsProcedure(int competitionId, int sportId)
     {
-        _context.Database.ExecuteSqlRaw("CALL get_standings_by_edition(@p0)", competitionId);
+        Console.WriteLine(competitionId);
+        Console.WriteLine(sportId);
+        
+        _context.Database.ExecuteSqlRaw(
+            "CALL get_standings_by_edition(@p0, @p1)",
+            competitionId, sportId  
+        );
 
-        var standings = _context.Standings.FromSqlRaw(@"SELECT team_id, team_name, team_logo, games_played, wins, draws, losses, saldo, scored, conceded, points, rank FROM temp_standings").ToList();
-        var matches = _context.Matches.FromSqlRaw(@"SELECT * FROM partidas WHERE id_edicao = @p0 AND id_fase IN (SELECT id FROM fase WHERE nome_grupo IS NOT NULL)", competitionId).ToList();
-        var fases = _context.Fases.FromSqlRaw(@"SELECT * FROM fase WHERE id IN (SELECT id_fase FROM partidas WHERE id_edicao = @p0)", competitionId).ToList();
+        var standings = _context.Standings.FromSqlRaw(@"
+            SELECT team_id, team_name, team_logo, games_played, wins, draws, losses, saldo, scored, conceded, points, rank 
+            FROM temp_standings
+            ORDER BY points DESC, saldo DESC, scored DESC
+            ").ToList();
+
+        var matches = _context.Matches.FromSqlRaw(@"
+            SELECT * FROM partidas 
+            WHERE id_edicao = @p0 AND id_fase IN (SELECT id FROM fase WHERE nome_grupo IS NOT NULL)", competitionId)
+            .ToList();
+        var fases = _context.Fases.FromSqlRaw(@"
+                SELECT * FROM fase 
+                WHERE id IN (SELECT id_fase FROM partidas WHERE id_edicao = @p0)", competitionId)
+                .ToList();
 
         var result = new Dictionary<string, List<StandingsViewModel>>();
         foreach (var s in standings)
@@ -190,6 +207,7 @@ public class EditionService
                 string chave = $"{nomeFase}-{nomeGrupo}";
                 if (!result.ContainsKey(chave))
                     result[chave] = new List<StandingsViewModel>();
+                standingVM.Rank = result[chave].Count() + 1;
                 result[chave].Add(standingVM);
             }
         }
