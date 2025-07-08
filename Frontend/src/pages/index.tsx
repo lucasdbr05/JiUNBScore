@@ -81,7 +81,7 @@ export default function Home({ selectedSport }: HomeProps) {
               const time2 = athletics.find(a => a.id === match.id_time_2)?.nome || `Time ${match.id_time_2}`;
               return (
                 <li key={idx} className="flex justify-between items-center py-3 border-b last:border-b-0">
-                  <span className="font-medium">{time1} vs {time2}</span>
+                  <span className="font-medium">{time1} 🆚 {time2}</span>
                   <span className="text-gray-500 text-sm">{new Date(match.data).toLocaleString('pt-BR')}</span>
                   <span className="text-gray-500 text-sm">
                     {(() => {
