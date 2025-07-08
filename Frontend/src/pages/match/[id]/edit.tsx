@@ -4,7 +4,7 @@ import { Api } from '../../../lib/apiClient';
 import { CreateStatisticModal } from '../../../components/CreateStatisticModal';
 import type { Competitor, Match } from '../../../lib/types';
 
-export default function EditMatchPage() {
+export default function EditMatchPage({selectedSport}: {selectedSport: number}) {
   const router = useRouter();
   const { id } = router.query;
   const [match, setMatch] = useState<Match | null>(null);
@@ -28,7 +28,7 @@ export default function EditMatchPage() {
       api.getCompetitors(
         match.id_time_1 ?? undefined,
         match.id_time_2 ?? undefined,
-        match.id_fase ?? undefined 
+        selectedSport ?? undefined 
       ),
       api.getActions()
     ]);
