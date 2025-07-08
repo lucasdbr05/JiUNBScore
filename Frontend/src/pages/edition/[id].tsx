@@ -1,14 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
-import type { Match, Edition, Athletic } from '../../lib/types';
+import type { Match, Edition, Athletic, RankingAtleta } from '../../lib/types';
 import { getUser } from '../../lib/auth';
 import { StandingsTable } from '../../components/StandingsTable';
 import { MatchDetailsModal } from '../../components/MatchDetailsModal';
 import type { TeamStats } from '../../components/StandingsTable';
-import type { RankingAtleta } from '../../lib/ApiClient';
 
-export default function EditionPage() {
+export default function EditionPage({ selectedSport }: { selectedSport: number }) {
   const router = useRouter();
   const { id } = router.query;
   const [edition, setEdition] = useState<Edition | null>(null);
@@ -29,9 +28,9 @@ export default function EditionPage() {
     if (!id) return;
     const api = new Api();
     api.getEdition(Number(id)).then(setEdition);
-    api.getMatches().then(ms => setMatches(ms.filter(m => m.id_edicao === Number(id))));
+    api.getMatches(selectedSport).then(ms => setMatches(ms.filter(m => m.id_edicao === Number(id))));
     api.getAthletics().then(setAthletics);
-    api.getStandings(Number(id)).then(data => {
+    api.getStandings(Number(id), selectedSport).then(data => {
       if (Array.isArray(data)) {
         setStandings(data);
       } else if (typeof data === 'object' && data !== null) {
@@ -41,7 +40,7 @@ export default function EditionPage() {
       }
     });
     api.getRankingByEdition(Number(id)).then(setRanking);
-  }, [id]);
+  }, [id, selectedSport]);
 
   if (!edition) return <div className="p-8">Carregando...</div>;
 

@@ -208,8 +208,8 @@ export class Api {
     }
 
     // Standings
-    async getStandings(editionId: number): Promise<Record<string, any[]>> {
-        return await this.api.get(`/edition/standings/${editionId}`);
+    async getStandings(editionId: number, sportId: number): Promise<Record<string, any[]>> {
+        return await this.api.get(`/edition/standings`, {editionId, sportId});
     }
 
     // Ranking

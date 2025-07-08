@@ -159,7 +159,8 @@ GROUP BY c.matricula, c.nome, a.nome, p.id_edicao
 ORDER BY p.id_edicao, ranking DESC;
 
 CREATE OR REPLACE PROCEDURE get_standings_by_edition(
-    IN p_edicao_id INT
+    IN p_edicao_id INT,
+    IN p_esporte_id INT
 )
 LANGUAGE plpgsql
 AS $$
@@ -201,9 +202,11 @@ BEGIN
     FROM
         atletica a
         INNER JOIN partidas p ON (a.id = p.id_time_1 OR a.id = p.id_time_2)
+        INNER JOIN esporteedicao ee ON ee.id_edicao = p.id_edicao
     WHERE
         p.id_edicao = p_edicao_id
         AND p.id_fase IN (SELECT id FROM fase WHERE nome_grupo IS NOT NULL)
+        AND ee.id_esporte = p_esporte_id
     GROUP BY
         a.id, a.nome, a.logo;
 
