@@ -43,6 +43,7 @@ CREATE TABLE Partidas
     placar_time_1 INT CHECK (placar_time_1 >=0),
     placar_time_2 INT CHECK (placar_time_2 >=0),
     id_edicao INT NOT NULL,
+    id_esporte INT NOT NULL,
     id_fase INT NOT NULL,
     id_local INT,
     id_time_1 INT,
@@ -127,6 +128,7 @@ CREATE TABLE RelacionadosEdicao
 ALTER TABLE Usuario ADD FOREIGN KEY(nickname) REFERENCES Usuario(nickname);
 ALTER TABLE Competidor ADD FOREIGN KEY(id_atletica) REFERENCES Atletica(id) ON DELETE CASCADE;
 ALTER TABLE Partidas ADD FOREIGN KEY(id_edicao) REFERENCES Edicao(id) ON DELETE CASCADE;
+ALTER TABLE Partidas ADD FOREIGN KEY(id_esporte) REFERENCES Edicao(id) ON DELETE CASCADE;
 ALTER TABLE Partidas ADD FOREIGN KEY(id_local) REFERENCES Local(id) ON DELETE SET NULL;
 ALTER TABLE Partidas ADD FOREIGN KEY(id_fase) REFERENCES Fase(id) ON DELETE SET NULL;
 ALTER TABLE Partidas ADD FOREIGN KEY(id_time_1) REFERENCES Atletica(id) ON DELETE CASCADE;
@@ -209,7 +211,7 @@ BEGIN
         p.id_edicao = p_edicao_id
         AND (p.placar_time_1 IS NOT NULL AND p.placar_time_2 IS NOT NULL)
         AND p.id_fase IN (SELECT id FROM fase WHERE nome_grupo IS NOT NULL)
-        AND ee.id_esporte = p_esporte_id
+        AND p.id_esporte = p_esporte_id
 
     GROUP BY
         a.id, a.nome, a.logo;

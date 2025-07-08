@@ -3,7 +3,7 @@ import { Api } from '../../lib/apiClient';
 import type { Athletic, Edition, RegisterMatchData, Fase } from '../../lib/types';
 import { useRouter } from 'next/router';
 
-export default function CreateMatchPage() {
+export default function CreateMatchPage({selectedSport}: { selectedSport: number}) {
   const [athletics, setAthletics] = useState<Athletic[]>([]);
   const [editions, setEditions] = useState<Edition[]>([]);
   const [phases, setPhases] = useState<Fase[]>([]);
@@ -45,6 +45,7 @@ export default function CreateMatchPage() {
       await api.createMatch({
         ...form,
         idEdicao: Number(form.idEdicao),
+        idEsporte: selectedSport || 1,
         idFase: Number(form.idFase),
         idLocal: Number(form.idLocal),
         idTime1: Number(form.idTime1),

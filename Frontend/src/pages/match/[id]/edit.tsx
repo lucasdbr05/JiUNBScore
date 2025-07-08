@@ -92,6 +92,7 @@ export default function EditMatchPage() {
         placarTime1: placarTime1,
         placarTime2: placarTime2,
         idEdicao: match?.id_edicao ?? undefined,
+        idEsporte: match?.id_esporte ?? undefined,
         idFase: match?.id_fase ?? undefined,
         idLocal: match?.id_local ?? undefined,
         idTime1: match?.id_time_1 ?? undefined,

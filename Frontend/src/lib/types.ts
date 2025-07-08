@@ -45,6 +45,7 @@ export interface SignUpData {
 // Match
 export interface RegisterMatchData {
   idEdicao: number;
+  idEsporte: number;
   idFase: number;
   idLocal: number;
   idTime1: number;
@@ -55,11 +56,12 @@ export interface RegisterMatchData {
 }
 
 
-  export type EditMatchData = {
+export type EditMatchData = {
   id?: number;
   placarTime1?: number;
   placarTime2?: number;
   idEdicao?: number;
+  idEsporte?: number;
   idFase?: number;
   idLocal?: number;
   idTime1?: number;
@@ -72,6 +74,7 @@ export interface Match {
   placar_time_1: number | null;
   placar_time_2: number | null;
   id_edicao: number | null;
+  id_esporte: number | null;
   id_fase: number | null;
   id_local: number | null;
   id_time_1: number | null;
