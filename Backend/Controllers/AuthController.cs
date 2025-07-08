@@ -35,6 +35,6 @@ public class AuthController : ControllerBase
         if (resultado != "OK!")
             return BadRequest(resultado);
 
-        return Ok(resultado);
+        return Ok(new { resultado });
     }
 }

@@ -22,7 +22,6 @@ export function AuthCard({ user, onLogin, onSignUp, onLogout }: AuthCardProps) {
     return (
       <div className="bg-white rounded-xl shadow p-6 w-80 flex flex-col items-center gap-4">
         <div className="text-lg font-semibold">Bem-vindo, {user?.nickname}!</div>
-        <div className="text-gray-600 text-sm">{user?.email}</div>
         <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onClick={onLogout}>
           Logout
         </button>

@@ -20,18 +20,22 @@ export function Header({ user, onAuthClick, sports, onSportSelect }: HeaderProps
         JiUNBScore
       </div>
       <SportDropdown sports={sports} onSelect={onSportSelect} />
-      <button
-        className="ml-4 px-4 py-2 bg-green-600 text-white rounded border hover:bg-green-700 transition-colors"
-        onClick={() => router.push('/edition/create')}
-      >
-        Criar Edição
-      </button>
-      <button
-        className="ml-4 px-4 py-2 bg-green-600 text-white rounded border hover:bg-green-700 transition-colors"
-        onClick={() => router.push('/athletics/create')}
-      >
-        Registrar nova Atlética
-      </button>
+      {user && (
+        <>
+          <button
+            className="ml-4 px-4 py-2 bg-green-600 text-white rounded border hover:bg-green-700 transition-colors"
+            onClick={() => router.push('/edition/create')}
+          >
+            Criar Edição
+          </button>
+          <button
+            className="ml-4 px-4 py-2 bg-green-600 text-white rounded border hover:bg-green-700 transition-colors"
+            onClick={() => router.push('/athletics/create')}
+          >
+            Registrar nova Atlética
+          </button>
+        </>
+      )}
       <button
         className="ml-4 px-4 py-2 bg-green-600 text-white rounded border hover:bg-green-700 transition-colors"
         onClick={() => router.push('/athletics/all')}
