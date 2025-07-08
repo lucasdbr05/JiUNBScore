@@ -1,8 +1,9 @@
 import {useRouter} from 'next/router'
 import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
-import type { Athletic } from '../../lib/types';
+import type { Athletic, Competitor } from '../../lib/types';
 import { getUser } from '@/lib/auth';
+import CreateCompetitorModal from '@/components/CreateCompetitorModal';
 
 export default function AthleticPage() {
     const router = useRouter();
@@ -10,10 +11,11 @@ export default function AthleticPage() {
     const [competitors, setCompetitors] = useState<Competitor[]>([]);
     const { id }  = router.query;
     const [user, setUser] = useState<{ nickname: string; email: string} | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
 
     useEffect(() => {
-        setUser(getUser() as any);
+        setUser(getUser() as { nickname: string; email: string } | null);
     }, []);
 
     useEffect(() => {
@@ -56,9 +58,16 @@ export default function AthleticPage() {
               )}
             </div>
           </div>
-          {/* Card Competidores */}
           <div className="w-full md:w-96 bg-white rounded-xl shadow p-8 h-fit">
-            <h2 className="text-xl font-semibold mb-4">Competidores</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">Competidores</h2>
+              <button
+                className="bg-blue-600 text-white rounded px-3 py-1 text-sm hover:bg-blue-700"
+                onClick={() => setModalOpen(true)}
+              >
+                Novo
+              </button>
+            </div>
             {competitors.length === 0 ? (
               <div className="text-gray-500">Nenhum competidor cadastrado.</div>
             ) : (
@@ -71,6 +80,16 @@ export default function AthleticPage() {
                 ))}
               </ul>
             )}
+            <CreateCompetitorModal
+              isOpen={modalOpen}
+              onClose={() => setModalOpen(false)}
+              onCreated={() => {
+                if (!id) return;
+                const api = new Api();
+                api.getCompetitors(Number(id)).then(setCompetitors);
+              }}
+              athleticId={Number(id)}
+            />
           </div>
         </div>
       </div>

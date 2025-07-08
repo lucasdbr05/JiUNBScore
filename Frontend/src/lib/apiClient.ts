@@ -190,7 +190,7 @@ export class Api {
         return await this.api.get(`/competidor/${id}`);
     }
 
-    async createCompetitor(data: Omit<Competitor, 'id'>): Promise<Competitor> {
+    async createCompetitor(data: Competitor): Promise<Competitor> {
         return await this.api.post('/competidor/', data);
     }
 

@@ -44,7 +44,7 @@ public class CompetidorService
             VALUES (@p0, @p1, @p2)
             RETURNING matricula, nome, id_atletica
             ",
-            regsComp.Matricula, regsComp.Nome, regsComp.Id_atletica
+            regsComp.Matricula, regsComp.Nome, regsComp.IdAtletica
         )
         .AsEnumerable()
         .FirstOrDefault();
@@ -75,7 +75,7 @@ public class CompetidorService
                 .FromSqlRaw(sql, idTime1.Value, idTime2.Value, idEsporte.Value)
                 .AsEnumerable();
         }
-        
+
         if (idTime1.HasValue)
         {
             string sql = @"SELECT * FROM Competidor WHERE 
