@@ -101,7 +101,7 @@ public class CompetidorService
                                 ",
 
                                 upComp.Nome,
-                                upComp.Id_atletica,
+                                upComp.IdAtletica,
                                 matricula
                             )
                             .AsEnumerable()
