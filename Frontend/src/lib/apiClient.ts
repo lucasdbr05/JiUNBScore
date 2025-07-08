@@ -213,7 +213,7 @@ export class Api {
     }
 
     // Ranking
-    async getRankingByEdition(editionId: number): Promise<RankingAtleta[]> {
-        return await this.api.get(`/ranking`, { editionId });
+    async getRankingByEdition(editionId: number, sportId: number): Promise<RankingAtleta[]> {
+        return await this.api.get(`/ranking`, { editionId, sportId });
     }
 }

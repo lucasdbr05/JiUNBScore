@@ -5,12 +5,20 @@ namespace Backend.Entities;
 [Table("ranking_atletas")]
 public class Ranking
 {
-    public Ranking(string atletaId, string atletaNome, string atleticaNome, int edicaoId, double pontuacao)
+    public Ranking(
+        string atletaId,
+        string atletaNome,
+        string atleticaNome,
+        int edicaoId,
+        int esporteId,
+        double pontuacao
+    )
     {
         AtletaId = atletaId;
         AtletaNome = atletaNome;
         AtleticaNome = atleticaNome;
         EdicaoId = edicaoId;
+        EsporteId = esporteId;
         Pontuacao = pontuacao;
     }
 
@@ -27,6 +35,9 @@ public class Ranking
 
     [Column("edicao_id")]
     public int EdicaoId { get; set; }
+
+    [Column("esporte_id")]
+    public int EsporteId { get; set; }
 
     [Column("ranking")]
     public double Pontuacao { get; set; }

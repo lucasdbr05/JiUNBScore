@@ -16,13 +16,15 @@ public class RankingService
         _context = context;
     }
 
-    public List<RankingAtletaViewModel> GetRankingByEdition(int edicaoId)
+    public List<RankingAtletaViewModel> GetRankingByEdition(int edicaoId, int sportId)
     {
         var result = _context.Ranking
             .FromSqlRaw(@"
-            SELECT atleta_id, atleta_nome, atletica_nome, ranking, edicao_id
-            FROM ranking_atletas WHERE edicao_id = @p0 
-            ORDER BY ranking DESC", edicaoId)
+            SELECT atleta_id, atleta_nome, atletica_nome, ranking, edicao_id, esporte_id
+            FROM ranking_atletas 
+            WHERE edicao_id = @p0 AND esporte_id = @p1
+            ORDER BY ranking DESC",
+            edicaoId, sportId)
             .ToList();
 
         return result.Select(r => new RankingAtletaViewModel(

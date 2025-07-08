@@ -70,11 +70,11 @@ export const StandingsTable: React.FC<StandingsTableProps> = ({ stats, athletics
         </thead>
         <tbody>
           {stats.map((team, index) => {
-            const logo = getLogoForTeam(team.teamName);
+            // const logo = getLogoForTeam(team.teamName);
             return (
               <tr key={team.rank} className="hover:bg-gray-50">
                 <td className="px-4 py-2 border-b text-sm text-gray-800">
-                  <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-white text-xs font-bold ${team.rank <= 3 ? 'bg-green-500' : team.rank <= 6 ? 'bg-blue-500' : team.rank >= 17 ? 'bg-red-500' : 'bg-gray-500'}`}>
+                  <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-white text-xs font-bold ${team.rank <= 2 ? 'bg-green-500' : team.rank <= 10 ? 'bg-blue-500' : team.rank >= 17 ? 'bg-red-500' : 'bg-gray-500'}`}>
                     {team.rank}
                   </span>
                 </td>

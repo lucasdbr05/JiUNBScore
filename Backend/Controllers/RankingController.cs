@@ -16,9 +16,12 @@ public class RankingController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<RankingAtletaViewModel>> GetRanking([FromQuery(Name= "editionId")] int editionId)
+    public ActionResult<List<RankingAtletaViewModel>> GetRanking(
+        [FromQuery(Name = "editionId")] int editionId,
+        [FromQuery(Name = "sportId")] int sportId
+    )
     {
-        var ranking = rankingService.GetRankingByEdition(editionId);
+        var ranking = rankingService.GetRankingByEdition(editionId, sportId);
         return Ok(ranking);
     }
 }

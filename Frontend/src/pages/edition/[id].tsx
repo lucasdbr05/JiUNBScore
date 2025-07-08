@@ -39,7 +39,7 @@ export default function EditionPage({ selectedSport }: { selectedSport: number }
         setStandings([]);
       }
     });
-    api.getRankingByEdition(Number(id)).then(setRanking);
+    api.getRankingByEdition(Number(id), selectedSport).then(setRanking);
   }, [id, selectedSport]);
 
   if (!edition) return <div className="p-8">Carregando...</div>;
