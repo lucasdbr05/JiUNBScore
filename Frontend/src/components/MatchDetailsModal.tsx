@@ -6,17 +6,19 @@ interface MatchDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   matchId: number;
-  athletic1?: Athletic;
-  athletic2?: Athletic;
 }
 
-export const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, onClose, matchId, athletic1, athletic2 }) => {
+export const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, onClose, matchId}) => {
   const [match, setMatch] = useState<Match | null>(null);
   const [actions, setActions] = useState<Action[]>([]);
   const [statistics, setStatistics] = useState<Statistic[]>([]);
   const [competitors, setCompetitors] = useState<Competitor[]>([]);
   const [loading, setLoading] = useState(false);
+  const [athletics, setAthletics] = useState<Athletic[]>([]);
 
+  const athletic1 = athletics.find(a => a.id === match?.id_time_1);
+  const athletic2 = athletics.find(a => a.id === match?.id_time_2);
+  
   useEffect(() => {
     if (!isOpen) return;
     setLoading(true);
@@ -25,12 +27,14 @@ export const MatchDetailsModal: React.FC<MatchDetailsModalProps> = ({ isOpen, on
       api.getMatch(matchId),
       api.getStatistics(),
       api.getActions(),
-      api.getCompetitors()
-    ]).then(([match, stats, actions, competitors]) => {
+      api.getCompetitors(),
+      api.getAthletics()
+    ]).then(([match, stats, actions, competitors, athletics]) => {
       setMatch(match);
       setActions(actions);
       setCompetitors(competitors);
       setStatistics(stats.filter((s: Statistic) => s.idPartida === matchId));
+      setAthletics(athletics);
     }).finally(() => setLoading(false));
   }, [isOpen, matchId]);
 

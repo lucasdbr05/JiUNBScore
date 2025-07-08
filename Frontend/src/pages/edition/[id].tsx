@@ -132,8 +132,6 @@ export default function EditionPage({ selectedSport }: { selectedSport: number }
                     isOpen={showMatchDetails}
                     onClose={() => setShowMatchDetails(false)}
                     matchId={selectedMatchId}
-                    athletic1={athletic1}
-                    athletic2={athletic2}
                   />
                 )}
                         {user && (
