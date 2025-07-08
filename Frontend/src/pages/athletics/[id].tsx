@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Api } from '../../lib/apiClient';
 import type { Athletic, Competitor } from '../../lib/types';
 import { getUser } from '@/lib/auth';
-import CreateCompetitorModal from '@/components/CreateCompetitorModal';
+import CompetitorModal from '@/components/CompetitorModal';
 
 export default function AthleticPage() {
     const router = useRouter();
@@ -12,6 +12,8 @@ export default function AthleticPage() {
     const { id }  = router.query;
     const [user, setUser] = useState<{ nickname: string; email: string} | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [editingCompetitor, setEditingCompetitor] = useState<Competitor | null>(null);
 
 
     useEffect(() => {
@@ -73,22 +75,65 @@ export default function AthleticPage() {
             ) : (
               <ul className="divide-y divide-gray-200">
                 {competitors.map((comp) => (
-                  <li key={comp.matricula} className="py-2 flex flex-col">
-                    <span className="font-medium">{comp.nome}</span>
-                    <span className="text-xs text-gray-500">Matrícula: {comp.matricula}</span>
+                  <li key={comp.matricula} className="py-2 flex flex-col md:flex-row md:items-center md:justify-between gap-1 group">
+                    <div>
+                      <span className="font-medium">{comp.nome}</span>
+                      <span className="block text-xs text-gray-500">Matrícula: {comp.matricula}</span>
+                    </div>
+                    <div className="flex gap-2 mt-2 md:mt-0">
+                      <button
+                        className="px-2 py-1 text-xs rounded bg-yellow-400 text-white hover:bg-yellow-500 transition"
+                        title="Editar"
+                        onClick={() => {
+                          setEditingCompetitor(comp);
+                          setEditModalOpen(true);
+                        }}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="px-2 py-1 text-xs rounded bg-red-600 text-white hover:bg-red-700 transition"
+                        title="Deletar"
+                        onClick={async () => {
+                          if (!id) return;
+                          if (!window.confirm(`Deseja realmente deletar o competidor ${comp.nome}?`)) return;
+                          const api = new Api();
+                          await api.deleteCompetitor(comp.matricula);
+                          api.getCompetitors(Number(id)).then(setCompetitors);
+                        }}
+                      >
+                        Deletar
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ul>
             )}
-            <CreateCompetitorModal
+            <CompetitorModal
               isOpen={modalOpen}
               onClose={() => setModalOpen(false)}
-              onCreated={() => {
+              onSaved={() => {
                 if (!id) return;
                 const api = new Api();
                 api.getCompetitors(Number(id)).then(setCompetitors);
               }}
               athleticId={Number(id)}
+              mode="create"
+            />
+            <CompetitorModal
+              isOpen={editModalOpen}
+              onClose={() => {
+                setEditModalOpen(false);
+                setEditingCompetitor(null);
+              }}
+              onSaved={() => {
+                if (!id) return;
+                const api = new Api();
+                api.getCompetitors(Number(id)).then(setCompetitors);
+              }}
+              athleticId={Number(id)}
+              competitor={editingCompetitor}
+              mode="edit"
             />
           </div>
         </div>

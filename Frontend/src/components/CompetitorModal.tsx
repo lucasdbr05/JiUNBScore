@@ -1,33 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Api } from '../lib/apiClient';
 
-interface CreateCompetitorModalProps {
+interface CompetitorModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreated: () => void;
+  onSaved: () => void;
   athleticId: number;
+  competitor?: { nome: string; matricula: string } | null;
+  mode?: 'create' | 'edit';
 }
 
-export default function CreateCompetitorModal({ isOpen, onClose, onCreated, athleticId }: CreateCompetitorModalProps) {
+export default function CompetitorModal({ isOpen, onClose, onSaved, athleticId, competitor, mode = 'create' }: CompetitorModalProps) {
   const [nome, setNome] = useState('');
   const [matricula, setMatricula] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (mode === 'edit' && competitor) {
+      setNome(competitor.nome);
+      setMatricula(competitor.matricula);
+    } else {
+      setNome('');
+      setMatricula('');
+    }
+  }, [isOpen, competitor, mode]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    const api = new Api();
     try {
-      const api = new Api();
-      await api.createCompetitor({ 
-        nome: nome, 
-        matricula: matricula ,  
-        idAtletica: athleticId }
-      );
-      setNome('');
-      setMatricula('');
-      onCreated();
+      if (mode === 'edit') {
+        await api.updateCompetitor(matricula,{ 
+            nome: nome, 
+            matricula: matricula ,  
+            idAtletica: athleticId }
+        );
+      } else {
+        await api.createCompetitor({ 
+            nome: nome, 
+            matricula: matricula ,  
+            idAtletica: athleticId }
+        );
+      }
+      onSaved();
       onClose();
     } catch (err: any) {
       setError(err.message || 'Erro desconhecido');
@@ -48,7 +66,7 @@ export default function CreateCompetitorModal({ isOpen, onClose, onCreated, athl
         >
           &times;
         </button>
-        <h3 className="text-lg font-semibold mb-4">Novo Competidor</h3>
+        <h3 className="text-lg font-semibold mb-4">{mode === 'edit' ? 'Editar Competidor' : 'Novo Competidor'}</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label className="block text-sm font-medium mb-1">Nome</label>
@@ -64,10 +82,11 @@ export default function CreateCompetitorModal({ isOpen, onClose, onCreated, athl
             <label className="block text-sm font-medium mb-1">Matrícula</label>
             <input
               type="text"
-              className="border rounded px-3 py-2 w-full"
+              className="border rounded px-3 py-2 w-full bg-gray-100"
               value={matricula}
               onChange={e => setMatricula(e.target.value)}
               required
+              disabled={mode === 'edit'}
             />
           </div>
           {error && <div className="text-red-500 text-sm">{error}</div>}
@@ -76,7 +95,7 @@ export default function CreateCompetitorModal({ isOpen, onClose, onCreated, athl
             className="bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700 disabled:opacity-60"
             disabled={loading}
           >
-            {loading ? 'Salvando...' : 'Criar Competidor'}
+            {loading ? 'Salvando...' : (mode === 'edit' ? 'Salvar Alterações' : 'Criar Competidor')}
           </button>
         </form>
       </div>

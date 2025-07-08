@@ -186,20 +186,20 @@ export class Api {
         });
     }
 
-    async getCompetitor(id: number): Promise<Competitor> {
-        return await this.api.get(`/competidor/${id}`);
+    async getCompetitor(matricula: string): Promise<Competitor> {
+        return await this.api.get(`/competidor/${matricula}`);
     }
 
     async createCompetitor(data: Competitor): Promise<Competitor> {
         return await this.api.post('/competidor/', data);
     }
 
-    async updateCompetitor(id: number, data: Partial<Competitor>): Promise<Competitor> {
-        return await this.api.put(`/competidor/${id}`, data);
+    async updateCompetitor(matricula: string, data: Partial<Competitor>): Promise<Competitor> {
+        return await this.api.put(`/competidor/${matricula}`, data);
     }
 
-    async deleteCompetitor(id: number): Promise<void> {
-        await this.api.delete(`/competidor/${id}`);
+    async deleteCompetitor(matricula: string): Promise<void> {
+        await this.api.delete(`/competidor/${matricula}`);
     }
 
     // Ações

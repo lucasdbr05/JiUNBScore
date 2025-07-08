@@ -66,9 +66,12 @@ export default function CreateMatchPage() {
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <select name="idEdicao" value={form.idEdicao} onChange={handleChange} required className="border rounded px-3 py-2">
           <option value="">Selecione a competição</option>
-          {editions.map(e => (
-            <option key={e.id} value={e.id}>{e.data_comeco} - {e.data_fim}</option>
-          ))}
+          {editions.map(e => {
+            const year = e.data_comeco ? new Date(e.data_comeco).getFullYear() : '';
+            return (
+              <option key={e.id} value={e.id}>{year}</option>
+            );
+          })}
         </select>
         <select name="idFase" value={form.idFase} onChange={handleChange} required className="border rounded px-3 py-2">
           <option value="">Selecione a fase</option>

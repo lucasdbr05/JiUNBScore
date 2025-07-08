@@ -3,7 +3,13 @@ VALUES ('admin', 'admin', 'admin@gmail.com');
 
 INSERT INTO Atletica (nome)
 VALUES ('Selecic'),
-       ('Aplicada');
+       ('Insana'),
+       ('Aplicada'),
+       ('Milionária'),
+       ('Pesadelo'),
+       ('Kanbada'),
+       ('Halterada'),
+       ('Hackeada');
 
 
 INSERT INTO Competidor (matricula, nome, id_atletica) 
@@ -29,13 +35,25 @@ VALUES ('Futsal'),
 
 INSERT INTO Edicao (data_fim, data_comeco)
 VALUES ('2025-07-1', '2025-10-30'),
-    ('2025-10-4', '2026-01-10'),
-    ('2025-05-2', '2025-10-09'),
-    ('2025-01-25', '2025-02-10'),
-    ('2025-08-24', '2025-11-21');
+    ('2024-05-2', '2024-10-09'),
+    ('2023-01-04', '2026-07-30'),
+    ('2022-01-25', '2022-05-10'),
+    ('2021-08-24', '2021-11-21');
 
 INSERT INTO Fase (ordem, nome_etapa, nome_grupo)
-VALUES (1, 'FINAL', '');
+VALUES (1, 'GRUPO', 'A'),
+    (1, 'GRUPO', 'B'),
+    (1, 'GRUPO', 'C'),
+    (1, 'GRUPO', 'D'),
+    (1, 'GRUPO', 'E'),
+    (1, 'GRUPO', 'F'),
+    (1, 'GRUPO', 'G'),
+    (1, 'GRUPO', 'H'),
+    (2, 'OITAVAS DE FINAL', NULL),
+    (3, 'QUARTAS DE FINAL', NULL),
+    (4, 'SEMI', NULL),
+    (5, '3o LUGAR', NULL),
+    (6, 'FINAL', NULL);
 
 INSERT INTO Local (ra, cep, quadra, rua, lote)
 VALUES ('Asa Norte', '70855-530', 'Cidade Universitária', 'Rua Santander', 'Arena Zhou'),
@@ -44,8 +62,21 @@ VALUES ('Asa Norte', '70855-530', 'Cidade Universitária', 'Rua Santander', 'Are
         ('Ceilândia', '70040-020', 'QNN 14', 'St. N', 'Abadião'),
         ('Gama', '72492-010', 'Setor Central', 'Rua Walmir Campelo Bezerra', 'Bezerrão');
 
-INSERT INTO Partidas (placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, date)
-VALUES (4, 0, 1, 1, 1, 1, 2, '2025-10-04T19:00:00');
+INSERT INTO Partidas (placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, date) 
+VALUES
+    (8, 0, 1, 1, 1, 2, 1, '2025-07-07 00:00:00'),
+    (5, 1, 1, 2, 1, 3, 4, '2025-07-07 00:00:00'),
+    (3, 0, 1, 1, 1, 1, 6, '2025-07-07 00:00:00'),
+    (2, 6, 1, 1, 1, 5, 1, '2025-07-07 00:00:00'),
+    (5, 1, 1, 2, 1, 7, 3, '2025-07-07 00:00:00'),
+    (3, 2, 1, 2, 1, 3, 8, '2025-07-07 00:00:00'),
+    (2, 4, 1, 2, 1, 4, 7, '2025-07-07 00:00:00'),
+    (3, 3, 1, 2, 1, 8, 4, '2025-07-07 00:00:00'),
+    (4, 0, 1, 2, 1, 7, 8, '2025-07-07 00:00:00'),
+    (0, 5, 1, 1, 1, 2, 5, '2025-07-07 00:00:00'),
+    (4, 3, 1, 1, 1, 6, 2, '2025-07-07 00:00:00'),
+    (3, 2, 1, 1, 1, 6, 5, '2025-07-07 00:00:00');
+
 
 INSERT INTO Acao (nome, pontuacao, id_esporte)
 VALUES ('Gol', 100, 1),

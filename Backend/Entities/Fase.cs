@@ -6,7 +6,7 @@ namespace Backend.Entities;
 [Table("fase")]
 public class Fase
 {
-    public Fase(int id, int ordem, string nomeEtapa, string nomeGrupo)
+    public Fase(int id, int ordem, string nomeEtapa, string? nomeGrupo)
     {
         Id = id;
         Ordem = ordem;
@@ -22,7 +22,7 @@ public class Fase
     public int Ordem { get; set; }
 
     [Column("nome_grupo")]
-    public string NomeGrupo { get; set; }
+    public string? NomeGrupo { get; set;    }
 
     [Column("nome_etapa")]
     public string NomeEtapa { get; set; }
