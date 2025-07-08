@@ -45,7 +45,7 @@ export class Api {
     
     // Matches
     async getMatches(idEsporte?: number): Promise<Match[]> {
-        return await this.api.get("/match" + (idEsporte ? `?idEsporte=${idEsporte}` : ""));
+        return await this.api.get("/match", {idEsporte});
     }
 
     async getMatch(id: number): Promise<Match> {

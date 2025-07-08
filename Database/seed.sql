@@ -39,10 +39,10 @@ VALUES ('Futsal'),
        ('Futebol Americano');
 
 
-INSERT INTO Edicao (data_fim, data_comeco)
+INSERT INTO Edicao (data_comeco, data_fim)
 VALUES ('2025-07-1', '2025-10-30'),
     ('2024-05-2', '2024-10-09'),
-    ('2023-01-04', '2026-07-30'),
+    ('2023-01-04', '2023-07-30'),
     ('2022-01-25', '2022-05-10'),
     ('2021-08-24', '2021-11-21');
 

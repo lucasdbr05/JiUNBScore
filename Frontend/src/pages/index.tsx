@@ -2,8 +2,7 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { Api } from '../lib/apiClient';
-import type { Match, Athletic, Edition } from '../lib/types';
-import { AuthCard } from '../components/AuthCard';
+import type { Match, Athletic, Edition, Fase } from '../lib/types';
 // import { getUser } from '../lib/auth';
 import { SportDropdownItem } from '../components/SportDropdown';
 
@@ -18,11 +17,16 @@ export default function Home({ selectedSport }: HomeProps) {
   const [nextMatches, setNextMatches] = useState<Match[]>([]);
   const [mainEdition, setMainEdition] = useState<Edition[]>([]);
   const [athletics, setAthletics] = useState<Athletic[]>([]);
+  const [phases, setPhases] = useState<Fase[]>([]);
 
 
   useEffect(() => {
     const api = new Api();
-    api.getMatches(selectedSport).then(setNextMatches).catch(() => {
+    api.getMatches(selectedSport).then(
+      res => setNextMatches(
+        res.filter(match => match.placar_time_1 === null && match.placar_time_2 === null)
+      )
+    ).catch(() => {
       setNextMatches([
         { id: 1, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 1, id_time_2: 2, data: '2025-06-18T19:00:00' },
         { id: 2, placar_time_1: 0, placar_time_2: 0, id_edicao: 1, id_fase: 1, id_local: 1, id_time_1: 3, id_time_2: 4, data: '2025-06-19T20:00:00' },
@@ -42,6 +46,7 @@ export default function Home({ selectedSport }: HomeProps) {
         { id: 4, nome: 'Atlética D', logo: null },
       ]);
     });
+    api.getFases().then(setPhases).catch(() => setPhases([]));
   }, [selectedSport]);
 
 
@@ -78,7 +83,15 @@ export default function Home({ selectedSport }: HomeProps) {
                 <li key={idx} className="flex justify-between items-center py-3 border-b last:border-b-0">
                   <span className="font-medium">{time1} vs {time2}</span>
                   <span className="text-gray-500 text-sm">{new Date(match.data).toLocaleString('pt-BR')}</span>
-                  <span className="text-gray-500 text-sm">{'Ano'}</span>
+                  <span className="text-gray-500 text-sm">
+                    {(() => {
+                      const fase = phases.find(f => f.id === match.id_fase);
+                      if (!fase) return null;
+                      let label = fase.nomeEtapa;
+                      if (fase.nomeGrupo) label += ` - ${fase.nomeGrupo}`;
+                      return label;
+                    })()}
+                  </span>
                 </li>
               );
             })}

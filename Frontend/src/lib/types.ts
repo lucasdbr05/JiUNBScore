@@ -49,8 +49,8 @@ export interface RegisterMatchData {
   idLocal: number;
   idTime1: number;
   idTime2: number;
-  placarTime1: number;
-  placarTime2: number;  
+  placarTime1: number | null;
+  placarTime2: number | null;  
   data: string;
 }
 

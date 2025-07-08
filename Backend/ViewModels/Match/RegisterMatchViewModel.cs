@@ -4,8 +4,8 @@ namespace Backend.ViewModels;
 public class RegisterMatchViewModel
 {
     public RegisterMatchViewModel(
-        int placarTime1,
-        int placarTime2,
+        int? placarTime1,
+        int? placarTime2,
         int idEdicao,
         int idFase,
         int idLocal,
@@ -24,8 +24,8 @@ public class RegisterMatchViewModel
         Data = data;
     }
 
-    public int PlacarTime1 { get; set; }
-    public int PlacarTime2 { get; set; }
+    public int? PlacarTime1 { get; set; }
+    public int? PlacarTime2 { get; set; }
     public int IdEdicao { get; set; }
     public int IdFase { get; set; }
     public int IdLocal { get; set; }

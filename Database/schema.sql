@@ -129,8 +129,8 @@ ALTER TABLE Competidor ADD FOREIGN KEY(id_atletica) REFERENCES Atletica(id) ON D
 ALTER TABLE Partidas ADD FOREIGN KEY(id_edicao) REFERENCES Edicao(id) ON DELETE CASCADE;
 ALTER TABLE Partidas ADD FOREIGN KEY(id_local) REFERENCES Local(id) ON DELETE SET NULL;
 ALTER TABLE Partidas ADD FOREIGN KEY(id_fase) REFERENCES Fase(id) ON DELETE SET NULL;
-ALTER TABLE Partidas ADD FOREIGN KEY(id_time_1) REFERENCES Atletica(id) ON DELETE SET NULL;
-ALTER TABLE Partidas ADD FOREIGN KEY(id_time_2) REFERENCES Atletica(id) ON DELETE SET NULL;
+ALTER TABLE Partidas ADD FOREIGN KEY(id_time_1) REFERENCES Atletica(id) ON DELETE CASCADE;
+ALTER TABLE Partidas ADD FOREIGN KEY(id_time_2) REFERENCES Atletica(id) ON DELETE CASCADE;
 ALTER TABLE Estatisticas ADD FOREIGN KEY(id_partida) REFERENCES Partidas(id) ON DELETE CASCADE;
 ALTER TABLE Estatisticas ADD FOREIGN KEY(id_competidor) REFERENCES Competidor(matricula) ON DELETE CASCADE;
 ALTER TABLE Relacionados ADD FOREIGN KEY(id_competidor) REFERENCES Competidor(matricula) ON DELETE CASCADE;
@@ -207,8 +207,10 @@ BEGIN
         INNER JOIN esporteedicao ee ON ee.id_edicao = p.id_edicao
     WHERE
         p.id_edicao = p_edicao_id
+        AND (p.placar_time_1 IS NOT NULL AND p.placar_time_2 IS NOT NULL)
         AND p.id_fase IN (SELECT id FROM fase WHERE nome_grupo IS NOT NULL)
         AND ee.id_esporte = p_esporte_id
+
     GROUP BY
         a.id, a.nome, a.logo;
 

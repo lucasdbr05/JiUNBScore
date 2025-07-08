@@ -7,8 +7,8 @@ namespace Backend.Entities;
 public class Match
 {
     public Match(
-        int placar_time_1,
-        int placar_time_2,
+        int? placar_time_1,
+        int? placar_time_2,
         int id_edicao,
         int id_fase,
         int id_local,
@@ -32,10 +32,10 @@ public class Match
     public int Id { get; set; }
 
     [Column("placar_time_1")]
-    public int Placar_time_1 { get; set; }
+    public int? Placar_time_1 { get; set; }
 
     [Column("placar_time_2")]
-    public int Placar_time_2 { get; set; }
+    public int? Placar_time_2 { get; set; }
 
     [Column("id_edicao")]
     public int Id_edicao { get; set; }

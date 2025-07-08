@@ -49,8 +49,8 @@ export default function CreateMatchPage() {
         idLocal: Number(form.idLocal),
         idTime1: Number(form.idTime1),
         idTime2: Number(form.idTime2),
-        placarTime1: encerrada ? Number(form.placarTime1) : 0,
-        placarTime2: encerrada ? Number(form.placarTime2) : 0,
+        placarTime1: encerrada ? Number(form.placarTime1) : null,
+        placarTime2: encerrada ? Number(form.placarTime2) : null,
         data: new Date(form.data + ':00').toISOString(),
       });
       router.push('/');

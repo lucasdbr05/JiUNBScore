@@ -112,8 +112,11 @@ public class MatchService
 
         return results.AsEnumerable();
     }
-    public IEnumerable<Match> FindAll(int? idEsporte = null)
+    public IEnumerable<Match> FindAll(
+        int? idEsporte = null
+    )
     {
+
         if (idEsporte.HasValue)
             return _context.Matches.FromSqlRaw(@"
                 SELECT m.* FROM Partidas m
