@@ -20,7 +20,6 @@ public class MatchService
         RegisterMatchViewModel regMatch
     )
     {
-        
         var checkRepeat = _context.Matches
                             .FromSqlRaw(
                                     $"SELECT * FROM Partidas WHERE id_edicao = @p0 and id_fase = @p1 and id_time_1 = @p2 and id_time_2 = @p3",

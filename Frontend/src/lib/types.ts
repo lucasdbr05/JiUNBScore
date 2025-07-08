@@ -51,7 +51,7 @@ export interface RegisterMatchData {
   idTime2: number;
   placarTime1: number;
   placarTime2: number;  
-  date: string;
+  data: string;
 }
 
 

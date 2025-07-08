@@ -15,7 +15,7 @@ export default function CreateMatchPage() {
     idTime2: 0,
     placarTime1: 0,
     placarTime2: 0,
-    date: '',
+    data: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,6 +41,7 @@ export default function CreateMatchPage() {
     setError(null);
     try {
       const api = new Api();
+
       await api.createMatch({
         ...form,
         idEdicao: Number(form.idEdicao),
@@ -50,6 +51,7 @@ export default function CreateMatchPage() {
         idTime2: Number(form.idTime2),
         placarTime1: encerrada ? Number(form.placarTime1) : 0,
         placarTime2: encerrada ? Number(form.placarTime2) : 0,
+        data: new Date(form.data + ':00').toISOString(),
       });
       router.push('/');
     } catch (err: any) {
@@ -81,8 +83,8 @@ export default function CreateMatchPage() {
         </select>
         <input
           type="datetime-local"
-          name="date"
-          value={form.date}
+          name="data"
+          value={form.data}
           onChange={handleChange}
           required
           className="border rounded px-3 py-2"
