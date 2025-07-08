@@ -1,5 +1,11 @@
 INSERT INTO Usuario (nickname, senha, email)
-VALUES ('admin', 'admin', 'admin@gmail.com');
+VALUES 
+    ('admin', 'admin', 'admin@gmail.com'),
+    ('painato', 'painato', 'painato@gaucho.com'),
+    ('jonh', 'arias', 'jonh@arias.com'),
+    ('german', 'cano', 'german@cano.com'),
+    ('fabio', 'goleiro', 'fabio@goleiro.com');
+    
 
 INSERT INTO Atletica (nome)
 VALUES ('Selecic'),
@@ -85,7 +91,7 @@ VALUES ('Gol', 100, 1),
        ('Cesta', 100, 2),
        ('Assistência', 35, 2),
        ('Bloqueio', 15, 3),
-       ('Defesa', 100, 1),
+       ('Defesa', 45, 1),
        ('Defesa', 100, 4),
        ('Gol', 100, 4),
        ('Assistência', 50, 4),
@@ -116,7 +122,15 @@ INSERT INTO EsportesAtletica (id_atletica, id_esporte)
 VALUES (1, 1),
        (1, 2),
        (1, 3),
-       (1, 4);
+       (1, 4),
+       (1, 5);
 
 INSERT INTO EsporteEdicao (id_edicao, id_esporte) 
-VALUES (1, 1);
+VALUES 
+    (1, 1), (1, 2),(1, 3),(1, 4),(1, 5),
+    (2, 1), (2, 2),(2, 3),(2, 4),(2, 5),
+    (3, 1), (3, 2),(3, 3),(3, 4),(3, 5),
+    (4, 1), (4, 2),(4, 3),(4, 4),(4, 5),
+    (5, 1), (5, 2),(5, 3),(5, 4),(5, 5);
+    
+        
