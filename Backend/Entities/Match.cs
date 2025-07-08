@@ -10,6 +10,7 @@ public class Match
         int? placar_time_1,
         int? placar_time_2,
         int id_edicao,
+        int id_esporte,
         int id_fase,
         int id_local,
         int id_time_1,
@@ -20,6 +21,7 @@ public class Match
         Placar_time_1 = placar_time_1;
         Placar_time_2 = placar_time_2;
         Id_edicao = id_edicao;
+        Id_esporte = id_esporte;
         Id_fase = id_fase;
         Id_local = id_local;
         Id_time_1 = id_time_1;
@@ -39,6 +41,8 @@ public class Match
 
     [Column("id_edicao")]
     public int Id_edicao { get; set; }
+    [Column("id_esporte")]
+    public int Id_esporte { get; set; }
 
     [Column("id_fase")]
     public int Id_fase { get; set; }

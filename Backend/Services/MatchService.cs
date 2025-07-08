@@ -46,16 +46,18 @@ public class MatchService
                     placar_time_1,
                     placar_time_2,
                     id_edicao,
+                    id_esporte,
                     id_fase,
                     id_local,
                     id_time_1,
                     id_time_2,
                     date)
-                 VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
-                 RETURNING id, placar_time_1, placar_time_2, id_edicao, id_fase, id_local, id_time_1, id_time_2, date",
+                 VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+                 RETURNING id, placar_time_1, placar_time_2, id_edicao, id_esporte, id_fase, id_local, id_time_1, id_time_2, date",
                 regMatch.PlacarTime1,
                 regMatch.PlacarTime2,
                 regMatch.IdEdicao,
+                regMatch.IdEsporte,
                 regMatch.IdFase,
                 regMatch.IdLocal,
                 regMatch.IdTime1,
@@ -119,10 +121,8 @@ public class MatchService
 
         if (idEsporte.HasValue)
             return _context.Matches.FromSqlRaw(@"
-                SELECT m.* FROM Partidas m
-                JOIN Edicao e ON m.id_edicao = e.id
-                JOIN EsporteEdicao ee ON e.id = ee.id_edicao
-                WHERE ee.id_esporte = @p0
+                SELECT * FROM Partidas
+                WHERE id_esporte = @p0
             ", idEsporte.Value).AsEnumerable();
         return _context.Matches.FromSqlRaw("SELECT * FROM Partidas").AsEnumerable();
     }
@@ -139,7 +139,7 @@ public class MatchService
     {
         var match = _context.Matches
             .FromSqlRaw(
-                @"UPDATE Partidas SET placar_time_1 = @p1, placar_time_2 = @p2, id_edicao = @p3, id_fase = @p4, id_local = @p5, id_time_1 = @p6, id_time_2 = @p7, date = @p8 WHERE id = @p0 RETURNING *",
+                @"UPDATE Partidas SET placar_time_1 = @p1, placar_time_2 = @p2, id_edicao = @p3, id_fase = @p4, id_local = @p5, id_time_1 = @p6, id_time_2 = @p7, date = @p8, id_esporte = @p9 WHERE id = @p0 RETURNING *",
                 id,
                 data.PlacarTime1,
                 data.PlacarTime2,
@@ -148,7 +148,8 @@ public class MatchService
                 data.IdLocal,
                 data.IdTime1,
                 data.IdTime2,
-                data.Data
+                data.Data,
+                data.IdEsporte
             )
             .AsEnumerable()
             .FirstOrDefault();
